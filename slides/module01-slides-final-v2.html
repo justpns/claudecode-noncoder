@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 01 — Why Chat AI Is Not Enough</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   GLOBAL + SLIDE SYSTEM
+═══════════════════════════════════════════════ */
+:root {
+  --bg:     #0A0A0A; --bg2: #111111; --bg3: #161616;
+  --white:  #F5F0E8; --yellow: #FFD93D; --orange: #FF6B35;
+  --red:    #E63946; --green: #5CB87E; --teal: #4BBFB3;
+  --dim:    rgba(245,240,232,0.35); --dimmer: rgba(245,240,232,0.15);
+  --border: rgba(245,240,232,0.08); --border2: rgba(245,240,232,0.13);
+  --claude-bg: #1A1B1E; --claude-sidebar: #111214;
+  --claude-input: #242528; --claude-border: rgba(255,255,255,0.08);
+  --claude-user: #2D6FDB; --claude-ai: #2A2B2E; --claude-accent: #CC785C;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--white); font-family: 'Barlow Condensed', sans-serif; height: 100vh; overflow: hidden; }
+.deck { width: 100vw; height: 100vh; position: relative; }
+
+/* Every slide is absolutely positioned, hidden by default */
+.slide {
+  position: absolute; inset: 0;
+  display: grid; opacity: 0; pointer-events: none;
+  transition: opacity 0.4s ease; overflow: hidden;
+  padding: clamp(24px, 5vh, 60px) clamp(32px, 6vw, 96px);
+}
+.slide.active { opacity: 1; pointer-events: all; }
+
+/* Demo slide uses flex instead of grid */
+.slide.demo-slide { display: flex; flex-direction: column; }
+.slide.demo-slide.active { display: flex; }
+
+/* ── LAYOUT VARIANTS ── */
+.layout-hero       { grid-template-columns: 1fr; align-items: center; }
+.layout-split      { grid-template-columns: 1fr 1fr; align-items: center; gap: clamp(24px, 4vw, 56px); }
+.layout-split-wide { grid-template-columns: 1.2fr 0.8fr; align-items: center; gap: clamp(20px, 4vw, 44px); }
+.layout-full       { grid-template-columns: 1fr; align-items: center; }
+
+@media (max-width: 1100px) {
+  .layout-split, .layout-split-wide { grid-template-columns: 1fr; align-content: center; overflow-y: auto; }
+  .illus { min-height: 250px !important; order: -1; }
+  .slide { padding: 40px 32px 80px; }
+}
+
+/* ── TYPE ── */
+.label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--orange); margin-bottom: 12px; }
+.display { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px, 8vw, 116px); line-height: 0.92; letter-spacing: 0.02em; }
+.display .y { color: var(--yellow); } .display .r { color: var(--red); } .display .d { color: var(--dim); } .display .o { color: var(--orange); }
+.headline { font-family: 'Bebas Neue', sans-serif; font-size: clamp(34px, 5.5vw, 80px); line-height: 0.95; letter-spacing: 0.02em; }
+.headline .y { color: var(--yellow); } .headline .r { color: var(--red); } .headline .o { color: var(--orange); }
+.subhead { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(15px, 1.8vw, 23px); font-weight: 300; color: var(--dim); line-height: 1.45; margin-top: 12px; max-width: 720px; }
+.subhead strong { color: var(--white); font-weight: 600; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: clamp(10px, 1.2vw, 15px); color: var(--dim); line-height: 1.7; }
+.mono .hi { color: var(--orange); } .mono .y { color: var(--yellow); } .mono .g { color: var(--green); } .mono .r { color: var(--red); }
+.big-quote { font-family: 'Bebas Neue', sans-serif; font-size: clamp(28px, 4.2vw, 62px); line-height: 1.05; letter-spacing: 0.02em; padding-left: 24px; position: relative; }
+.big-quote::before { content: ''; position: absolute; left: 0; top: 6px; bottom: 6px; width: 4px; background: var(--orange); }
+
+/* ── GAP LIST ── */
+.gap-list { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+.gap-item { display: flex; align-items: flex-start; gap: 18px; padding: 14px 18px; border-left: 3px solid transparent; background: rgba(245,240,232,0.03); }
+.gap-item.red    { border-left-color: var(--red); }
+.gap-item.orange { border-left-color: var(--orange); }
+.gap-item.yellow { border-left-color: var(--yellow); }
+.gap-num  { font-family: 'Bebas Neue', sans-serif; font-size: 30px; color: var(--dimmer); min-width: 34px; line-height: 1; }
+.gap-label { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 0.04em; margin-bottom: 3px; }
+.gap-desc  { font-size: clamp(13px, 1.4vw, 16px); font-weight: 300; color: var(--dim); line-height: 1.4; }
+
+/* ── SHIFT ROWS ── */
+.shift-list { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
+.shift-row  { display: grid; grid-template-columns: 1fr 36px 1fr; align-items: center; gap: 10px; }
+.shift-from { padding: 12px 16px; font-size: clamp(13px, 1.5vw, 18px); background: rgba(230,57,70,0.07); border: 1px solid rgba(230,57,70,0.18); color: rgba(245,240,232,0.4); text-decoration: line-through; text-decoration-color: rgba(230,57,70,0.35); line-height: 1.3; }
+.shift-to   { padding: 12px 16px; font-size: clamp(13px, 1.5vw, 18px); font-weight: 600; background: rgba(255,217,61,0.05); border: 1px solid rgba(255,217,61,0.2); color: var(--white); line-height: 1.3; }
+.shift-arrow { text-align: center; font-size: 18px; color: var(--orange); }
+
+/* ── HIGHLIGHT ── */
+.highlight { border-left: 4px solid var(--yellow); background: rgba(255,217,61,0.05); padding: 16px 20px; margin-top: 20px; }
+.highlight p { font-size: clamp(15px, 1.8vw, 21px); font-weight: 600; color: var(--white); line-height: 1.4; }
+
+/* ── DEMO SPLIT (debrief slide) ── */
+.demo-split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+.demo-panel { background: var(--bg3); border: 1px solid var(--border2); padding: 20px; }
+.demo-panel.bad { border-top: 2px solid var(--red); }
+.demo-panel-lbl { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 10px; }
+.demo-panel.bad .demo-panel-lbl { color: var(--red); }
+.demo-panel p { font-size: clamp(13px, 1.4vw, 16px); font-weight: 300; color: var(--dim); line-height: 1.6; margin-bottom: 4px; }
+
+/* ── AGENDA ── */
+.agenda-list { display: flex; flex-direction: column; gap: 10px; margin-top: 26px; }
+.agenda-item { display: flex; align-items: center; gap: 16px; padding: 13px 16px; background: rgba(245,240,232,0.02); border: 1px solid var(--border); }
+.agenda-item.current { background: rgba(255,217,61,0.06); border-color: rgba(255,217,61,0.3); }
+.agenda-item.done { opacity: 0.35; }
+.agenda-time { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--dimmer); min-width: 60px; }
+.agenda-title { font-family: 'Barlow Condensed', sans-serif; font-size: 19px; font-weight: 600; color: var(--dim); }
+.agenda-item.current .agenda-title { color: var(--white); }
+.agenda-badge { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 10px; background: var(--yellow); color: var(--bg); letter-spacing: 0.1em; }
+
+/* ── ILLUSTRATIONS ── */
+.illus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+}
+.illus svg {
+  width: 100%;
+  height: 100%;
+  max-height: 75vh;
+}
+
+/* ══════════════════════════════════════════════
+   DEMO SLIDE — SCREEN-SHARE OPTIMISED
+   Everything sized for 1080p projection / Google Meet
+   Minimum readable font: 13px rendered text
+══════════════════════════════════════════════ */
+
+/* Demo top bar */
+.demo-top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 32px 8px; border-bottom: 1px solid var(--border);
+  flex-shrink: 0; background: var(--bg2);
+}
+.demo-step-dots { display: flex; gap: 6px; align-items: center; }
+.dsd { width: 28px; height: 4px; border-radius: 2px; background: var(--dimmer); transition: background 0.3s, width 0.3s; }
+.dsd.active { background: var(--orange); width: 44px; }
+.dsd.done   { background: rgba(255,107,53,0.45); }
+.demo-step-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--dim); letter-spacing: 0.1em; margin-left: 12px; }
+.demo-step-label span { color: var(--orange); font-weight: 500; }
+
+/* Context banner — big enough to read when screen-shared */
+.demo-ctx {
+  background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.22);
+  border-left: 4px solid var(--orange); padding: 10px 20px;
+  margin: 0 16px 8px; font-family: 'JetBrains Mono', monospace;
+  font-size: 13px; color: rgba(245,240,232,0.7); letter-spacing: 0.02em;
+  flex-shrink: 0; display: none; line-height: 1.5;
+}
+.demo-ctx.show { display: block; }
+.demo-ctx .hi { color: var(--white); font-weight: 500; }
+.demo-ctx .o  { color: var(--orange); }
+.demo-ctx .r  { color: var(--red); }
+
+/* Demo hero (step 0) — full screen impact */
+.demo-hero {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: center; padding: 0 96px; gap: 16px;
+}
+.demo-hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(60px, 9vw, 130px); line-height: 0.92; letter-spacing: 0.02em; }
+.demo-hero h1 .r { color: var(--red); } .demo-hero h1 .d { color: var(--dim); }
+.demo-hero p { font-size: clamp(18px, 2.2vw, 28px); font-weight: 300; color: var(--dim); line-height: 1.5; max-width: 600px; }
+.demo-hero p strong { color: var(--white); font-weight: 600; }
+.click-hint { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--dimmer); letter-spacing: 0.2em; margin-top: 24px; display: flex; align-items: center; gap: 10px; }
+.click-hint::before { content: ''; width: 20px; height: 1px; background: var(--dimmer); }
+
+/* Demo stage — two browser windows side by side */
+.demo-stage {
+  flex: 1; display: none;
+  grid-template-columns: 1fr 1fr; gap: 12px;
+  padding: 8px 16px 4px; min-height: 0;
+}
+.demo-stage.visible { display: grid; }
+
+/* ── BROWSER WINDOW ── */
+.browser {
+  background: var(--claude-bg); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; display: flex; flex-direction: column;
+  overflow: hidden; position: relative;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+/* Browser chrome — macOS style, big enough to see */
+.browser-chrome {
+  background: #1C1D20; padding: 10px 14px;
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.07); flex-shrink: 0;
+}
+.browser-dots { display: flex; gap: 6px; }
+.browser-dot  { width: 11px; height: 11px; border-radius: 50%; }
+.bd-r { background: #FF5F57; } .bd-y { background: #FEBC2E; } .bd-g { background: #28C840; }
+.browser-url {
+  flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 5px; padding: 5px 12px; font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; color: rgba(255,255,255,0.4); display: flex; align-items: center; gap: 6px;
+}
+.url-lock { color: var(--green); font-size: 11px; }
+
+/* Claude layout — NO SIDEBAR, full width for chat content */
+.claude-layout { display: flex; flex-direction: column; flex: 1; overflow: hidden; min-height: 0; }
+
+/* Slim top bar replaces full sidebar — shows brand + new chat only */
+.claude-topbar {
+  background: #131415; border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: 8px 16px; display: flex; align-items: center; gap: 10px;
+  flex-shrink: 0;
+}
+.claude-icon { width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, var(--claude-accent), #9B6B4A); display: flex; align-items: center; justify-content: center; font-size: 11px; color: white; font-weight: 700; flex-shrink: 0; }
+.claude-brand { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: rgba(255,255,255,0.85); font-weight: 500; }
+.claude-chat-tag {
+  margin-left: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: rgba(255,255,255,0.3);
+  letter-spacing: 0.1em; background: rgba(255,255,255,0.05);
+  padding: 2px 8px; border-radius: 3px;
+}
+
+/* Keep sidebar hidden — referenced in JS but not rendered */
+.claude-sidebar { display: none !important; }
+
+/* Claude chat main */
+.claude-main { display: flex; flex-direction: column; background: var(--claude-bg); overflow: hidden; flex: 1; min-height: 0; }
+.chat-area { flex: 1; overflow-y: auto; padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; min-height: 0; }
+.chat-area::-webkit-scrollbar { width: 3px; }
+.chat-area::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
+
+/* ── MESSAGES — BIG ENOUGH TO READ ── */
+.msg { display: flex; gap: 10px; align-items: flex-start; }
+.msg.user { flex-direction: row-reverse; }
+.msg-av {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; flex-shrink: 0;
+  font-family: 'JetBrains Mono', monospace;
+}
+.av-u { background: var(--claude-user); color: white; }
+.av-a { background: linear-gradient(135deg, var(--claude-accent), #9B6B4A); color: white; }
+
+/* Bubble font size — minimum 13px, ideally 14-15px */
+.msg-bub {
+  max-width: 86%; padding: 10px 14px; border-radius: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(12px, 1.15vw, 15px);
+  line-height: 1.65; color: rgba(255,255,255,0.88);
+  white-space: pre-wrap;
+}
+.msg.user .msg-bub { background: var(--claude-user); border-radius: 10px 2px 10px 10px; }
+.msg.ai   .msg-bub { background: #252629; border-radius: 2px 10px 10px 10px; border: 1px solid rgba(255,255,255,0.09); }
+
+/* Typing dots */
+.typing-ind { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
+.td { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.35); animation: tb 1.2s ease-in-out infinite; }
+.td:nth-child(2) { animation-delay: 0.2s; } .td:nth-child(3) { animation-delay: 0.4s; }
+@keyframes tb { 0%,60%,100% { transform: translateY(0); opacity: 0.3; } 30% { transform: translateY(-5px); opacity: 1; } }
+.cursor-blink { display: inline-block; width: 7px; height: 14px; background: rgba(255,255,255,0.6); vertical-align: text-bottom; margin-left: 1px; animation: blink 0.7s step-end infinite; }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+/* Input area */
+.claude-input-area { padding: 10px 16px 12px; border-top: 1px solid rgba(255,255,255,0.07); flex-shrink: 0; }
+.claude-input-box {
+  background: #2A2B2E; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px;
+  padding: 9px 14px; font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(11px, 1.1vw, 14px); color: rgba(255,255,255,0.6);
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; line-height: 1.5;
+}
+.input-ph { color: rgba(255,255,255,0.22); font-style: italic; }
+.input-send {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; flex-shrink: 0; margin-top: 1px;
+}
+.input-send.on { background: var(--claude-accent); color: white; }
+
+/* ── COMPARE BADGE — visible at distance ── */
+.cbadge {
+  position: absolute; top: 10px; right: 10px; z-index: 10;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 4px 14px; border-radius: 4px;
+}
+.cb1 { background: rgba(255,107,53,0.25); color: var(--orange); border: 1px solid rgba(255,107,53,0.4); }
+.cb2 { background: rgba(230,57,70,0.25); color: var(--red); border: 1px solid rgba(230,57,70,0.4); }
+.cb-same { background: rgba(255,217,61,0.2); color: var(--yellow); border: 1px solid rgba(255,217,61,0.4); }
+
+/* ── VERDICT OVERLAY — big, punchy, legible ── */
+.verdict {
+  position: absolute; inset: 0; background: rgba(8,8,10,0.93);
+  backdrop-filter: blur(6px);
+  align-items: center; justify-content: center; z-index: 25;
+  border-radius: 10px; flex-direction: column; gap: 14px;
+  padding: 28px 32px; text-align: center; display: none;
+}
+.verdict.show { display: flex; }
+.v-icon { font-size: 44px; }
+.v-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(28px, 3.2vw, 48px);
+  letter-spacing: 0.06em; line-height: 1.05;
+}
+.v-body {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(12px, 1.2vw, 15px); color: var(--dim); line-height: 1.8;
+}
+.v-body .r { color: var(--red); } .v-body .y { color: var(--yellow); } .v-body .g { color: var(--green); }
+
+/* ── CALLOUT STRIP — must be readable at screen share distance ── */
+.callout {
+  display: none; position: absolute; bottom: 0; left: 0; right: 0;
+  background: rgba(8,8,10,0.93); backdrop-filter: blur(4px);
+  border-top: 2px solid rgba(255,107,53,0.25);
+  padding: 12px 18px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(15px, 1.6vw, 20px);
+  font-weight: 400;
+  color: rgba(245,240,232,0.75); line-height: 1.55;
+  border-radius: 0 0 10px 10px; z-index: 15;
+}
+.callout.show { display: block; }
+.callout .r { color: #FF7070; font-weight: 600; }
+.callout .y { color: var(--yellow); font-weight: 600; }
+.callout .g { color: var(--green); font-weight: 600; }
+
+/* Demo bottom bar */
+.demo-bottom {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 32px 12px; border-top: 1px solid var(--border); flex-shrink: 0;
+  background: var(--bg2);
+}
+.demo-nav-hint { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--dimmer); letter-spacing: 0.12em; display: flex; align-items: center; gap: 7px; }
+.demo-nav-key { background: rgba(245,240,232,0.07); border: 1px solid var(--border2); padding: 2px 9px; border-radius: 3px; font-size: 11px; color: var(--dim); }
+.demo-prog-wrap { flex: 1; margin: 0 28px; }
+.demo-prog-bar { height: 3px; background: var(--orange); border-radius: 2px; transition: width 0.4s ease; }
+.demo-step-counter { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--dimmer); letter-spacing: 0.15em; }
+
+/* ══════════════════════════════════════════════
+   SHARED NAV (non-demo slides)
+══════════════════════════════════════════════ */
+.progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--orange); transition: width 0.3s ease; z-index: 200; }
+.mod-tag  { position: fixed; top: 24px; left: 44px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--dimmer); letter-spacing: 0.2em; text-transform: uppercase; }
+.slide-meta { position: fixed; bottom: 24px; right: 44px; display: flex; align-items: center; gap: 14px; z-index: 100; }
+.slide-counter { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--dimmer); letter-spacing: 0.15em; }
+.nav-dots { display: flex; gap: 4px; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--dimmer); cursor: pointer; transition: background 0.2s, transform 0.2s; }
+.dot.active { background: var(--orange); transform: scale(1.4); }
+.notes-btn { position: fixed; bottom: 24px; left: 44px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--dimmer); letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; border: 1px solid var(--border); padding: 5px 11px; background: none; transition: all 0.2s; }
+.notes-btn:hover { color: var(--white); border-color: var(--dimmer); }
+.notes-panel { position: fixed; bottom: 60px; left: 44px; right: 44px; background: rgba(10,10,10,0.97); border: 1px solid var(--border); padding: 16px 20px; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; color: var(--dim); line-height: 1.6; display: none; z-index: 100; max-height: 150px; overflow-y: auto; }
+.notes-panel.visible { display: block; }
+.notes-panel strong { color: var(--white); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.slide.active .label,
+.slide.active .display,
+.slide.active .headline,
+.slide.active .subhead,
+.slide.active .big-quote,
+.slide.active .gap-list,
+.slide.active .shift-list,
+.slide.active .demo-split,
+.slide.active .highlight,
+.slide.active .agenda-list,
+.slide.active .illus,
+.slide.active .mono {
+  animation: fadeUp 0.48s ease both;
+}
+.slide.active .subhead    { animation-delay: 0.06s; }
+.slide.active .gap-list   { animation-delay: 0.08s; }
+.slide.active .demo-split { animation-delay: 0.08s; }
+.slide.active .shift-list { animation-delay: 0.08s; }
+.slide.active .highlight  { animation-delay: 0.1s; }
+.slide.active .illus      { animation-delay: 0.1s; }
+.slide.active .mono       { animation-delay: 0.06s; }
+
+/* Demo slide activates its hero */
+.slide.demo-slide.active .demo-hero { animation: fadeUp 0.48s ease both; }
+.fade-in { animation: fadeIn 0.35s ease both; }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+<div class="mod-tag">MODULE 01 — WHY CHAT AI IS NOT ENOUGH</div>
+<div class="deck" id="deck">
+
+<!-- ═══════════════════════════════════════════
+     S01 — MODULE TITLE
+═══════════════════════════════════════════ -->
+<div class="slide layout-split active"
+     data-notes="Welcome to Module 1. Goal: productive discomfort. Help participants feel the gap between current AI use and what's possible. The hamster wheel illustration makes the problem tangible before you explain it.">
+  <div>
+    <div class="label">Module 01 · 30 minutes</div>
+    <div class="display">WHY CHAT AI<br><span class="y">IS NOT</span><br><span class="d">ENOUGH</span></div>
+    <div class="subhead">You're using AI every day.<br><strong>But are you getting better — or just faster at starting over?</strong></div>
+  </div>
+    <div class="illus">
+      <svg viewBox="0 0 340 340" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+        <text x="10" y="20" font-family="'JetBrains Mono',monospace" font-size="9" fill="rgba(245,240,232,0.25)">BEFORE</text>
+      <g transform="translate(10, 0)">
+        <defs>
+          <path id="wheelPath" d="M 50, 180 a 110,110 0 1,1 220,0 a 110,110 0 1,1 -220,0" />
+        </defs>
+        <text font-family="'Bebas Neue', sans-serif" font-size="8" fill="#FF6B35" opacity="0.5">
+          <textPath href="#wheelPath" startOffset="50%" text-anchor="middle">STARTING FROM ZERO EVERY TIME · STARTING FROM ZERO EVERY TIME</textPath>
+        </text>
+        <circle cx="160" cy="180" r="110" fill="none" stroke="rgba(255,107,53,0.2)" stroke-width="16" stroke-dasharray="20 10"/>
+        <circle cx="160" cy="180" r="110" fill="none" stroke="rgba(255,107,53,0.06)" stroke-width="30"/>
+        <g opacity="0.4" font-family="'JetBrains Mono', monospace" font-size="6" fill="#FF6B35" text-anchor="middle">
+          <g transform="translate(270, 180)"><rect x="-15" y="-6" width="30" height="12" rx="5" fill="#1A1A1A" stroke="#FF6B35" stroke-width="0.5"/><text y="2">NEW CHAT</text></g>
+          <g transform="translate(215, 275)"><rect x="-15" y="-6" width="30" height="12" rx="5" fill="#1A1A1A" stroke="#FF6B35" stroke-width="0.5"/><text y="2">NEW CHAT</text></g>
+          <g transform="translate(105, 275)"><rect x="-15" y="-6" width="30" height="12" rx="5" fill="#1A1A1A" stroke="#FF6B35" stroke-width="0.5"/><text y="2">NEW CHAT</text></g>
+          <g transform="translate(50, 180)"><rect x="-15" y="-6" width="30" height="12" rx="5" fill="#1A1A1A" stroke="#FF6B35" stroke-width="0.5"/><text y="2">NEW CHAT</text></g>
+          <g transform="translate(105, 85)"><rect x="-15" y="-6" width="30" height="12" rx="5" fill="#1A1A1A" stroke="#FF6B35" stroke-width="0.5"/><text y="2">NEW CHAT</text></g>
+          <g transform="translate(215, 85)"><rect x="-15" y="-6" width="30" height="12" rx="5" fill="#1A1A1A" stroke="#FF6B35" stroke-width="0.5"/><text y="2">NEW CHAT</text></g>
+        </g>
+        <g opacity="0.5">
+          <rect x="100" y="68" width="60" height="36" rx="8" fill="none" stroke="#FF6B35" stroke-width="1.5"/>
+          <polygon points="120,104 130,104 125,116" fill="none" stroke="#FF6B35" stroke-width="1.5"/>
+          <rect x="196" y="112" width="60" height="36" rx="8" fill="none" stroke="#FF6B35" stroke-width="1.5"/>
+          <polygon points="216,148 226,148 221,160" fill="none" stroke="#FF6B35" stroke-width="1.5"/>
+          <rect x="200" y="218" width="60" height="36" rx="8" fill="none" stroke="#FF6B35" stroke-width="1.5"/>
+          <rect x="64" y="218" width="60" height="36" rx="8" fill="none" stroke="#FF6B35" stroke-width="1.5"/>
+          <rect x="50" y="120" width="60" height="36" rx="8" fill="none" stroke="#FF6B35" stroke-width="1.5"/>
+        </g>
+        <circle cx="160" cy="148" r="18" fill="none" stroke="#F5F0E8" stroke-width="2"/>
+        <line x1="160" y1="166" x2="160" y2="200" stroke="#F5F0E8" stroke-width="2"/>
+        <line x1="160" y1="178" x2="144" y2="192" stroke="#F5F0E8" stroke-width="2"/>
+        <line x1="160" y1="178" x2="176" y2="192" stroke="#F5F0E8" stroke-width="2"/>
+        <line x1="160" y1="200" x2="148" y2="218" stroke="#F5F0E8" stroke-width="2"/>
+        <line x1="160" y1="200" x2="172" y2="218" stroke="#F5F0E8" stroke-width="2"/>
+        <ellipse cx="184" cy="143" rx="3" ry="4" fill="#4BBFB3" opacity="0.7"/>
+        <ellipse cx="192" cy="152" rx="2.5" ry="3.5" fill="#4BBFB3" opacity="0.5"/>
+        <ellipse cx="136" cy="143" rx="3" ry="4" fill="#4BBFB3" opacity="0.7"/>
+        <ellipse cx="128" cy="152" rx="2.5" ry="3.5" fill="#4BBFB3" opacity="0.5"/>
+        <text x="160" y="305" font-family="'JetBrains Mono',monospace" font-size="10" fill="rgba(245,240,232,0.25)" text-anchor="middle" letter-spacing="2">EVERY. MONDAY. MORNING.</text>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     S02 — OPENING QUESTION (Distracted BF meme)
+═══════════════════════════════════════════ -->
+<div class="slide layout-split-wide"
+     data-notes="Ask the question. Wait 10 seconds. Read 3–4 chat responses aloud. The meme makes people laugh and recognise themselves simultaneously — that's the opening.">
+  <div>
+    <div class="label">Opening question</div>
+    <div class="big-quote">"How many times this week did you use AI for work — and then start completely from scratch the next time?"</div>
+    <div class="subhead" style="margin-top:20px">Drop your answer in chat.<br><strong>Hands up if the answer is more than once.</strong></div>
+  </div>
+  <div class="illus">
+    <svg viewBox="0 0 280 300" width="270" height="290" xmlns="http://www.w3.org/2000/svg">
+      <rect width="280" height="300" fill="#1A1200" rx="4"/>
+      <text x="140" y="22" font-family="'Bebas Neue'" font-size="11" fill="rgba(245,240,232,0.3)" text-anchor="middle" letter-spacing="3">EVERY AI USER EVER</text>
+      <circle cx="140" cy="90" r="22" fill="none" stroke="#C8A96E" stroke-width="2"/>
+      <text x="140" y="95" font-family="'JetBrains Mono'" font-size="9" fill="#C8A96E" text-anchor="middle">YOU</text>
+      <path d="M148 86 Q158 82 165 86" fill="none" stroke="#FFD93D" stroke-width="1.5" stroke-linecap="round"/>
+      <rect x="92" y="128" width="96" height="26" rx="3" fill="rgba(200,169,110,0.1)" stroke="rgba(200,169,110,0.3)" stroke-width="1"/>
+      <text x="140" y="147" font-family="'JetBrains Mono'" font-size="9" fill="#C8A96E" text-anchor="middle">You, every Monday</text>
+      <circle cx="224" cy="80" r="18" fill="none" stroke="#FF6B35" stroke-width="2"/>
+      <rect x="186" y="56" width="80" height="26" rx="3" fill="rgba(255,107,53,0.1)" stroke="rgba(255,107,53,0.3)" stroke-width="1"/>
+      <text x="226" y="73" font-family="'JetBrains Mono'" font-size="8" fill="#FF6B35" text-anchor="middle">Fresh chat window</text>
+      <circle cx="56" cy="90" r="18" fill="none" stroke="#E63946" stroke-width="2"/>
+      <rect x="10" y="118" width="90" height="40" rx="3" fill="rgba(230,57,70,0.1)" stroke="rgba(230,57,70,0.3)" stroke-width="1"/>
+      <text x="55" y="134" font-family="'JetBrains Mono'" font-size="8" fill="#E63946" text-anchor="middle">All your previous</text>
+      <text x="55" y="148" font-family="'JetBrains Mono'" font-size="8" fill="#E63946" text-anchor="middle">AI conversations</text>
+      <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#FFD93D"/></marker></defs>
+      <path d="M155 84 Q185 76 206 80" fill="none" stroke="#FFD93D" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+      <rect x="0" y="260" width="280" height="40" fill="rgba(0,0,0,0.6)"/>
+      <text x="140" y="276" font-family="'Bebas Neue'" font-size="13" fill="white" text-anchor="middle" letter-spacing="1">EVERY CHAT = STARTING FROM ZERO</text>
+      <text x="140" y="292" font-family="'JetBrains Mono'" font-size="9" fill="rgba(245,240,232,0.35)" text-anchor="middle">sound familiar?</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     S03 — THE COLD TRUTH
+═══════════════════════════════════════════ -->
+<div class="slide layout-split-wide"
+     data-notes="Read the three statements slowly. Pause after each. The goldfish loop is the visual punchline — Claude has 3-second memory every time you open a new window. Recognition, not shame — frame it as 'this is how everyone starts.'">
+  <div>
+    <div class="label">The reality check</div>
+    <div class="headline">THE COLD<br><span class="r">TRUTH</span></div>
+    <div class="gap-list">
+      <div class="gap-item red">
+        <div class="gap-num">01</div>
+        <div><div class="gap-label" style="color:var(--red)">Every chat starts with amnesia</div>
+        <div class="gap-desc">AI has no memory of your client, project, or preferences. Every session — zero.</div></div>
+      </div>
+      <div class="gap-item orange">
+        <div class="gap-num">02</div>
+        <div><div class="gap-label" style="color:var(--orange)">Your output is different every time</div>
+        <div class="gap-desc">Same request. Different day. Completely different structure, tone, quality.</div></div>
+      </div>
+      <div class="gap-item yellow">
+        <div class="gap-num">03</div>
+        <div><div class="gap-label" style="color:var(--yellow)">You are the quality control</div>
+        <div class="gap-desc">AI produces. You fix. Every time. AI is using your time — not saving it.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="illus">
+    <svg viewBox="0 0 260 300" width="250" height="288" xmlns="http://www.w3.org/2000/svg">
+      <path d="M40 160 Q30 230 130 250 Q230 230 220 160" fill="rgba(75,191,179,0.05)" stroke="rgba(75,191,179,0.22)" stroke-width="1.5"/>
+      <ellipse cx="130" cy="160" rx="90" ry="22" fill="none" stroke="rgba(75,191,179,0.18)" stroke-width="1.5"/>
+      <ellipse cx="130" cy="200" rx="90" ry="30" fill="rgba(75,191,179,0.06)" stroke="rgba(75,191,179,0.15)" stroke-width="1"/>
+      <path d="M42 175 Q80 165 130 170 Q180 175 218 168" fill="none" stroke="rgba(75,191,179,0.25)" stroke-width="1" stroke-dasharray="3 3"/>
+      <ellipse cx="130" cy="195" rx="26" ry="14" fill="#FF6B35" opacity="0.82"/>
+      <path d="M104 195 Q88 182 82 195 Q88 208 104 195" fill="#FF6B35" opacity="0.65"/>
+      <circle cx="142" cy="191" r="4" fill="white" opacity="0.88"/>
+      <circle cx="143" cy="191" r="2" fill="#0A0A0A"/>
+      <path d="M125 181 Q118 172 128 175" fill="none" stroke="#FFD93D" stroke-width="1.5"/>
+      <defs><marker id="arr2" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="rgba(230,57,70,0.55)"/></marker></defs>
+      <path d="M50 140 Q20 100 60 70 Q130 40 200 70 Q240 100 210 140" fill="none" stroke="rgba(230,57,70,0.38)" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arr2)"/>
+      <text x="130" y="62" font-family="'JetBrains Mono'" font-size="9" fill="rgba(230,57,70,0.65)" text-anchor="middle">Oh! A new chat!</text>
+      <text x="130" y="76" font-family="'JetBrains Mono'" font-size="9" fill="rgba(245,240,232,0.25)" text-anchor="middle">...forgot everything</text>
+      <text x="130" y="285" font-family="'JetBrains Mono'" font-size="9" fill="rgba(245,240,232,0.2)" text-anchor="middle" letter-spacing="1">AI MEMORY = 3 SECONDS*</text>
+      </svg>
+      </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+      S04 — THE CONTEXT HIERARCHY
+      ═══════════════════════════════════════════ -->
+      <div class="slide layout-split"
+      data-notes="This is the most important concept clarification in the entire workshop. Most non-coders think context means pasting a long prompt. Name the difference explicitly: transient disappears, persistent stays. Then say: 'From this point forward, when I say context — I mean the files in your workspace. That is your AI\'s permanent memory.' Use the brain visual to make it physical and memorable. The repo is not admin — it\'s the AI\'s mind.">
+      <div>
+      <div class="label">The missing piece — before we fix it</div>
+      <div class="headline">TWO TYPES OF <span class="r">CONTEXT</span></div>
+
+      <div class="gap-list">
+      <!-- TRANSIENT -->
+      <div class="gap-item red" style="background:rgba(230,57,70,0.06); border-left: 3px solid var(--red)">
+        <div style="flex:1">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--red); letter-spacing:0.1em; margin-bottom:8px">TRANSIENT · DISAPPEARS WHEN YOU CLOSE THE TAB</div>
+          <div class="gap-label" style="color:var(--red); font-size:28px">What you type in the chat</div>
+          <div class="gap-desc" style="font-family:'Barlow Condensed',sans-serif; font-size:16px; color:var(--dim)">
+            · Your prompt and follow-up questions<br>
+            · The brief you pasted this session<br>
+            · The context you re-explained from scratch<br>
+            · Gone when you close the window
+          </div>
+        </div>
+      </div>
+
+      <!-- PERSISTENT -->
+      <div class="gap-item green" style="background:rgba(92,184,126,0.06); border-left: 3px solid var(--green)">
+        <div style="flex:1">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--green); letter-spacing:0.1em; margin-bottom:8px">PERSISTENT · LIVES IN YOUR REPO · READS EVERY TIME</div>
+          <div class="gap-label" style="color:var(--green); font-size:28px">What lives in your workspace files</div>
+          <div class="gap-desc" style="font-family:'Barlow Condensed',sans-serif; font-size:16px; color:var(--dim)">
+            · Your tone rules and voice standards<br>
+            · Your client names, context, and history<br>
+            · Your output templates and formats<br>
+            · Your quality checklist
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div class="highlight" style="margin-top:24px">
+      <p style="font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:600; color:var(--white)">
+        "The repo is not a folder of files.<br>
+        It is the AI's long-term memory."
+      </p>
+      </div>
+      </div>
+
+      <div class="illus">
+      <svg viewBox="0 0 300 340" width="290" height="320" xmlns="http://www.w3.org/2000/svg">
+      <!-- ZONE 1: WORKING MEMORY -->
+      <circle cx="150" cy="80" r="70" fill="rgba(230,57,70,0.15)" stroke="rgba(230,57,70,0.4)" stroke-width="2" stroke-dasharray="6 4"/>
+      <text x="150" y="35" font-family="'Bebas Neue'" font-size="14" fill="#E63946" text-anchor="middle" letter-spacing="1">WORKING MEMORY</text>
+
+      <!-- Fading chat bubbles -->
+      <rect x="120" y="60" width="60" height="15" rx="3" fill="#E63946" opacity="0.6"/>
+      <rect x="110" y="85" width="70" height="15" rx="3" fill="#E63946" opacity="0.3"/>
+      <rect x="130" y="110" width="50" height="15" rx="3" fill="#E63946" opacity="0.1"/>
+
+      <text x="150" y="145" font-family="'JetBrains Mono'" font-size="9" fill="rgba(230,57,70,0.6)" text-anchor="middle">fades on close</text>
+      <path d="M150 155 L150 175" stroke="rgba(230,57,70,0.4)" stroke-width="1.5" marker-end="url(#arr-r)"/>
+      <text x="160" y="170" font-family="'JetBrains Mono'" font-size="9" fill="#E63946">✕ gone</text>
+
+      <!-- CONNECTING ELEMENT -->
+      <line x1="150" y1="150" x2="150" y2="190" stroke="rgba(245,240,232,0.15)" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <text x="210" y="170" font-family="'JetBrains Mono'" font-size="9" fill="rgba(245,240,232,0.4)" text-anchor="middle">Claude Code reads BOTH</text>
+
+      <!-- ZONE 2: LONG-TERM MEMORY -->
+      <rect x="50" y="195" width="200" height="110" rx="10" fill="rgba(92,184,126,0.1)" stroke="rgba(92,184,126,0.35)" stroke-width="2"/>
+      <text x="150" y="325" font-family="'Bebas Neue'" font-size="14" fill="#5CB87E" text-anchor="middle" letter-spacing="1">LONG-TERM MEMORY</text>
+
+      <!-- File icons -->
+      <g transform="translate(70, 215)">
+        <path d="M0 0 L15 0 L20 5 L20 25 L0 25 Z" fill="none" stroke="#4BBFB3" stroke-width="1.5"/>
+        <text x="25" y="16" font-family="'JetBrains Mono'" font-size="8" fill="#4BBFB3">CLAUDE.md</text>
+      </g>
+      <g transform="translate(70, 245)">
+        <path d="M0 0 L15 0 L20 5 L20 25 L0 25 Z" fill="none" stroke="#5CB87E" stroke-width="1.5"/>
+        <text x="25" y="16" font-family="'JetBrains Mono'" font-size="8" fill="#5CB87E">client-context.md</text>
+      </g>
+      <g transform="translate(70, 275)">
+        <path d="M0 0 L15 0 L20 5 L20 25 L0 25 Z" fill="none" stroke="#FFD93D" stroke-width="1.5"/>
+        <text x="25" y="16" font-family="'JetBrains Mono'" font-size="8" fill="#FFD93D">proposal-template.md</text>
+      </g>
+
+      <text x="150" y="210" font-family="'JetBrains Mono'" font-size="9" fill="rgba(92,184,126,0.6)" text-anchor="middle">reads every session</text>
+      <path d="M150 190 L150 170" stroke="rgba(92,184,126,0.4)" stroke-width="1.5" marker-end="url(#arr-g)"/>
+      <text x="80" y="170" font-family="'JetBrains Mono'" font-size="9" fill="#5CB87E">✓ always there</text>
+
+      <!-- Markers -->
+      <defs>
+        <marker id="arr-r" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#E63946"/></marker>
+        <marker id="arr-g" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#5CB87E"/></marker>
+      </defs>
+
+      <text x="150" y="338" font-family="'JetBrains Mono'" font-size="9" fill="rgba(245,240,232,0.25)" text-anchor="middle">YOUR WORKSPACE = AI LONG-TERM MEMORY</text>
+      </svg>
+      </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+      S05 — COLD START DEMO (INTERACTIVE — 7 STEPS)
+     This slide is fully self-contained with its own nav
+═══════════════════════════════════════════ -->
+<div class="slide demo-slide"
+     data-notes="This is the interactive demo slide. Click advances each step internally. When demo completes, press → to go to the next regular slide. Steps: 0=hero, 1=paste brief W1, 2=W1 responds, 3=paste brief W2, 4=W2 responds, 5=side-by-side verdict, 6=cold start revealed.">
+
+  <!-- DEMO TOP BAR -->
+  <div class="demo-top">
+    <div class="label" style="margin-bottom:0">Live Demo · Cold Start Problem</div>
+    <div class="demo-step-dots" id="dDots">
+      <div class="dsd" id="dd0"></div><div class="dsd" id="dd1"></div>
+      <div class="dsd" id="dd2"></div><div class="dsd" id="dd3"></div>
+      <div class="dsd" id="dd4"></div><div class="dsd" id="dd5"></div>
+      <div class="dsd" id="dd6"></div>
+      <div class="demo-step-label" id="dLabel">Click to begin demo</div>
+    </div>
+    <div class="demo-step-counter" id="dCounter" style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dimmer);letter-spacing:.15em">0 / 6</div>
+  </div>
+
+  <!-- CONTEXT BANNER -->
+  <div class="demo-ctx" id="dCtx"></div>
+
+  <!-- DEMO HERO (step 0) -->
+  <div class="demo-hero" id="dHero">
+    <div class="label" style="margin-bottom:6px">Same brief. Same prompt. Two windows.</div>
+    <h1>THE COLD<br><span class="r">START</span><br><span class="d">DEMO</span></h1>
+    <p>I'm going to paste the <strong>exact same brief</strong> into two separate Claude windows.<br>Same prompt. Zero other instructions.<br><strong>Watch what happens.</strong></p>
+    <div class="click-hint">CLICK ANYWHERE TO BEGIN</div>
+  </div>
+
+  <!-- DEMO STAGE -->
+  <div class="demo-stage" id="dStage">
+
+    <!-- WINDOW 1 -->
+    <div class="browser" id="dw1">
+      <div class="cbadge cb1" id="dcb1">Window 1</div>
+      <div class="browser-chrome">
+        <div class="browser-dots"><div class="browser-dot bd-r"></div><div class="browser-dot bd-y"></div><div class="browser-dot bd-g"></div></div>
+        <div class="browser-url"><span class="url-lock">🔒</span><span>claude.ai/chat</span></div>
+      </div>
+      <div class="claude-layout">
+        <div class="claude-topbar">
+          <div class="claude-icon">C</div>
+          <div class="claude-brand">Claude</div>
+          <div class="claude-chat-tag" id="dh1">Greenfield proposal</div>
+        </div>
+        <div class="claude-main">
+          <div class="chat-area" id="dc1"></div>
+          <div class="claude-input-area">
+            <div class="claude-input-box" id="di1"><span class="input-ph">Message Claude...</span><div class="input-send" id="ds1">↑</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="verdict" id="dv1"></div>
+      <div class="callout" id="dcl1"></div>
+    </div>
+
+    <!-- WINDOW 2 -->
+    <div class="browser" id="dw2">
+      <div class="cbadge cb2" id="dcb2">Window 2</div>
+      <div class="browser-chrome">
+        <div class="browser-dots"><div class="browser-dot bd-r"></div><div class="browser-dot bd-y"></div><div class="browser-dot bd-g"></div></div>
+        <div class="browser-url"><span class="url-lock">🔒</span><span>claude.ai/chat</span></div>
+      </div>
+      <div class="claude-layout">
+        <div class="claude-topbar">
+          <div class="claude-icon">C</div>
+          <div class="claude-brand">Claude</div>
+          <div class="claude-chat-tag" id="dh2">New conversation</div>
+        </div>
+        <div class="claude-main">
+          <div class="chat-area" id="dc2"></div>
+          <div class="claude-input-area">
+            <div class="claude-input-box" id="di2"><span class="input-ph">Message Claude...</span><div class="input-send" id="ds2">↑</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="verdict" id="dv2"></div>
+      <div class="callout" id="dcl2"></div>
+    </div>
+
+  </div><!-- /demo-stage -->
+
+  <!-- DEMO BOTTOM BAR -->
+  <div class="demo-bottom">
+    <div class="demo-nav-hint">
+      <div class="demo-nav-key">CLICK</div> or <div class="demo-nav-key">SPACE</div> — next demo step &nbsp;
+      <div class="demo-nav-key">R</div> — restart demo &nbsp;
+      <div class="demo-nav-key">→</div> — next slide
+    </div>
+    <div class="demo-prog-wrap"><div class="demo-prog-bar" id="dProg" style="width:0%"></div></div>
+    <div class="demo-step-counter" id="dStep">Step 0 / 6</div>
+  </div>
+
+</div><!-- /demo-slide -->
+
+<!-- ═══════════════════════════════════════════
+     S05 — GAP 1-3 (Swiss cheese)
+═══════════════════════════════════════════ -->
+<div class="slide layout-split-wide"
+     data-notes="Walk through gaps 1-3. About 45 seconds each. Ask 'has this happened to you?' after each one. Swiss cheese: each hole = a missing system element.">
+  <div>
+    <div class="label">What's missing — gaps 1–3</div>
+    <div class="headline">5 THINGS<br><span class="r">MISSING</span></div>
+    <div class="gap-list" style="margin-top:18px">
+      <div class="gap-item red"><div class="gap-num">01</div><div><div class="gap-label" style="color:var(--red)">Context</div><div class="gap-desc">No memory of your client, project, or history. Every session starts at zero.</div></div></div>
+      <div class="gap-item orange"><div class="gap-num">02</div><div><div class="gap-label" style="color:var(--orange)">Rules</div><div class="gap-desc">AI doesn't know your tone, your standards, what should never appear in a proposal.</div></div></div>
+      <div class="gap-item yellow"><div class="gap-num">03</div><div><div class="gap-label" style="color:var(--yellow)">Templates</div><div class="gap-desc">Without a structure, AI invents one. Different every time. Off-brand, hard to review.</div></div></div>
+    </div>
+  </div>
+  <div class="illus">
+    <svg viewBox="0 0 260 280" width="250" height="268" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="arr3" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L0,5 L5,2.5 z" fill="rgba(200,169,110,0.5)"/></marker></defs>
+      <rect x="20" y="60" width="220" height="170" rx="12" fill="#2A1800" stroke="rgba(200,169,110,0.28)" stroke-width="1.5"/>
+      <circle cx="80" cy="110" r="28" fill="#0A0A0A" stroke="rgba(200,169,110,0.18)" stroke-width="1"/>
+      <text x="80" y="106" font-family="'JetBrains Mono'" font-size="8" fill="rgba(230,57,70,0.8)" text-anchor="middle">NO</text>
+      <text x="80" y="118" font-family="'JetBrains Mono'" font-size="8" fill="rgba(230,57,70,0.8)" text-anchor="middle">CONTEXT</text>
+      <circle cx="180" cy="120" r="22" fill="#0A0A0A" stroke="rgba(200,169,110,0.18)" stroke-width="1"/>
+      <text x="180" y="116" font-family="'JetBrains Mono'" font-size="8" fill="rgba(255,107,53,0.8)" text-anchor="middle">NO</text>
+      <text x="180" y="128" font-family="'JetBrains Mono'" font-size="8" fill="rgba(255,107,53,0.8)" text-anchor="middle">RULES</text>
+      <circle cx="120" cy="180" r="26" fill="#0A0A0A" stroke="rgba(200,169,110,0.18)" stroke-width="1"/>
+      <text x="120" y="176" font-family="'JetBrains Mono'" font-size="8" fill="rgba(255,217,61,0.8)" text-anchor="middle">NO</text>
+      <text x="120" y="188" font-family="'JetBrains Mono'" font-size="8" fill="rgba(255,217,61,0.8)" text-anchor="middle">TEMPLATE</text>
+      <circle cx="56" cy="190" r="14" fill="#0A0A0A" stroke="rgba(200,169,110,0.12)" stroke-width="1"/>
+      <circle cx="200" cy="190" r="16" fill="#0A0A0A" stroke="rgba(200,169,110,0.12)" stroke-width="1"/>
+      <text x="130" y="258" font-family="'JetBrains Mono'" font-size="9" fill="rgba(200,169,110,0.35)" text-anchor="middle" letter-spacing="1">YOUR AI CHAT OUTPUT</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     S06 — GAPS 4-5 ("It's all me" meme)
+═══════════════════════════════════════════ -->
+<div class="slide layout-split"
+     data-notes="Gaps 4 and 5 are the mindset pivot. The 'it's all me' meme makes the QA point land with humour. Spend extra time here — this is where participants start feeling the urgency for a system.">
+  <div>
+    <div class="label">The two gaps that hurt most</div>
+    <div class="headline">2 MORE<br><span class="r">GAPS</span></div>
+    <div class="gap-list" style="margin-top:18px">
+      <div class="gap-item red"><div class="gap-num">04</div><div><div class="gap-label" style="color:var(--red)">QA Review</div><div class="gap-desc">No one checks the AI's work before it reaches you. Errors, invented data, omissions — all yours. Every time.</div></div></div>
+      <div class="gap-item yellow"><div class="gap-num">05</div><div><div class="gap-label" style="color:var(--yellow)">Human Review</div><div class="gap-desc">No defined checkpoint to review, approve, decide. Output goes straight from AI to use — no structure, no control.</div></div></div>
+    </div>
+  </div>
+  <div class="illus">
+    <svg viewBox="0 0 260 300" width="250" height="288" xmlns="http://www.w3.org/2000/svg">
+      <rect width="260" height="300" fill="#0D0D0D" rx="4"/>
+      <text x="130" y="22" font-family="'Bebas Neue'" font-size="13" fill="rgba(245,240,232,0.4)" text-anchor="middle" letter-spacing="2">AI CHAT WORKFLOW TEAM</text>
+      <circle cx="130" cy="90" r="24" fill="none" stroke="#F5F0E8" stroke-width="2"/>
+      <text x="130" y="95" font-family="'JetBrains Mono'" font-size="9" fill="#F5F0E8" text-anchor="middle">YOU</text>
+      <ellipse cx="158" cy="83" rx="3" ry="4" fill="#4BBFB3" opacity="0.55"/>
+      <ellipse cx="164" cy="92" rx="2" ry="3" fill="#4BBFB3" opacity="0.35"/>
+      <rect x="8" y="40" width="72" height="22" rx="3" fill="rgba(230,57,70,0.14)" stroke="rgba(230,57,70,0.35)" stroke-width="1"/>
+      <text x="44" y="55" font-family="'JetBrains Mono'" font-size="8" fill="#E63946" text-anchor="middle">Writer</text>
+      <line x1="80" y1="51" x2="108" y2="78" stroke="rgba(230,57,70,0.35)" stroke-width="1" stroke-dasharray="3 2"/>
+      <rect x="8" y="90" width="72" height="22" rx="3" fill="rgba(255,107,53,0.14)" stroke="rgba(255,107,53,0.35)" stroke-width="1"/>
+      <text x="44" y="105" font-family="'JetBrains Mono'" font-size="8" fill="#FF6B35" text-anchor="middle">QA Reviewer</text>
+      <line x1="80" y1="101" x2="106" y2="94" stroke="rgba(255,107,53,0.35)" stroke-width="1" stroke-dasharray="3 2"/>
+      <rect x="8" y="140" width="72" height="22" rx="3" fill="rgba(255,217,61,0.14)" stroke="rgba(255,217,61,0.35)" stroke-width="1"/>
+      <text x="44" y="155" font-family="'JetBrains Mono'" font-size="8" fill="#FFD93D" text-anchor="middle">Editor</text>
+      <line x1="80" y1="151" x2="108" y2="108" stroke="rgba(255,217,61,0.35)" stroke-width="1" stroke-dasharray="3 2"/>
+      <rect x="180" y="40" width="72" height="22" rx="3" fill="rgba(75,191,179,0.14)" stroke="rgba(75,191,179,0.35)" stroke-width="1"/>
+      <text x="216" y="55" font-family="'JetBrains Mono'" font-size="8" fill="#4BBFB3" text-anchor="middle">Strategist</text>
+      <line x1="180" y1="51" x2="152" y2="78" stroke="rgba(75,191,179,0.35)" stroke-width="1" stroke-dasharray="3 2"/>
+      <rect x="180" y="90" width="72" height="22" rx="3" fill="rgba(155,143,232,0.14)" stroke="rgba(155,143,232,0.35)" stroke-width="1"/>
+      <text x="216" y="105" font-family="'JetBrains Mono'" font-size="8" fill="#9B8FE8" text-anchor="middle">Approver</text>
+      <line x1="180" y1="101" x2="154" y2="94" stroke="rgba(155,143,232,0.35)" stroke-width="1" stroke-dasharray="3 2"/>
+      <rect x="180" y="140" width="72" height="22" rx="3" fill="rgba(92,184,126,0.14)" stroke="rgba(92,184,126,0.35)" stroke-width="1"/>
+      <text x="216" y="155" font-family="'JetBrains Mono'" font-size="8" fill="#5CB87E" text-anchor="middle">Fact-checker</text>
+      <line x1="180" y1="151" x2="152" y2="108" stroke="rgba(92,184,126,0.35)" stroke-width="1" stroke-dasharray="3 2"/>
+      <rect x="0" y="210" width="260" height="50" fill="rgba(0,0,0,0.5)"/>
+      <text x="130" y="232" font-family="'Bebas Neue'" font-size="18" fill="white" text-anchor="middle" letter-spacing="1">IT'S ALL ME.</text>
+      <text x="130" y="252" font-family="'JetBrains Mono'" font-size="9" fill="rgba(245,240,232,0.35)" text-anchor="middle">Without a system — you are the entire team.</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     S07 — WHAT REAL WORK NEEDS (factory floor)
+═══════════════════════════════════════════ -->
+<div class="slide layout-split-wide"
+     data-notes="The pivot slide — from problem to solution framing. Don't explain the workspace yet. Just name the four shifts. They'll see all of them come to life in Module 2.">
+  <div>
+    <div class="label">What repeated work actually needs</div>
+    <div class="headline">REAL WORK<br>NEEDS A<br><span class="y">SYSTEM</span></div>
+    <div class="shift-list" style="margin-top:18px">
+      <div class="shift-row"><div class="shift-from">One-time prompt</div><div class="shift-arrow">→</div><div class="shift-to">Context that lives in files</div></div>
+      <div class="shift-row"><div class="shift-from">Hope it sounds right</div><div class="shift-arrow">→</div><div class="shift-to">Rules that apply every time</div></div>
+      <div class="shift-row"><div class="shift-from">AI invents a structure</div><div class="shift-arrow">→</div><div class="shift-to">Templates enforce your standard</div></div>
+      <div class="shift-row"><div class="shift-from">You fix everything</div><div class="shift-arrow">→</div><div class="shift-to">QA runs before it reaches you</div></div>
+    </div>
+  </div>
+  <div class="illus">
+    <svg viewBox="0 0 260 300" width="250" height="288" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="80" width="220" height="160" rx="4" fill="#0D0D0D" stroke="rgba(245,240,232,0.08)" stroke-width="1"/>
+      <rect x="40" y="50" width="24" height="40" fill="#111" stroke="rgba(245,240,232,0.08)" stroke-width="1"/>
+      <rect x="180" y="60" width="20" height="30" fill="#111" stroke="rgba(245,240,232,0.08)" stroke-width="1"/>
+      <circle cx="52" cy="44" r="8" fill="rgba(245,240,232,0.03)"/>
+      <circle cx="58" cy="32" r="10" fill="rgba(245,240,232,0.02)"/>
+      <circle cx="50" cy="22" r="8" fill="rgba(245,240,232,0.015)"/>
+      <rect x="30" y="185" width="200" height="14" rx="7" fill="#1A1A1A" stroke="rgba(245,240,232,0.08)" stroke-width="1"/>
+      <ellipse cx="38" cy="192" rx="9" ry="7" fill="#222" stroke="rgba(245,240,232,0.08)" stroke-width="1"/>
+      <ellipse cx="222" cy="192" rx="9" ry="7" fill="#222" stroke="rgba(245,240,232,0.08)" stroke-width="1"/>
+      <line x1="70" y1="185" x2="70" y2="199" stroke="rgba(245,240,232,0.05)" stroke-width="1"/>
+      <line x1="110" y1="185" x2="110" y2="199" stroke="rgba(245,240,232,0.05)" stroke-width="1"/>
+      <line x1="150" y1="185" x2="150" y2="199" stroke="rgba(245,240,232,0.05)" stroke-width="1"/>
+      <line x1="190" y1="185" x2="190" y2="199" stroke="rgba(245,240,232,0.05)" stroke-width="1"/>
+      <rect x="30" y="158" width="44" height="28" rx="2" fill="rgba(230,57,70,0.14)" stroke="rgba(230,57,70,0.35)" stroke-width="1"/>
+      <text x="52" y="170" font-family="'JetBrains Mono'" font-size="7" fill="#E63946" text-anchor="middle">MESSY</text>
+      <text x="52" y="181" font-family="'JetBrains Mono'" font-size="7" fill="#E63946" text-anchor="middle">BRIEF</text>
+      <circle cx="100" cy="138" r="20" fill="none" stroke="rgba(255,217,61,0.28)" stroke-width="3" stroke-dasharray="8 4"/>
+      <circle cx="100" cy="138" r="10" fill="rgba(255,217,61,0.06)" stroke="rgba(255,217,61,0.18)" stroke-width="1"/>
+      <text x="100" y="142" font-family="'JetBrains Mono'" font-size="6.5" fill="rgba(255,217,61,0.65)" text-anchor="middle">RULES</text>
+      <circle cx="155" cy="130" r="18" fill="none" stroke="rgba(75,191,179,0.28)" stroke-width="3" stroke-dasharray="6 4"/>
+      <circle cx="155" cy="130" r="9" fill="rgba(75,191,179,0.06)" stroke="rgba(75,191,179,0.18)" stroke-width="1"/>
+      <text x="155" y="134" font-family="'JetBrains Mono'" font-size="6" fill="rgba(75,191,179,0.65)" text-anchor="middle">TEMPLATE</text>
+      <rect x="186" y="154" width="50" height="30" rx="2" fill="rgba(92,184,126,0.14)" stroke="rgba(92,184,126,0.35)" stroke-width="1"/>
+      <text x="211" y="166" font-family="'JetBrains Mono'" font-size="7" fill="#5CB87E" text-anchor="middle">POLISHED</text>
+      <text x="211" y="178" font-family="'JetBrains Mono'" font-size="7" fill="#5CB87E" text-anchor="middle">OUTPUT</text>
+      <rect x="190" y="105" width="38" height="26" rx="3" fill="rgba(92,184,126,0.08)" stroke="rgba(92,184,126,0.35)" stroke-width="1" transform="rotate(-8 209 118)"/>
+      <text x="209" y="120" font-family="'Bebas Neue'" font-size="13" fill="rgba(92,184,126,0.75)" text-anchor="middle" letter-spacing="2" transform="rotate(-8 209 118)">QA ✓</text>
+      <text x="130" y="284" font-family="'JetBrains Mono'" font-size="9" fill="rgba(245,240,232,0.2)" text-anchor="middle" letter-spacing="1">THE WORKFLOW SYSTEM</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     S08 — THE KEY MESSAGE
+═══════════════════════════════════════════ -->
+<div class="slide layout-full"
+     data-notes="Say this slowly. Then say it again. This is the most important sentence in the workshop. Ask participants to type it in chat. Say: 'This is the sentence I want you to remember next Monday when you open a new AI chat.'">
+  <div style="position:relative">
+    <div style="position:absolute;inset:-100px;background:repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(255,107,53,0.012) 40px,rgba(255,107,53,0.012) 41px);pointer-events:none"></div>
+    <div class="label" style="color:var(--yellow)">The key message — say this twice</div>
+    <div class="big-quote" style="font-size:clamp(38px,5.5vw,80px);margin-bottom:28px">
+      "Prompting gives you<br><span style="color:var(--dim)">one answer."</span>
+    </div>
+    <div class="big-quote" style="font-size:clamp(38px,5.5vw,80px)">
+      "Workflow design gives you<br><span style="color:var(--yellow)">a repeatable system."</span>
+    </div>
+    <div class="mono" style="margin-top:28px">
+      <span class="y">Type it in chat.</span> This is the sentence you're carrying into everything that follows.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     S09 — ARMORY ACTIVITY (mission dossier)
+═══════════════════════════════════════════ -->
+<div class="slide layout-split"
+     data-notes="Drop THE ARMORY form link in chat NOW. Start 5-minute timer. Screen-share localhost:3000/live. Say: 'What you write in the next 5 minutes becomes your personal AI workspace.'">
+  <div>
+    <div class="label">Activity — 5 minutes · The Armory intake</div>
+    <div class="headline">YOUR<br><span class="o">MISSION</span><br>BRIEF</div>
+    <div class="subhead">The link is in chat. Open it now.<br><strong>3 tasks you repeat every week that AI could help with.</strong></div>
+    <div class="highlight" style="margin-top:18px"><p>What you write becomes your personal AI workspace — built before this module ends.</p></div>
+    <div class="mono" style="margin-top:14px"><span class="y">⏱ 5 minutes starting now</span><br>Switching to the live dashboard →</div>
+  </div>
+  <div class="illus">
+    <svg viewBox="0 0 260 300" width="250" height="288" xmlns="http://www.w3.org/2000/svg">
+      <rect x="30" y="30" width="200" height="240" rx="4" fill="#0D0D0D" stroke="rgba(200,169,110,0.22)" stroke-width="1.5"/>
+      <rect x="30" y="30" width="200" height="20" rx="4" fill="#1A1000" stroke="rgba(200,169,110,0.22)" stroke-width="1.5"/>
+      <rect x="60" y="70" width="140" height="34" rx="3" fill="none" stroke="rgba(230,57,70,0.45)" stroke-width="2" transform="rotate(-3 130 87)"/>
+      <text x="130" y="83" font-family="'Bebas Neue'" font-size="17" fill="rgba(230,57,70,0.55)" text-anchor="middle" letter-spacing="4" transform="rotate(-3 130 87)">THE ARMORY</text>
+      <text x="130" y="98" font-family="'JetBrains Mono'" font-size="8.5" fill="rgba(230,57,70,0.38)" text-anchor="middle" transform="rotate(-3 130 87)">OPERATIVE INTAKE</text>
+      <rect x="50" y="130" width="160" height="9" rx="2" fill="rgba(200,169,110,0.07)" stroke="rgba(200,169,110,0.12)" stroke-width="1"/>
+      <text x="60" y="124" font-family="'JetBrains Mono'" font-size="7" fill="rgba(200,169,110,0.38)">NAME _____________</text>
+      <rect x="50" y="157" width="160" height="9" rx="2" fill="rgba(200,169,110,0.07)" stroke="rgba(200,169,110,0.12)" stroke-width="1"/>
+      <text x="60" y="151" font-family="'JetBrains Mono'" font-size="7" fill="rgba(200,169,110,0.38)">ROLE _____________</text>
+      <rect x="50" y="184" width="160" height="9" rx="2" fill="rgba(200,169,110,0.07)" stroke="rgba(200,169,110,0.12)" stroke-width="1"/>
+      <text x="60" y="178" font-family="'JetBrains Mono'" font-size="7" fill="rgba(200,169,110,0.38)">TASK 1 ____________</text>
+      <rect x="50" y="207" width="160" height="9" rx="2" fill="rgba(200,169,110,0.07)" stroke="rgba(200,169,110,0.12)" stroke-width="1"/>
+      <text x="60" y="201" font-family="'JetBrains Mono'" font-size="7" fill="rgba(200,169,110,0.38)">TASK 2 ____________</text>
+      <rect x="50" y="230" width="160" height="9" rx="2" fill="rgba(200,169,110,0.07)" stroke="rgba(200,169,110,0.12)" stroke-width="1"/>
+      <text x="60" y="224" font-family="'JetBrains Mono'" font-size="7" fill="rgba(200,169,110,0.38)">TASK 3 ____________</text>
+      <rect x="120" y="227" width="2" height="9" fill="rgba(200,169,110,0.65)"><animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/></rect>
+      <text x="130" y="273" font-family="'Bebas Neue'" font-size="26" fill="rgba(255,107,53,0.04)" text-anchor="middle" letter-spacing="5">CLASSIFIED</text>
+      <text x="40" y="48" font-family="'JetBrains Mono'" font-size="7" fill="rgba(200,169,110,0.38)">ARMORY-001</text>
+      <text x="220" y="48" font-family="'JetBrains Mono'" font-size="7" fill="rgba(200,169,110,0.38)" text-anchor="end">5 MIN</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     S10 — LIVE WORD CLOUD (constellation)
+═══════════════════════════════════════════ -->
+<div class="slide layout-split"
+     data-notes="Switch to screen-sharing localhost:3000/live. Return here when 80%+ submitted. Narrate: 'Different roles — same repeated work. That's why one system solves all of them.'">
+  <div>
+    <div class="label">While you fill in the form</div>
+    <div class="headline">WATCH THE<br><span class="o">PATTERNS</span><br>EMERGE</div>
+    <div class="subhead" style="margin-top:14px">Screen-sharing the live dashboard.<br>Your tasks appearing anonymously in real time.<br><br><strong>Different roles. Same repeated work.<br>One system solves all of them.</strong></div>
+    <div class="mono" style="margin-top:18px">
+      → <span class="hi">Proposals</span> / <span class="hi">Meeting summaries</span> / <span class="hi">Campaign plans</span><br>
+      → <span class="hi">Research briefs</span> / <span class="hi">Executive summaries</span><br>
+      → All repeatable. All <span class="g">systematisable</span>. All solvable.
+    </div>
+  </div>
+  <div class="illus">
+    <svg viewBox="0 0 260 300" width="250" height="288" xmlns="http://www.w3.org/2000/svg">
+      <line x1="130" y1="90" x2="72" y2="52" stroke="rgba(255,107,53,0.12)" stroke-width="1"/>
+      <line x1="130" y1="90" x2="196" y2="58" stroke="rgba(255,107,53,0.12)" stroke-width="1"/>
+      <line x1="130" y1="90" x2="170" y2="130" stroke="rgba(255,107,53,0.08)" stroke-width="1"/>
+      <line x1="130" y1="90" x2="50" y2="140" stroke="rgba(255,107,53,0.08)" stroke-width="1"/>
+      <line x1="130" y1="90" x2="120" y2="178" stroke="rgba(255,107,53,0.08)" stroke-width="1"/>
+      <circle cx="130" cy="90" r="34" fill="rgba(255,107,53,0.07)" stroke="rgba(255,107,53,0.28)" stroke-width="1.5"/>
+      <text x="130" y="86" font-family="'Bebas Neue'" font-size="15" fill="#FF6B35" text-anchor="middle" letter-spacing="1">PROPOSALS</text>
+      <text x="130" y="100" font-family="'JetBrains Mono'" font-size="8" fill="rgba(255,107,53,0.45)" text-anchor="middle">× 11</text>
+      <circle cx="72" cy="52" r="26" fill="rgba(75,191,179,0.06)" stroke="rgba(75,191,179,0.22)" stroke-width="1.2"/>
+      <text x="72" y="48" font-family="'Bebas Neue'" font-size="12" fill="#4BBFB3" text-anchor="middle">MEETINGS</text>
+      <text x="72" y="61" font-family="'JetBrains Mono'" font-size="7.5" fill="rgba(75,191,179,0.45)" text-anchor="middle">× 8</text>
+      <circle cx="196" cy="58" r="22" fill="rgba(155,143,232,0.06)" stroke="rgba(155,143,232,0.22)" stroke-width="1.2"/>
+      <text x="196" y="54" font-family="'Bebas Neue'" font-size="11" fill="#9B8FE8" text-anchor="middle">SUMMARIES</text>
+      <text x="196" y="67" font-family="'JetBrains Mono'" font-size="7.5" fill="rgba(155,143,232,0.45)" text-anchor="middle">× 7</text>
+      <circle cx="50" cy="140" r="19" fill="rgba(200,169,110,0.06)" stroke="rgba(200,169,110,0.2)" stroke-width="1"/>
+      <text x="50" y="136" font-family="'Bebas Neue'" font-size="11" fill="#C8A96E" text-anchor="middle">REPORTS</text>
+      <text x="50" y="149" font-family="'JetBrains Mono'" font-size="7.5" fill="rgba(200,169,110,0.45)" text-anchor="middle">× 6</text>
+      <circle cx="186" cy="135" r="20" fill="rgba(92,184,126,0.06)" stroke="rgba(92,184,126,0.2)" stroke-width="1"/>
+      <text x="186" y="131" font-family="'Bebas Neue'" font-size="11" fill="#5CB87E" text-anchor="middle">CAMPAIGNS</text>
+      <text x="186" y="144" font-family="'JetBrains Mono'" font-size="7.5" fill="rgba(92,184,126,0.45)" text-anchor="middle">× 5</text>
+      <circle cx="120" cy="178" r="17" fill="rgba(255,217,61,0.05)" stroke="rgba(255,217,61,0.18)" stroke-width="1"/>
+      <text x="120" y="174" font-family="'Bebas Neue'" font-size="10" fill="#FFD93D" text-anchor="middle">BRIEFS</text>
+      <text x="120" y="186" font-family="'JetBrains Mono'" font-size="7.5" fill="rgba(255,217,61,0.45)" text-anchor="middle">× 4</text>
+      <text x="210" y="88" font-family="'Bebas Neue'" font-size="10" fill="rgba(245,240,232,0.18)">PLANS</text>
+      <text x="40" y="200" font-family="'Bebas Neue'" font-size="9" fill="rgba(245,240,232,0.12)">ANALYSIS</text>
+      <text x="175" y="195" font-family="'Bebas Neue'" font-size="8" fill="rgba(245,240,232,0.1)">EMAILS</text>
+      <rect x="30" y="228" width="200" height="30" rx="3" fill="rgba(255,107,53,0.05)" stroke="rgba(255,107,53,0.18)" stroke-width="1"/>
+      <text x="130" y="242" font-family="'JetBrains Mono'" font-size="7.5" fill="rgba(255,107,53,0.65)" text-anchor="middle">SAME PATTERN · EVERY ROLE</text>
+      <text x="130" y="253" font-family="'JetBrains Mono'" font-size="7.5" fill="rgba(245,240,232,0.25)" text-anchor="middle">One system. All of them.</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     S11 — TRANSITION TO MODULE 02
+═══════════════════════════════════════════ -->
+<div class="slide layout-split"
+     data-notes="Forms closed. Comment on the word cloud briefly. Then: 'Your workspace is being built right now — in the background. By the time we reach Module 2, it will be waiting for you.' The building-under-construction illustration shows the workspace being built while you talk.">
+  <div>
+    <div class="label">What's next</div>
+    <div class="headline">YOUR WORKSPACE<br>IS BEING<br><span class="y">BUILT.</span></div>
+    <div class="subhead">Right now. In the background.<br><strong>By the time we reach Module 2 — it will be waiting for you.</strong></div>
+    <div class="agenda-list" style="margin-top:24px">
+      <div class="agenda-item done"><span class="agenda-time">done ✓</span><span class="agenda-title">Module 01 — Why Chat AI Is Not Enough</span></div>
+      <a href="module02-slides.html" style="text-decoration:none">
+        <div class="agenda-item current"><span class="agenda-time">next →</span><span class="agenda-title">Module 02 — Your AI Workflow Workspace</span><span class="agenda-badge">UP NEXT</span></div>
+      </a>
+    </div>
+  </div>
+  <div class="illus">
+    <svg viewBox="0 0 260 300" width="250" height="288" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="270" width="220" height="4" rx="2" fill="rgba(245,240,232,0.07)"/>
+      <rect x="60" y="240" width="140" height="30" fill="rgba(255,217,61,0.07)" stroke="rgba(255,217,61,0.18)" stroke-width="1"/>
+      <text x="130" y="259" font-family="'JetBrains Mono'" font-size="8" fill="rgba(255,217,61,0.55)" text-anchor="middle">06-review/</text>
+      <rect x="60" y="207" width="140" height="30" fill="rgba(92,184,126,0.07)" stroke="rgba(92,184,126,0.18)" stroke-width="1"/>
+      <text x="130" y="226" font-family="'JetBrains Mono'" font-size="8" fill="rgba(92,184,126,0.55)" text-anchor="middle">05-outputs/</text>
+      <rect x="60" y="174" width="140" height="30" fill="rgba(155,143,232,0.07)" stroke="rgba(155,143,232,0.18)" stroke-width="1"/>
+      <text x="130" y="193" font-family="'JetBrains Mono'" font-size="8" fill="rgba(155,143,232,0.55)" text-anchor="middle">04-ai-roles/</text>
+      <rect x="60" y="141" width="140" height="30" fill="rgba(200,169,110,0.07)" stroke="rgba(200,169,110,0.18)" stroke-width="1"/>
+      <text x="130" y="160" font-family="'JetBrains Mono'" font-size="8" fill="rgba(200,169,110,0.55)" text-anchor="middle">03-templates/</text>
+      <rect x="60" y="108" width="140" height="30" fill="rgba(75,191,179,0.07)" stroke="rgba(75,191,179,0.18)" stroke-width="1"/>
+      <text x="130" y="127" font-family="'JetBrains Mono'" font-size="8" fill="rgba(75,191,179,0.55)" text-anchor="middle">01-context/</text>
+      <rect x="60" y="76" width="140" height="28" fill="rgba(255,107,53,0.04)" stroke="rgba(255,107,53,0.14)" stroke-width="1" stroke-dasharray="5 3"/>
+      <text x="130" y="94" font-family="'JetBrains Mono'" font-size="8" fill="rgba(255,107,53,0.38)" text-anchor="middle">CLAUDE.md ···</text>
+      <line x1="42" y1="76" x2="42" y2="270" stroke="rgba(245,240,232,0.1)" stroke-width="2"/>
+      <line x1="218" y1="76" x2="218" y2="270" stroke="rgba(245,240,232,0.1)" stroke-width="2"/>
+      <line x1="200" y1="22" x2="200" y2="76" stroke="rgba(255,217,61,0.28)" stroke-width="2"/>
+      <line x1="160" y1="22" x2="220" y2="22" stroke="rgba(255,217,61,0.28)" stroke-width="2"/>
+      <circle cx="200" cy="50" r="9" fill="none" stroke="rgba(255,217,61,0.22)" stroke-width="2" stroke-dasharray="5 3"><animateTransform attributeName="transform" type="rotate" from="0 200 50" to="360 200 50" dur="3s" repeatCount="indefinite"/></circle>
+      <text x="130" y="18" font-family="'JetBrains Mono'" font-size="8" fill="rgba(255,107,53,0.45)" text-anchor="middle" letter-spacing="1">BUILDING NOW</text>
+      <rect x="85" y="24" width="90" height="12" rx="6" fill="rgba(255,107,53,0.08)" stroke="rgba(255,107,53,0.25)" stroke-width="1"/>
+      <rect x="85" y="24" width="54" height="12" rx="6" fill="rgba(255,107,53,0.28)"/>
+      <text x="130" y="34" font-family="'JetBrains Mono'" font-size="7" fill="rgba(245,240,232,0.65)" text-anchor="middle">60%</text>
+    </svg>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- ── SHARED NAV UI ── -->
+<div class="slide-meta">
+  <div class="slide-counter" id="counter">01 / 12</div>
+  <div class="nav-dots" id="dots"></div>
+</div>
+<button class="notes-btn" onclick="toggleNotes()">NOTES [N]</button>
+<div class="notes-panel" id="notesPanel"></div>
+
+<script>
+/* ════════════════════════════════════════════════════
+   DEMO DATA
+════════════════════════════════════════════════════ */
+const BRIEF = `Hi — I need a proposal for digital marketing.
+Mid-size retail brand, 200 stores nationally.
+Grow online sales + improve social media.
+Budget ~50k, timeline flexible (Q3).
+Professional tone. Focus on Instagram + email.`;
+
+const PROMPT = `Please write a proposal draft based on this brief.`;
+
+const R1 = `# Digital Marketing Proposal
+**Client:** Greenfield Retail Co.
+**Date:** [Date]
+
+---
+
+## Executive Summary
+A 6-month digital engagement focused on Instagram and email marketing to drive measurable online sales uplift across your 200-store network.
+
+## Approach
+
+**Phase 1 — Discovery (Weeks 1–4)**
+Audit channels, establish KPIs, define audience segments.
+
+**Phase 2 — Execution (Weeks 5–20)**
+- Instagram: Reels-first strategy, 3× weekly
+- Email: Automated welcome + abandon cart sequences
+
+**Phase 3 — Optimise (Weeks 21–24)**
+Performance review, Q4 planning.
+
+## Investment
+
+| Service | Total |
+|---------|-------|
+| Strategy | $25,000 |
+| Content | $12,500 |
+| Paid | $12,500 |
+| **Total** | **$50,000** |
+
+## Next Steps
+30-minute discovery call to confirm scope.`;
+
+const R2 = `Hey there! Great brief — happy to help 😊
+
+Here's a quick proposal for your Instagram + email play:
+
+**What we're thinking:**
+
+So basically the goal is more online sales right? Here's the approach:
+
+👉 **Social (Instagram)**
+Start with a content audit then push Reels + Stories — probably 4-5 posts/week. Could add influencers depending on brand vibe.
+
+👉 **Email Marketing**
+Set up automations — welcome series, win-backs, seasonal promos. Open rates are usually the quick win.
+
+**Timeline:** Flexible! Q3 start as you mentioned, wrap by year end.
+
+**Budget (rough)**
+- Social: ~40% = $20k
+- Email: ~30% = $15k  
+- Strategy: ~30% = $15k
+
+**What do you think?** Happy to chat more! Let me know 🙌`;
+
+/* ════════════════════════════════════════════════════
+   SLIDE NAVIGATION SYSTEM
+════════════════════════════════════════════════════ */
+const allSlides = document.querySelectorAll('.slide');
+const counter   = document.getElementById('counter');
+const dotsWrap  = document.getElementById('dots');
+const progress  = document.getElementById('progress');
+const notesPanel = document.getElementById('notesPanel');
+const DEMO_SLIDE_INDEX = 4; // 0-based index of the demo slide (slide 5)
+let currentSlide = 0;
+let notesVisible = false;
+
+// Build dots
+allSlides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goToSlide(i);
+  dotsWrap.appendChild(d);
+});
+
+function updateSlideNav(idx) {
+  const pct = allSlides.length > 1 ? (idx / (allSlides.length - 1)) * 100 : 100;
+  progress.style.width = pct + '%';
+  counter.textContent = String(idx + 1).padStart(2,'0') + ' / ' + String(allSlides.length).padStart(2,'0');
+  dotsWrap.querySelectorAll('.dot').forEach((d, i) => {
+    d.className = 'dot' + (i === idx ? ' active' : '');
+  });
+  if (notesVisible) showNotes();
+}
+
+function goToSlide(n) {
+  if (n < 0 || n >= allSlides.length) return;
+  allSlides[currentSlide].classList.remove('active');
+  currentSlide = n;
+  allSlides[currentSlide].classList.add('active');
+  updateSlideNav(currentSlide);
+  // Reset demo when entering demo slide
+  if (currentSlide === DEMO_SLIDE_INDEX) resetDemo();
+}
+
+function showNotes() {
+  notesPanel.innerHTML = allSlides[currentSlide].dataset.notes || '<em style="opacity:.4">No notes.</em>';
+}
+function toggleNotes() {
+  notesVisible = !notesVisible;
+  notesPanel.classList.toggle('visible', notesVisible);
+  if (notesVisible) showNotes();
+}
+
+updateSlideNav(0);
+
+/* ════════════════════════════════════════════════════
+   DEMO LOGIC (embedded in slide 4)
+════════════════════════════════════════════════════ */
+const DEMO_STEPS = 7;
+let demoStep = 0;
+let dTW = null; // typewriter timer
+
+// Demo elements
+const dHero  = document.getElementById('dHero');
+const dStage = document.getElementById('dStage');
+const dCtx   = document.getElementById('dCtx');
+const dProg  = document.getElementById('dProg');
+const dStep  = document.getElementById('dStep');
+const dLabel = document.getElementById('dLabel');
+
+const STEP_LABELS = [
+  'Click to begin demo',
+  'Step 1 — Paste brief into Window 1',
+  'Step 2 — Claude responds in Window 1',
+  'Step 3 — Same brief, Window 2 (fresh chat)',
+  'Step 4 — Claude responds in Window 2',
+  'Step 5 — Compare outputs side by side',
+  'Step 6 — The cold start problem',
+];
+
+function setDemoDots(s) {
+  for (let i = 0; i < DEMO_STEPS; i++) {
+    const el = document.getElementById('dd' + i);
+    if (!el) continue;
+    el.className = 'dsd' + (i === s ? ' active' : i < s ? ' done' : '');
+  }
+  dLabel.innerHTML = `<span>${STEP_LABELS[s] || ''}</span>`;
+  dStep.textContent = `Step ${s} / ${DEMO_STEPS - 1}`;
+  dProg.style.width = (s === 0 ? 0 : (s / (DEMO_STEPS - 1)) * 100) + '%';
+}
+
+function setCtx(html) {
+  if (html) { dCtx.innerHTML = html; dCtx.classList.add('show'); }
+  else dCtx.classList.remove('show');
+}
+
+function setInput(n, text, sending) {
+  const box = document.getElementById('di' + n);
+  const send = document.getElementById('ds' + n);
+  if (!box) return;
+  if (!text) {
+    box.innerHTML = '<span class="input-ph">Message Claude...</span><div class="input-send" id="ds' + n + '">↑</div>';
+  } else {
+    box.innerHTML = `<span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(255,255,255,0.65);line-height:1.4">${text}</span><div class="input-send ${sending ? 'on' : ''}" id="ds${n}">↑</div>`;
+  }
+}
+
+function addMsg(chatId, role, text, withTyping, onDone) {
+  const chat = document.getElementById(chatId);
+  const msg  = document.createElement('div');
+  msg.className = 'msg ' + role + ' fade-in';
+
+  const av = document.createElement('div');
+  av.className = 'msg-av ' + (role === 'user' ? 'av-u' : 'av-a');
+  av.textContent = role === 'user' ? 'U' : 'C';
+
+  const bub = document.createElement('div');
+  bub.className = 'msg-bub';
+
+  msg.appendChild(av);
+  msg.appendChild(bub);
+  chat.appendChild(msg);
+  chat.scrollTop = 9999;
+
+  if (role === 'user') {
+    bub.textContent = text;
+    if (onDone) onDone();
+  } else if (withTyping) {
+    const dots = document.createElement('div');
+    dots.className = 'typing-ind';
+    dots.innerHTML = '<div class="td"></div><div class="td"></div><div class="td"></div>';
+    bub.appendChild(dots);
+    setTimeout(() => {
+      bub.innerHTML = '';
+      const span = document.createElement('span');
+      bub.appendChild(span);
+      clearTimeout(dTW);
+      let i = 0;
+      const cursor = document.createElement('span');
+      cursor.className = 'cursor-blink';
+      span.appendChild(cursor);
+      function tw() {
+        if (i >= text.length) { cursor.remove(); if (onDone) onDone(); return; }
+        cursor.insertAdjacentText('beforebegin', text.slice(i, i + 4));
+        i += 4;
+        chat.scrollTop = 9999;
+        dTW = setTimeout(tw, 10);
+      }
+      tw();
+    }, 1000);
+  }
+}
+
+function showVerdict(id, icon, title, body) {
+  const el = document.getElementById(id);
+  el.innerHTML = `<div class="v-icon">${icon}</div><div class="v-title">${title}</div><div class="v-body">${body}</div>`;
+  el.classList.add('show');
+}
+
+function showCallout(id, html) {
+  const el = document.getElementById(id);
+  el.innerHTML = html;
+  el.classList.add('show');
+}
+
+function resetDemo() {
+  clearTimeout(dTW);
+  demoStep = 0;
+  setDemoDots(0);
+  setCtx(null);
+  dHero.style.display = 'flex';
+  dStage.classList.remove('visible');
+  ['dc1','dc2'].forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = ''; });
+  ['di1','di2'].forEach(id => setInput(id.slice(2), null, false));
+  ['dv1','dv2'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove('show'); });
+  ['dcl1','dcl2'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove('show'); });
+  const cb1 = document.getElementById('dcb1'); if (cb1) { cb1.className = 'cbadge cb1'; cb1.textContent = 'Window 1'; }
+  const cb2 = document.getElementById('dcb2'); if (cb2) { cb2.className = 'cbadge cb2'; cb2.textContent = 'Window 2'; }
+  const dh2 = document.getElementById('dh2'); if (dh2) dh2.textContent = 'New conversation';
+}
+
+function advanceDemo() {
+  if (demoStep >= DEMO_STEPS - 1) return false; // signal: demo complete, allow slide nav
+  demoStep++;
+  setDemoDots(demoStep);
+
+  if (demoStep === 1) {
+    dHero.style.display = 'none';
+    dStage.classList.add('visible');
+    setCtx(`<span class="hi">Step 1:</span> Pasting the brief into <span class="o">Window 1</span>. Prompt: <em>"Please write a proposal draft based on this brief."</em>`);
+    setTimeout(() => { setInput(1, BRIEF.replace(/\n/g,'<br>'), false); }, 300);
+    setTimeout(() => {
+      addMsg('dc1', 'user', BRIEF, false);
+      setInput(1, PROMPT, false);
+      setTimeout(() => { setInput(1, PROMPT, true); setTimeout(() => { addMsg('dc1','user',PROMPT,false); setInput(1,null,false); }, 350); }, 500);
+    }, 900);
+    return true;
+  }
+  if (demoStep === 2) {
+    setCtx(`<span class="hi">Step 2:</span> Claude responds in <span class="o">Window 1</span>. Watch the structure it chooses...`);
+    addMsg('dc1', 'ai', R1, true, () => {
+      showCallout('dcl1', `<span class="g">Formal headers</span> · <span class="g">3-phase structure</span> · <span class="r">Invented a pricing table</span> · <span class="r">Doesn't know your company name</span>`);
+    });
+    return true;
+  }
+  if (demoStep === 3) {
+    setCtx(`<span class="hi">Step 3:</span> Opening <span class="o">Window 2</span> — completely fresh chat. <span class="r">Same brief. Same prompt. Zero memory of Window 1.</span>`);
+    document.getElementById('dcl1').classList.remove('show');
+    document.getElementById('dv2').classList.remove('show');
+    document.getElementById('dc2').innerHTML = '';
+    const cb2 = document.getElementById('dcb2'); if(cb2){ cb2.className='cbadge cb2'; cb2.textContent='Window 2 — FRESH CHAT'; }
+    const dh2b = document.getElementById('dh2'); if(dh2b) dh2b.textContent = '✦ New conversation';
+    setTimeout(() => { setInput(2, BRIEF.replace(/\n/g,'<br>'), false); }, 300);
+    setTimeout(() => {
+      addMsg('dc2', 'user', BRIEF, false);
+      setInput(2, PROMPT, false);
+      setTimeout(() => { setInput(2, PROMPT, true); setTimeout(() => { addMsg('dc2','user',PROMPT,false); setInput(2,null,false); }, 350); }, 500);
+    }, 1000);
+    return true;
+  }
+  if (demoStep === 4) {
+    setCtx(`<span class="hi">Step 4:</span> Claude responds in <span class="o">Window 2</span>. <span class="r">Same brief. Watch what's different.</span>`);
+    addMsg('dc2', 'ai', R2, true, () => {
+      showCallout('dcl2', `<span class="r">Started with "Hey there!" + emojis</span> · <span class="r">Bullets not headers</span> · <span class="r">Different budget split</span> · <span class="r">No table, no phases</span>`);
+    });
+    return true;
+  }
+  if (demoStep === 5) {
+    setCtx(null);
+    document.getElementById('dcl1').classList.remove('show');
+    document.getElementById('dcl2').classList.remove('show');
+    showVerdict('dv1','📋','WINDOW 1 — FORMAL',`<span class="r">Invented</span> a pricing table not in the brief.<br><span class="y">3-phase structure</span>, formal headers.<br><span class="r">Doesn't know your company name.</span><br>Would take 45 min to edit.`);
+    showVerdict('dv2','💬','WINDOW 2 — CASUAL',`<span class="r">Started with</span> "Hey there!" and emojis. 😊<br><span class="r">Bullet points</span>, not headers.<br>Different budget split (40/30/30).<br><span class="r">Completely different structure.</span>`);
+    return true;
+  }
+  if (demoStep === 6) {
+    document.getElementById('dv1').classList.remove('show');
+    document.getElementById('dv2').classList.remove('show');
+    setCtx(null);
+    const cb1 = document.getElementById('dcb1'); if(cb1){ cb1.className='cbadge cb-same'; cb1.textContent='← SAME BRIEF'; }
+    const cb2 = document.getElementById('dcb2'); if(cb2){ cb2.className='cbadge cb-same'; cb2.textContent='SAME BRIEF →'; }
+    showCallout('dcl1', `<span class="r">No context</span> — doesn't know your company or clients.<br><span class="r">No rules</span> — invented tone, structure, pricing.<br><span class="y">45 minutes editing before you'd send this.</span>`);
+    showCallout('dcl2', `<span class="r">No template</span> — completely different format.<br><span class="r">No QA</span> — errors land directly with you.<br><span class="y">Same problem. Next week. Zero again.</span>`);
+    return true;
+  }
+  return true;
+}
+
+/* ════════════════════════════════════════════════════
+   UNIFIED EVENT HANDLING
+   - On demo slide: click/space advances demo first
+   - Only navigates slides when demo is complete or on non-demo slides
+════════════════════════════════════════════════════ */
+function handleNext() {
+  if (currentSlide === DEMO_SLIDE_INDEX) {
+    // If demo not complete, advance demo
+    if (demoStep < DEMO_STEPS - 1) { advanceDemo(); return; }
+    // Demo complete — navigate to next slide
+  }
+  goToSlide(currentSlide + 1);
+}
+
+function handlePrev() {
+  if (currentSlide === DEMO_SLIDE_INDEX && demoStep > 0) {
+    // Within demo — let R restart; prev arrow goes to previous slide
+  }
+  goToSlide(currentSlide - 1);
+}
+
+document.addEventListener('click', e => {
+  if (e.target.closest('.notes-btn') || e.target.closest('.nav-dots') || e.target.closest('.dot')) return;
+  handleNext();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || (e.key === ' ' && currentSlide === DEMO_SLIDE_INDEX)) {
+    e.preventDefault(); handleNext();
+  } else if (e.key === ' ' && currentSlide !== DEMO_SLIDE_INDEX) {
+    e.preventDefault(); handleNext();
+  } else if (e.key === 'ArrowLeft') {
+    e.preventDefault(); handlePrev();
+  } else if (e.key === 'r' || e.key === 'R') {
+    if (currentSlide === DEMO_SLIDE_INDEX) resetDemo();
+  } else if (e.key === 'n' || e.key === 'N') {
+    toggleNotes();
+  } else if (e.key === 'Home') { goToSlide(0); }
+  else if (e.key === 'End')   { goToSlide(allSlides.length - 1); }
+  else {
+    const n = parseInt(e.key);
+    if (!isNaN(n) && n >= 1 && n <= allSlides.length) goToSlide(n - 1);
+  }
+});
+
+let tx = 0;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 50) dx < 0 ? handleNext() : handlePrev();
+  else handleNext();
+});
+</script>
+</body>
+</html>

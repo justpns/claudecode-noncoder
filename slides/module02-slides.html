@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 02 — Your AI Workflow Workspace</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #0A0A0A;
+    --bg2:     #111111;
+    --bg3:     #161616;
+    --white:   #F5F0E8;
+    --yellow:  #FFD93D;
+    --orange:  #FF6B35;
+    --teal:    #4BBFB3;
+    --purple:  #9B8FE8;
+    --green:   #5CB87E;
+    --red:     #E63946;
+    --gold:    #C8A96E;
+    --dim:     rgba(245,240,232,0.35);
+    --dimmer:  rgba(245,240,232,0.15);
+    --border:  rgba(245,240,232,0.07);
+    --border2: rgba(245,240,232,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ── DECK ── */
+  .deck { width: 100vw; height: 100vh; position: relative; }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(24px, 5vh, 64px) clamp(32px, 6vw, 96px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    overflow: hidden;
+  }
+  .slide.active { opacity: 1; pointer-events: all; }
+
+  @media (max-width: 1100px) {
+    .layout-split { grid-template-columns: 1fr !important; align-content: center; overflow-y: auto; }
+    .illus { min-height: 300px !important; order: -1; }
+    .slide { padding: 40px 32px 80px; }
+  }
+
+  /* ── TYPE ── */
+  .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 12px;
+  }
+  .display {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 9vw, 136px);
+    line-height: 0.92;
+    letter-spacing: 0.02em;
+  }
+  .display .y  { color: var(--yellow); }
+  .display .t  { color: var(--teal); }
+  .display .d  { color: var(--dim); }
+  .display .p  { color: var(--purple); }
+  .display .g  { color: var(--green); }
+
+  .headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(34px, 6vw, 92px);
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    margin-bottom: 16px;
+  }
+  .headline .y { color: var(--yellow); }
+  .headline .t { color: var(--teal); }
+  .headline .p { color: var(--purple); }
+  .headline .g { color: var(--green); }
+  .headline .o { color: var(--orange); }
+  .headline .r { color: var(--red); }
+
+  .subhead {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(15px, 1.8vw, 26px);
+    font-weight: 300;
+    color: var(--dim);
+    line-height: 1.45;
+    margin-top: 12px;
+    max-width: 720px;
+  }
+  .subhead strong { color: var(--white); font-weight: 600; }
+
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(10px, 1.2vw, 16px);
+    color: var(--dim);
+    line-height: 1.7;
+  }
+  .mono .hi  { color: var(--teal); }
+  .mono .y   { color: var(--yellow); }
+  .mono .p   { color: var(--purple); }
+  .mono .g   { color: var(--green); }
+  .mono .o   { color: var(--orange); }
+  .mono .r   { color: var(--red); }
+  .mono .go  { color: var(--gold); }
+
+  /* ── LAYOUT ── */
+  .layout-split { display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 48px 80px; gap: 48px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .three-col { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 40px; }
+
+  /* ── ILLUSTRATIONS ── */
+  .illus {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+  }
+  .illus svg {
+    width: 100%;
+    height: 100%;
+    max-height: 75vh;
+  }
+
+  /* ── DIVIDER ── */
+  .divider { width: 60px; height: 3px; background: var(--teal); margin: 20px 0; }
+
+  /* ── HIGHLIGHT ── */
+  .highlight {
+    border-left: 4px solid var(--yellow);
+    background: rgba(255,217,61,0.05);
+    padding: 20px 24px;
+    margin-top: 28px;
+  }
+  .highlight p {
+    font-size: clamp(18px, 2.2vw, 26px);
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.4;
+  }
+
+  /* ── SHIFT ROWS ── */
+  .shift-list { display: flex; flex-direction: column; gap: 14px; margin-top: 40px; }
+  .shift-row  { display: grid; grid-template-columns: 1fr 44px 1fr; align-items: center; gap: 16px; }
+  .shift-from {
+    padding: 16px 20px;
+    background: rgba(230,57,70,0.07);
+    border: 1px solid rgba(230,57,70,0.18);
+    font-size: clamp(15px,1.8vw,21px);
+    color: rgba(245,240,232,0.4);
+    text-decoration: line-through;
+    text-decoration-color: rgba(230,57,70,0.35);
+    line-height: 1.3;
+  }
+  .shift-to {
+    padding: 16px 20px;
+    background: rgba(75,191,179,0.06);
+    border: 1px solid rgba(75,191,179,0.2);
+    font-size: clamp(15px,1.8vw,21px);
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.3;
+  }
+  .shift-arrow { text-align: center; font-size: 22px; color: var(--teal); }
+
+  /* ── RECIPE CARD ── */
+  .recipe-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 0; margin-top: 40px; border: 1px solid var(--border2); }
+  .recipe-item {
+    padding: 24px 20px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .recipe-item:last-child { border-right: none; }
+  .recipe-icon { font-size: 28px; }
+  .recipe-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--teal);
+  }
+  .recipe-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.05em;
+    color: var(--white);
+    line-height: 1;
+  }
+  .recipe-desc {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--dim);
+    line-height: 1.5;
+  }
+
+  /* ── FOLDER TREE ── */
+  .folder-tree {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(12px, 1.4vw, 17px);
+    line-height: 2;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    padding: 28px 32px;
+    margin-top: 32px;
+  }
+  .ft-root { color: var(--white); font-weight: 500; }
+  .ft-folder { color: var(--white); }
+  .ft-dim  { color: var(--dim); }
+  .ft-teal { color: var(--teal); }
+  .ft-purple { color: var(--purple); }
+  .ft-comment {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    color: var(--dimmer);
+    margin-left: 8px;
+    font-style: italic;
+  }
+
+  /* ── CLAUDE.MD PREVIEW ── */
+  .claudemd {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(11px,1.2vw,15px);
+    line-height: 1.9;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    padding: 28px 32px;
+    margin-top: 32px;
+  }
+  .cm-h  { color: var(--white); font-weight: 500; }
+  .cm-c  { color: var(--dimmer); }
+  .cm-v  { color: var(--dim); }
+  .cm-hi { color: var(--teal); }
+  .cm-w  { color: var(--red); }
+  .cm-y  { color: var(--yellow); }
+
+  /* ── CIPHER TEAM GRID ── */
+  .cipher-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border2); margin-top: 36px; }
+  .cipher-card {
+    background: var(--bg2);
+    padding: 22px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cipher-card.orch { background: #0D0920; border-top: 2px solid var(--purple); }
+  .cipher-card.sc   { border-top: 2px solid #6B9DC8; }
+  .cipher-card.fg   { border-top: 2px solid var(--gold); }
+  .cipher-card.sh   { border-top: 2px solid var(--red); }
+  .cipher-card.px   { border-top: 2px solid var(--green); }
+
+  .cc-tier {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    margin-bottom: 2px;
+  }
+  .cc-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.06em;
+    line-height: 1;
+  }
+  .cc-role { font-size: 12px; font-weight: 300; color: var(--dim); line-height: 1.4; }
+  .cc-quote {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    color: var(--dimmer);
+    font-style: italic;
+    line-height: 1.5;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+  }
+
+  /* ── THREE TIER DIAGRAM ── */
+  .tier-diagram { display: flex; flex-direction: column; gap: 0; margin-top: 36px; }
+  .tier-row-d { display: flex; gap: 0; align-items: stretch; margin-bottom: 0; }
+  .tier-label-col {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    width: 88px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    color: var(--dimmer);
+    border-right: 1px solid var(--border);
+    padding-right: 12px;
+    margin-right: 20px;
+  }
+  .tier-nodes-d { display: flex; gap: 12px; flex: 1; align-items: center; padding: 16px 0; }
+  .tier-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+  }
+  .tn-ring {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .tn-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-align: center;
+  }
+  .tier-connector { height: 20px; width: 1px; background: var(--border2); margin: 0 0 0 108px; }
+  .tier-subnodes  { display: flex; gap: 12px; flex: 1; padding: 12px 0; }
+  .sub-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    flex: 1;
+  }
+  .sn-ring {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    opacity: 0.7;
+  }
+  .sn-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    color: var(--dimmer);
+    text-align: center;
+  }
+  .sub-parent {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7.5px;
+    color: var(--dimmer);
+    text-align: center;
+    margin-top: 2px;
+  }
+
+  /* ── DEMO FLOW ── */
+  .demo-flow { display: flex; flex-direction: column; gap: 0; margin-top: 32px; }
+  .df-step {
+    display: flex;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .df-step:last-child { border-bottom: none; }
+  .df-tier-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    padding: 3px 8px;
+    border-radius: 2px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+    min-width: 72px;
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+  .dt-you    { background: rgba(92,184,126,0.15); color: var(--green); }
+  .dt-orch   { background: rgba(155,143,232,0.15); color: var(--purple); }
+  .dt-agent  { background: rgba(200,169,110,0.12); color: var(--gold); }
+  .dt-sub    { background: rgba(245,240,232,0.05); color: var(--dimmer); border: 1px solid var(--border); }
+  .df-who { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 2px; letter-spacing: 0.02em; }
+  .df-what { font-size: 13px; font-weight: 300; color: var(--dim); line-height: 1.5; }
+
+  /* ── FOLDER EXPLAIN ── */
+  .folder-explain { display: flex; flex-direction: column; gap: 0; margin-top: 28px; }
+  .fe-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 20px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: baseline;
+  }
+  .fe-row:last-child { border-bottom: none; }
+  .fe-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(11px,1.2vw,14px);
+    color: var(--white);
+    font-weight: 500;
+  }
+  .fe-analogy { font-size: 10px; color: var(--dimmer); font-style: italic; margin-top: 2px; }
+  .fe-desc { font-size: clamp(13px,1.5vw,17px); color: var(--dim); line-height: 1.5; font-weight: 300; }
+
+  /* ── REVEAL BANNER ── */
+  .reveal-banner {
+    background: rgba(155,143,232,0.08);
+    border: 1px solid rgba(155,143,232,0.25);
+    border-left: 4px solid var(--purple);
+    padding: 22px 28px;
+    margin-top: 32px;
+  }
+  .reveal-banner p {
+    font-size: clamp(17px,2vw,24px);
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.4;
+  }
+
+  /* ── CLONE STEPS ── */
+  .clone-steps { display: flex; flex-direction: column; gap: 0; margin-top: 32px; }
+  .clone-step {
+    display: flex;
+    gap: 20px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .clone-step:last-child { border-bottom: none; }
+  .cs-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(75,191,179,0.1);
+    border: 1px solid rgba(75,191,179,0.3);
+    color: var(--teal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .cs-title { font-size: 17px; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+  .cs-desc  { font-size: 14px; font-weight: 300; color: var(--dim); line-height: 1.5; }
+  .cs-code  {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    padding: 4px 10px;
+    color: var(--teal);
+    display: inline-block;
+    margin-top: 4px;
+  }
+
+  /* ── BIG QUOTE ── */
+  .big-quote {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px,5vw,72px);
+    line-height: 1.05;
+    letter-spacing: 0.02em;
+    padding-left: 36px;
+    position: relative;
+  }
+  .big-quote::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 6px; bottom: 6px;
+    width: 4px;
+    background: var(--teal);
+  }
+
+  /* ── AGENDA ── */
+  .agenda-list { display: flex; flex-direction: column; gap: 10px; margin-top: 36px; }
+  .agenda-item {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 14px 18px;
+    background: rgba(245,240,232,0.02);
+    border: 1px solid var(--border);
+  }
+  .agenda-item.current {
+    background: rgba(75,191,179,0.06);
+    border-color: rgba(75,191,179,0.25);
+  }
+  .agenda-item.done { opacity: 0.4; }
+  .agenda-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--dimmer);
+    min-width: 50px;
+  }
+  .agenda-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--dim);
+  }
+  .agenda-item.current .agenda-title { color: var(--white); }
+  .agenda-badge {
+    margin-left: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    padding: 3px 10px;
+    background: var(--teal);
+    color: var(--bg);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── NAV ── */
+  .progress {
+    position: fixed; top: 0; left: 0;
+    height: 2px; background: var(--teal);
+    transition: width 0.3s ease; z-index: 200;
+  }
+  .mod-tag {
+    position: fixed; top: 28px; left: 48px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--dimmer);
+    letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  .slide-meta {
+    position: fixed; bottom: 28px; right: 48px;
+    display: flex; align-items: center; gap: 16px; z-index: 100;
+  }
+  .slide-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--dimmer); letter-spacing: 0.15em;
+  }
+  .nav-dots { display: flex; gap: 5px; }
+  .dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--dimmer); cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .dot.active { background: var(--teal); transform: scale(1.4); }
+  .notes-btn {
+    position: fixed; bottom: 28px; left: 48px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: var(--dimmer); letter-spacing: 0.15em; text-transform: uppercase;
+    cursor: pointer; border: 1px solid var(--border); padding: 5px 12px;
+    background: none; transition: all 0.2s;
+  }
+  .notes-btn:hover { color: var(--white); border-color: var(--dimmer); }
+  .notes-panel {
+    position: fixed; bottom: 64px; left: 48px; right: 48px;
+    background: rgba(10,10,10,0.97); border: 1px solid var(--border);
+    padding: 20px 24px; font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px; color: var(--dim); line-height: 1.6;
+    display: none; z-index: 100; max-height: 160px; overflow-y: auto;
+  }
+  .notes-panel.visible { display: block; }
+  .notes-panel strong { color: var(--white); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { transform: translateY(10px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+  }
+  .slide.active .label,
+  .slide.active .display,
+  .slide.active .headline,
+  .slide.active .subhead,
+  .slide.active .big-quote,
+  .slide.active .shift-list,
+  .slide.active .recipe-grid,
+  .slide.active .cipher-grid,
+  .slide.active .tier-diagram,
+  .slide.active .folder-tree,
+  .slide.active .claudemd,
+  .slide.active .demo-flow,
+  .slide.active .folder-explain,
+  .slide.active .clone-steps,
+  .slide.active .reveal-banner,
+  .slide.active .highlight,
+  .slide.active .agenda-list,
+  .slide.active .deliverables-container,
+  .slide.active .scaling-grid,
+  .slide.active .mono {
+    animation: fadeUp 0.45s ease both;
+  }
+  .slide.active .subhead       { animation-delay: 0.06s; }
+  .slide.active .shift-list    { animation-delay: 0.08s; }
+  .slide.active .recipe-grid   { animation-delay: 0.08s; }
+  .slide.active .cipher-grid   { animation-delay: 0.08s; }
+  .slide.active .tier-diagram  { animation-delay: 0.08s; }
+  .slide.active .folder-tree   { animation-delay: 0.08s; }
+  .slide.active .claudemd      { animation-delay: 0.08s; }
+  .slide.active .demo-flow     { animation-delay: 0.08s; }
+  .slide.active .folder-explain{ animation-delay: 0.08s; }
+  .slide.active .clone-steps   { animation-delay: 0.08s; }
+  .slide.active .deliverables-container { animation-delay: 0.1s; }
+  .slide.active .reveal-banner { animation-delay: 0.1s;  }
+  .slide.active .highlight     { animation-delay: 0.1s;  }
+  .slide.active .mono          { animation-delay: 0.06s; }
+
+  /* ══════════════════════════════════════════════
+     CIPHER SOFT DEMO STYLES
+  ══════════════════════════════════════════════ */
+  .demo-top {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 32px 8px; border-bottom: 1px solid var(--border);
+    flex-shrink: 0; background: var(--bg2);
+  }
+  .demo-step-dots { display: flex; gap: 6px; align-items: center; }
+  .dsd { width: 28px; height: 4px; border-radius: 2px; background: var(--dimmer); transition: background 0.3s, width 0.3s; }
+  .dsd.active { background: var(--purple); width: 44px; }
+  .dsd.done   { background: rgba(155,143,232,0.45); }
+  .demo-step-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--dim); letter-spacing: 0.1em; margin-left: 12px; }
+  .demo-step-label span { color: var(--purple); font-weight: 500; }
+
+  .demo-ctx {
+    background: rgba(155,143,232,0.08); border: 1px solid rgba(155,143,232,0.22);
+    border-left: 4px solid var(--purple); padding: 10px 20px;
+    margin: 16px; font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; color: rgba(245,240,232,0.7); letter-spacing: 0.02em;
+    flex-shrink: 0; display: none; line-height: 1.5;
+  }
+  .demo-ctx.show { display: block; }
+  .demo-ctx .hi { color: var(--white); font-weight: 500; }
+  .demo-ctx .p  { color: var(--purple); }
+  .demo-ctx .t  { color: var(--teal); }
+
+  .demo-hero {
+    flex: 1; display: flex; flex-direction: column;
+    justify-content: center; padding: 0 96px; gap: 16px;
+  }
+  .demo-hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(60px, 9vw, 130px); line-height: 0.92; letter-spacing: 0.02em; }
+  .demo-hero h1 .p { color: var(--purple); } .demo-hero h1 .d { color: var(--dim); }
+  .demo-hero p { font-size: clamp(18px, 2.2vw, 28px); font-weight: 300; color: var(--dim); line-height: 1.5; max-width: 600px; }
+  .demo-hero p strong { color: var(--white); font-weight: 600; }
+  .click-hint { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--dimmer); letter-spacing: 0.2em; margin-top: 24px; display: flex; align-items: center; gap: 10px; }
+  .click-hint::before { content: ''; width: 20px; height: 1px; background: var(--dimmer); }
+
+  .demo-stage {
+    flex: 1; display: none;
+    grid-template-columns: 1fr;
+    padding: 16px 32px; min-height: 0;
+  }
+  .demo-stage.visible { display: flex; flex-direction: column; }
+
+  /* ── TERMINAL UI ── */
+  .terminal {
+    background: #0D0E11; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px; display: flex; flex-direction: column;
+    overflow: hidden; flex: 1; position: relative;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.6);
+  }
+  .term-header {
+    background: #1C1D21; padding: 10px 16px;
+    display: flex; align-items: center; gap: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .term-dots { display: flex; gap: 6px; }
+  .term-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .term-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.05em; }
+
+  .term-body {
+    flex: 1; overflow-y: auto; padding: 20px;
+    font-family: 'JetBrains Mono', monospace; font-size: 14px;
+    line-height: 1.6; color: #E0E0E0;
+  }
+  .term-line { margin-bottom: 4px; display: flex; gap: 12px; }
+  .term-prompt { color: var(--purple); flex-shrink: 0; }
+  .term-cmd { color: var(--white); font-weight: 500; }
+  .term-out { color: var(--dim); margin-left: 24px; margin-bottom: 12px; }
+  .term-out .p { color: var(--purple); }
+  .term-out .t { color: var(--teal); }
+  .term-out .g { color: var(--green); }
+  .term-out .y { color: var(--yellow); }
+
+  .demo-bottom {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 32px 12px; border-top: 1px solid var(--border); flex-shrink: 0;
+    background: var(--bg2);
+  }
+  .demo-nav-hint { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--dimmer); letter-spacing: 0.12em; display: flex; align-items: center; gap: 7px; }
+  .demo-nav-key { background: rgba(245,240,232,0.07); border: 1px solid var(--border2); padding: 2px 9px; border-radius: 3px; font-size: 11px; color: var(--dim); }
+  .demo-prog-wrap { flex: 1; margin: 0 28px; }
+  .demo-prog-bar { height: 3px; background: var(--purple); border-radius: 2px; transition: width 0.4s ease; }
+
+  /* ── ASSET BADGES & DELIVERABLES ── */
+  .asset-grid { display: flex; gap: 12px; margin-top: 12px; }
+  .asset-card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+    padding: 8px 14px; border-radius: 4px; display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--white);
+  }
+  .asset-card .icon { font-size: 16px; }
+  .asset-card.ready { border-color: var(--green); background: rgba(92,184,126,0.08); }
+  .asset-card.ready .icon { color: var(--green); }
+
+  .human-feedback {
+    margin-top: 16px; padding: 12px 16px; background: rgba(255,217,61,0.08);
+    border-left: 3px solid var(--yellow); font-style: italic; color: var(--yellow);
+  }
+
+  .deliverables-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 32px; }
+  .doc-preview {
+    background: #ffffff; color: #333; border-radius: 4px; padding: 20px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.4); display: flex; flex-direction: column; gap: 12px;
+    height: 280px; overflow: hidden; position: relative;
+  }
+  .doc-preview::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+    background: linear-gradient(transparent, #ffffff);
+  }
+  .doc-header { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 4px; font-weight: 700; font-size: 11px; text-transform: uppercase; color: #aaa; letter-spacing: 0.05em; }
+  .doc-title { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; color: #111; margin-bottom: 4px; }
+  .doc-line { height: 7px; background: #f2f2f2; border-radius: 4px; }
+  .doc-line.short { width: 55%; } .doc-line.mid { width: 80%; }
+  .doc-tag-p { position: absolute; top: 18px; right: 18px; font-size: 9px; padding: 3px 8px; border-radius: 3px; font-weight: 700; letter-spacing: 0.05em; }
+  .dt-md  { background: #E1F5FE; color: #0288D1; }
+  .dt-pdf { background: #FFEBEE; color: #D32F2F; }
+  .dt-doc { background: #E8F5E9; color: #388E3C; }
+
+  /* ── SCALING ECOSYSTEM ── */
+  .scaling-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 44px; align-items: start; }
+  .product-node {
+    background: var(--bg3); border: 1px solid var(--border); border-radius: 8px;
+    padding: 20px; cursor: pointer; transition: all 0.3s ease;
+    text-align: center; position: relative;
+  }
+  .product-node:hover { border-color: var(--teal); background: rgba(75,191,179,0.05); transform: translateY(-5px); }
+  .product-node.active { border-color: var(--teal); background: rgba(75,191,179,0.12); box-shadow: 0 0 30px rgba(75,191,179,0.15); }
+  .product-node .icon { font-size: 32px; margin-bottom: 12px; display: block; }
+  .product-node .name { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--white); font-weight: 500; }
+
+  .agents-pool {
+    display: flex; flex-direction: column; gap: 12px; margin-top: 32px;
+    opacity: 0; transform: translateY(10px); transition: all 0.4s ease;
+    pointer-events: none;
+  }
+  .agents-pool.show { opacity: 1; transform: translateY(0); pointer-events: all; }
+  .agent-pill {
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border2);
+    padding: 12px 16px; border-radius: 6px; display: flex; align-items: center; gap: 14px;
+    font-size: 13px; color: var(--dim); transition: all 0.2s;
+  }
+  .agent-pill:hover { background: rgba(255,255,255,0.08); color: var(--white); border-color: var(--dimmer); }
+  .agent-pill .a-icon { width: 24px; height: 24px; border-radius: 50%; background: var(--teal); display: flex; align-items: center; justify-content: center; color: var(--bg); font-weight: 700; font-size: 10px; flex-shrink: 0; }
+  .agent-pill .a-desc { font-style: italic; font-size: 11px; opacity: 0.6; }
+
+  .connector-v { width: 1px; height: 32px; background: var(--border); margin: 0 auto; }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+<div class="mod-tag">MODULE 02 — YOUR AI WORKFLOW WORKSPACE</div>
+
+<div class="deck" id="deck">
+
+  <!-- ═══ SLIDE 01 — TITLE ═══ -->
+  <div class="slide active layout-split" data-notes="Module 2 is the biggest module — 50 minutes. Three things happen here: mindset shifts, the CIPHER demo, then participants open their own personalised repos. Start with energy — this is where the workshop shifts from problem to possibility.">
+    <div>
+      <div class="label" style="display:flex; justify-content:space-between; width:100%">
+        <span>Module 02 · 50 minutes</span>
+        <a href="module01-slides-final-v2.html" style="color:inherit; text-decoration:none; opacity:0.5; font-size:9px">← PREVIOUS MODULE</a>
+      </div>
+      <div class="display">
+        YOUR AI<br>
+        <span class="t">WORKFLOW</span><br>
+        <span class="d">WORKSPACE</span>
+      </div>
+      <div class="subhead">
+        Mindset. Aspiration. Foundation.<br>
+        <strong>By the end of this module — your workspace is live and knows your name.</strong>
+      </div>
+    </div>
+    <div class="illus">
+      <svg viewBox="0 0 300 320" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+        <!-- Blueprint Background -->
+        <rect width="300" height="320" fill="#0A1628" rx="6" stroke="rgba(75,191,179,0.3)"/>
+        
+        <!-- Grid Lines -->
+        <g stroke="rgba(255,255,255,0.06)" stroke-width="0.5">
+          <line x1="0" y1="32" x2="300" y2="32" /> <line x1="0" y1="64" x2="300" y2="64" />
+          <line x1="0" y1="96" x2="300" y2="96" /> <line x1="0" y1="128" x2="300" y2="128" />
+          <line x1="0" y1="160" x2="300" y2="160" /> <line x1="0" y1="192" x2="300" y2="192" />
+          <line x1="0" y1="224" x2="300" y2="224" /> <line x1="0" y1="256" x2="300" y2="256" />
+          <line x1="0" y1="288" x2="300" y2="288" />
+          <line x1="32" y1="0" x2="32" y2="320" /> <line x1="64" y1="0" x2="64" y2="320" />
+          <line x1="96" y1="0" x2="96" y2="320" /> <line x1="128" y1="0" x2="128" y2="320" />
+          <line x1="160" y1="0" x2="160" y2="320" /> <line x1="192" y1="0" x2="192" y2="320" />
+          <line x1="224" y1="0" x2="224" y2="320" /> <line x1="256" y1="0" x2="256" y2="320" />
+          <line x1="288" y1="0" x2="288" y2="320" />
+        </g>
+
+        <!-- Main Outer Box (Root) -->
+        <rect x="25" y="45" width="250" height="230" rx="2" fill="none" stroke="rgba(75,191,179,0.5)" stroke-width="1.5"/>
+
+        <!-- Top Row Rooms -->
+        <g transform="translate(40, 60)">
+          <rect width="90" height="40" rx="1" fill="rgba(255,255,255,0.03)" stroke="rgba(75,191,179,0.4)" stroke-width="1"/>
+          <text x="45" y="24" font-family="'JetBrains Mono',monospace" font-size="8" fill="rgba(75,191,179,0.8)" text-anchor="middle">00-start-here</text>
+        </g>
+        <g transform="translate(170, 60)">
+          <rect width="90" height="40" rx="1" fill="rgba(75,191,179,0.2)" stroke="rgba(75,191,179,0.7)" stroke-width="1"/>
+          <text x="45" y="24" font-family="'JetBrains Mono',monospace" font-size="8" fill="rgba(75,191,179,0.8)" text-anchor="middle">✦ CLAUDE.md</text>
+        </g>
+
+        <!-- Middle Row -->
+        <g transform="translate(40, 115)">
+          <rect width="130" height="50" rx="1" fill="rgba(255,255,255,0.03)" stroke="rgba(75,191,179,0.4)" stroke-width="1"/>
+          <text x="65" y="29" font-family="'JetBrains Mono',monospace" font-size="8" fill="rgba(75,191,179,0.8)" text-anchor="middle">01-context</text>
+        </g>
+        <g transform="translate(185, 115)">
+          <rect width="75" height="50" rx="1" fill="rgba(255,255,255,0.03)" stroke="rgba(75,191,179,0.4)" stroke-width="1"/>
+          <text x="37.5" y="29" font-family="'JetBrains Mono',monospace" font-size="8" fill="rgba(75,191,179,0.8)" text-anchor="middle">02-inputs</text>
+        </g>
+
+        <!-- Bottom Row -->
+        <g transform="translate(40, 180)">
+          <rect width="70" height="45" rx="1" fill="rgba(255,255,255,0.03)" stroke="rgba(75,191,179,0.4)" stroke-width="1"/>
+          <text x="35" y="26" font-family="'JetBrains Mono',monospace" font-size="8" fill="rgba(75,191,179,0.8)" text-anchor="middle">03-templates</text>
+        </g>
+        <g transform="translate(115, 180)">
+          <rect width="70" height="45" rx="1" fill="rgba(255,255,255,0.03)" stroke="rgba(75,191,179,0.4)" stroke-width="1"/>
+          <text x="35" y="26" font-family="'JetBrains Mono',monospace" font-size="8" fill="rgba(75,191,179,0.8)" text-anchor="middle">04-ai-roles</text>
+        </g>
+        <g transform="translate(190, 180)">
+          <rect width="70" height="45" rx="1" fill="rgba(255,255,255,0.03)" stroke="rgba(75,191,179,0.4)" stroke-width="1"/>
+          <text x="35" y="26" font-family="'JetBrains Mono',monospace" font-size="8" fill="rgba(75,191,179,0.8)" text-anchor="middle">05-outputs</text>
+        </g>
+
+        <!-- Dimension Lines -->
+        <g stroke="rgba(75,191,179,0.4)" stroke-width="0.8">
+          <line x1="25" y1="290" x2="275" y2="290" />
+          <line x1="25" y1="285" x2="25" y2="295" />
+          <line x1="275" y1="285" x2="275" y2="295" />
+          <text x="150" y="305" font-family="'JetBrains Mono',monospace" font-size="7" fill="rgba(75,191,179,0.6)" text-anchor="middle">YOUR WORKSPACE</text>
+        </g>
+
+        <!-- Corner Marks -->
+        <g stroke="rgba(255,255,255,0.2)" stroke-width="1">
+          <path d="M5 12 L15 12 M10 7 L10 17" /> <!-- TL -->
+          <path d="M285 12 L295 12 M290 7 L290 17" /> <!-- TR -->
+          <path d="M5 308 L15 308 M10 303 L10 313" /> <!-- BL -->
+          <path d="M285 308 L295 308 M290 303 L290 313" /> <!-- BR -->
+        </g>
+
+        <!-- Title Block -->
+        <g transform="translate(190, 240)">
+          <rect width="85" height="35" fill="rgba(75,191,179,0.08)" stroke="rgba(75,191,179,0.2)" stroke-width="1"/>
+          <text x="5" y="10" font-family="'JetBrains Mono',monospace" font-size="6" fill="var(--teal)">CIPHER WORKSPACE</text>
+          <text x="5" y="18" font-family="'JetBrains Mono',monospace" font-size="6" fill="var(--dim)">REV 01</text>
+          <text x="5" y="28" font-family="'JetBrains Mono',monospace" font-size="8" fill="var(--white)">THE PLAN</text>
+        </g>
+      </svg>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--dimmer); text-align:center; margin-top:8px">M02: THE BLUEPRINT</div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 02 — THREE MINDSET SHIFTS ═══ -->
+  <div class="slide" data-notes="Deliver the three shifts quickly — about 30 seconds each. Then use the recipe analogy to tie them together. This is the conceptual foundation before we show CIPHER. Don't linger — the aspiration demo is what they're waiting for.">
+    <div class="label">Segment 2 · 0:53–0:58 — mindset first</div>
+    <div class="headline">3 SHIFTS<br>BEFORE WE<br><span class="y">BUILD</span></div>
+    <div class="shift-list">
+      <div class="shift-row">
+        <div class="shift-from">Using AI to answer questions</div>
+        <div class="shift-arrow">→</div>
+        <div class="shift-to">Using AI to run a repeatable process</div>
+      </div>
+      <div class="shift-row">
+        <div class="shift-from">You are the context — re-explain every time</div>
+        <div class="shift-arrow">→</div>
+        <div class="shift-to">The workspace holds the context — permanently</div>
+      </div>
+      <div class="shift-row">
+        <div class="shift-from">You rescue what AI gives you</div>
+        <div class="shift-arrow">→</div>
+        <div class="shift-to">You designed the review into the system</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE — THE CONTROL ROOM (EMPATHY) ═══ -->
+  <div class="slide" style="padding: 32px 64px" data-notes="Name the anxiety before anyone feels it. Say: 'I know what some of you are thinking — this looks like coding. It is not. Not one character of code today.' Then use the two panels. Left: what it feels like now — 8 tabs, no coherence, you are the glue. Right: what Claude Code gives you — one window, full visibility, Claude reads everything at once. The key reframe: we use the terminal not to code, but to give Claude a view of the whole workspace simultaneously. That's it. The cockpit metaphor lands well — you don't need to know how to build a plane to use the cockpit. You just need to know which button does what.'">
+    <div class="label" style="color:var(--teal); margin-bottom: 8px">Before we open Claude Code — one reframe</div>
+    <div class="headline" style="font-size:clamp(30px, 4.2vw, 54px); margin-bottom: 8px">THIS IS NOT <span class="r">CODING.</span><br>THIS IS YOUR <span class="t">CONTROL ROOM.</span></div>
+    <div class="subhead" style="font-size:16px; margin-top:0">"We're not writing code. We're giving Claude a window into all your folders at once."</div>
+    
+    <div style="display:flex; gap:32px; margin-top:20px; flex:1; min-height:0">
+      <!-- PANEL LEFT: MESSY DESK -->
+      <div style="flex:1; background:rgba(230,57,70,0.05); border:1px solid rgba(230,57,70,0.2); border-radius:4px; padding:16px; display:flex; flex-direction:column; min-height:0">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--red); letter-spacing:0.1em; margin-bottom:4px">WITHOUT CLAUDE CODE</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--red); margin-bottom:8px">THE MESSY DESK</div>
+        
+        <div class="illus" style="flex:1; min-height:0">
+          <svg viewBox="0 0 240 180" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+            <rect x="20" y="20" width="100" height="60" rx="4" fill="#1A1A1A" stroke="rgba(245,240,232,0.1)" transform="rotate(-5 70 50)"/>
+            <text x="25" y="40" font-family="'JetBrains Mono'" font-size="8" fill="rgba(245,240,232,0.5)" transform="rotate(-5 70 50)">Claude - New Chat</text>
+            <rect x="60" y="10" width="100" height="60" rx="4" fill="#1A1A1A" stroke="rgba(245,240,232,0.15)" transform="rotate(3 110 40)"/>
+            <text x="65" y="30" font-family="'JetBrains Mono'" font-size="8" fill="rgba(245,240,232,0.7)" transform="rotate(3 110 40)">Google Drive</text>
+            <rect x="40" y="50" width="100" height="60" rx="4" fill="#1A1A1A" stroke="rgba(245,240,232,0.2)" transform="rotate(-2 90 80)"/>
+            <text x="45" y="70" font-family="'JetBrains Mono'" font-size="8" fill="rgba(245,240,232,0.8)" transform="rotate(-2 90 80)">Proposal Draft v3</text>
+            <rect x="100" y="40" width="100" height="60" rx="4" fill="#1A1A1A" stroke="rgba(245,240,232,0.1)" transform="rotate(7 150 70)"/>
+            <text x="105" y="60" font-family="'JetBrains Mono'" font-size="8" fill="rgba(245,240,232,0.5)" transform="rotate(7 150 70)">Client Brief</text>
+            <rect x="80" y="80" width="100" height="60" rx="4" fill="#1A1A1A" stroke="rgba(245,240,232,0.15)" transform="rotate(-4 130 110)"/>
+            <text x="85" y="100" font-family="'JetBrains Mono'" font-size="8" fill="rgba(245,240,232,0.6)" transform="rotate(-4 130 110)">Template folder</text>
+            <circle cx="120" cy="150" r="6" fill="#F5F0E8" opacity="0.4"/>
+            <line x1="120" y1="156" x2="120" y2="170" stroke="#F5F0E8" stroke-width="2" opacity="0.4"/>
+            <path d="M110 160 L90 140 M130 160 L150 140 M120 150 L120 130 M110 155 L80 155" stroke="var(--red)" stroke-width="1" fill="none" opacity="0.6"/>
+            <text x="120" y="178" font-family="'JetBrains Mono'" font-size="8" fill="rgba(245,240,232,0.3)" text-anchor="middle">you, switching between 8 tabs</text>
+          </svg>
+        </div>
+        
+        <ul style="list-style:none; font-size:12px; color:var(--dim); margin-top:8px; line-height:1.3">
+          <li style="margin-bottom:2px">· AI only sees what you paste</li>
+          <li style="margin-bottom:2px">· Context disappears on close</li>
+          <li>· You are the manual bridge</li>
+        </ul>
+      </div>
+
+      <!-- PANEL RIGHT: MISSION CONTROL -->
+      <div style="flex:1; background:rgba(75,191,179,0.05); border:1px solid rgba(75,191,179,0.2); border-radius:4px; padding:16px; display:flex; flex-direction:column; min-height:0">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--teal); letter-spacing:0.1em; margin-bottom:4px">WITH CLAUDE CODE</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--teal); margin-bottom:8px">MISSION CONTROL</div>
+        
+        <div class="illus" style="flex:1; min-height:0">
+          <svg viewBox="0 0 240 180" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+            <rect x="70" y="60" width="100" height="60" rx="4" fill="#0D0E11" stroke="rgba(75,191,179,0.4)" stroke-width="1.5"/>
+            <rect x="70" y="60" width="100" height="12" rx="4 4 0 0" fill="#1C1D21"/>
+            <text x="76" y="85" font-family="'JetBrains Mono'" font-size="7" fill="var(--teal)">cipher-workspace $</text>
+            <rect x="150" y="78" width="4" height="8" fill="var(--teal)"><animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/></rect>
+            <g transform="translate(20, 20)">
+              <rect width="40" height="25" rx="2" fill="rgba(75,191,179,0.1)" stroke="var(--teal)" stroke-width="1"/>
+              <text x="20" y="38" font-family="'JetBrains Mono'" font-size="7" fill="var(--dim)" text-anchor="middle">01-context/</text>
+            </g>
+            <g transform="translate(180, 20)">
+              <rect width="40" height="25" rx="2" fill="rgba(75,191,179,0.1)" stroke="var(--teal)" stroke-width="1"/>
+              <text x="20" y="38" font-family="'JetBrains Mono'" font-size="7" fill="var(--dim)" text-anchor="middle">03-templates/</text>
+            </g>
+            <g transform="translate(20, 120)">
+              <rect width="40" height="25" rx="2" fill="rgba(75,191,179,0.1)" stroke="var(--teal)" stroke-width="1"/>
+              <text x="20" y="38" font-family="'JetBrains Mono'" font-size="7" fill="var(--dim)" text-anchor="middle">04-ai-roles/</text>
+            </g>
+            <g transform="translate(180, 120)">
+              <rect width="40" height="25" rx="2" fill="rgba(75,191,179,0.1)" stroke="var(--teal)" stroke-width="1"/>
+              <text x="20" y="38" font-family="'JetBrains Mono'" font-size="7" fill="var(--dim)" text-anchor="middle">05-outputs/</text>
+            </g>
+            <line x1="120" y1="90" x2="40" y2="45" stroke="var(--teal)" stroke-width="1" opacity="0.6"/>
+            <line x1="120" y1="90" x2="200" y2="45" stroke="var(--teal)" stroke-width="1" opacity="0.6"/>
+            <line x1="120" y1="90" x2="40" y2="135" stroke="var(--teal)" stroke-width="1" opacity="0.6"/>
+            <line x1="120" y1="90" x2="200" y2="135" stroke="var(--teal)" stroke-width="1" opacity="0.6"/>
+            <circle cx="120" cy="90" r="10" fill="var(--teal)" opacity="0.2"/>
+            <circle cx="120" cy="90" r="4" fill="var(--teal)"/>
+            <text x="120" y="150" font-family="'JetBrains Mono'" font-size="8" fill="var(--teal)" text-anchor="middle">Claude sees everything at once</text>
+          </svg>
+        </div>
+        
+        <ul style="list-style:none; font-size:12px; color:var(--dim); margin-top:8px; line-height:1.3">
+          <li style="margin-bottom:2px">· Claude reads **entire workspace**</li>
+          <li style="margin-bottom:2px">· Context persists across runs</li>
+          <li>· One command does it all</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top:8px; background:rgba(75,191,179,0.08); border-top:1px solid rgba(75,191,179,0.2); padding:8px 0; margin-left:-64px; margin-right:-64px; text-align:center">
+      <div style="font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; color:var(--white)">"The terminal is not a coding tool. It's the cockpit."</div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 03 — THE RECIPE MODEL ═══ -->
+  <div class="slide" data-notes="The recipe analogy does two jobs: it makes the mindset concrete, and it pre-loads the folder structure. When participants see the 7 folders in a few minutes, they'll already know what each one maps to. Say: 'You are the chef who designed the recipe. The AI is the kitchen.'">
+    <div class="label">The mental model — hold this through everything that follows</div>
+    <div class="headline">THINK OF IT<br>AS A<br><span class="t">RECIPE</span></div>
+    <div class="recipe-grid">
+      <div class="recipe-item">
+        <div class="recipe-label">Ingredients</div>
+        <div class="recipe-title">Inputs</div>
+        <div class="recipe-desc">The raw brief, meeting notes, research — what goes in at the start.</div>
+      </div>
+      <div class="recipe-item">
+        <div class="recipe-label">Method</div>
+        <div class="recipe-title">Steps</div>
+        <div class="recipe-desc">The workflow — summarise, draft, review, format. Always in the same order.</div>
+      </div>
+      <div class="recipe-item">
+        <div class="recipe-label">Standards</div>
+        <div class="recipe-title">Rules</div>
+        <div class="recipe-desc">Tone, format, what must always be there. What "done" looks like.</div>
+      </div>
+      <div class="recipe-item">
+        <div class="recipe-label">Result</div>
+        <div class="recipe-title">Output</div>
+        <div class="recipe-desc">Consistent, on-standard — every time you run the recipe.</div>
+      </div>
+      <div class="recipe-item">
+        <div class="recipe-label">The chef</div>
+        <div class="recipe-title">You</div>
+        <div class="recipe-desc">You designed the recipe. You approve the result. AI is the kitchen.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 04 — CIPHER INTRO ═══ -->
+  <div class="slide" data-notes="This is the aspiration reveal. Say 'I want to show you what this looks like at full maturity.' Then share your screen with CIPHER workspace open. This slide stays up while you switch to screen-share — it frames what participants are about to see.">
+    <div class="label">Segment 3 · 0:58–1:14 — aspiration before foundation</div>
+    <div class="display">
+      <span class="d">MEET</span><br>
+      <span class="p">CIPHER</span>
+    </div>
+    <div class="subhead">
+      A one-person agency powered by a three-tier AI system.<br>
+      <strong>Not a team. Not a tech stack. One operator. Four agents. Four sub-agents.</strong><br>
+      Every mission handled — one command.
+    </div>
+    <div class="highlight" style="border-left-color:var(--purple)">
+      <p>This is not what you're building today. This is what you're building toward.</p>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 05 — THE THREE TIERS ═══ -->
+  <div class="slide" data-notes="Explain the three tiers before you introduce the agents. Use the John Wick parallel: 'Three levels of the operation.' Tier 1: You drop the brief — VECTOR plans. Tier 2: Agents execute in sequence. Tier 3: Sub-agents are called when specialists are needed. 'Main agent stays in control — the asset handles the detail.'">
+    <div class="label">The architecture — three tiers</div>
+    <div class="headline">ONE BRIEF.<br><span class="p">THREE</span><br>TIERS.</div>
+    <div class="tier-diagram">
+      <div class="tier-row-d">
+        <div class="tier-label-col">Tier 1<br>Orch</div>
+        <div class="tier-nodes-d">
+          <div class="tier-node">
+            <div class="tn-ring" style="color:var(--green);font-size:8px">YOU</div>
+            <div class="tn-name" style="color:var(--green)">Operator</div>
+          </div>
+          <div style="flex:0.2;height:1px;background:var(--border2);align-self:center;margin-top:-16px"></div>
+          <div class="tier-node">
+            <div class="tn-ring" style="color:var(--purple)">VEC</div>
+            <div class="tn-name" style="color:var(--purple)">VECTOR</div>
+          </div>
+        </div>
+      </div>
+      <div class="tier-connector"></div>
+      <div class="tier-row-d">
+        <div class="tier-label-col">Tier 2<br>Agents</div>
+        <div class="tier-nodes-d">
+          <div class="tier-node">
+            <div class="tn-ring" style="color:#6B9DC8">SCT</div>
+            <div class="tn-name" style="color:#6B9DC8">SCOUT</div>
+          </div>
+          <div style="flex:0.2;height:1px;background:var(--border);align-self:center;margin-top:-16px"></div>
+          <div class="tier-node">
+            <div class="tn-ring" style="color:var(--gold)">FRG</div>
+            <div class="tn-name" style="color:var(--gold)">FORGE</div>
+          </div>
+          <div style="flex:0.2;height:1px;background:var(--border);align-self:center;margin-top:-16px"></div>
+          <div class="tier-node">
+            <div class="tn-ring" style="color:var(--red)">SHD</div>
+            <div class="tn-name" style="color:var(--red)">SHADE</div>
+          </div>
+          <div style="flex:0.2;height:1px;background:var(--border);align-self:center;margin-top:-16px"></div>
+          <div class="tier-node">
+            <div class="tn-ring" style="color:var(--green)">PRX</div>
+            <div class="tn-name" style="color:var(--green)">PROXY</div>
+          </div>
+          <div style="flex:0.2;height:1px;background:var(--border2);align-self:center;margin-top:-16px"></div>
+          <div class="tier-node">
+            <div class="tn-ring" style="color:var(--green);font-size:8px">YOU</div>
+            <div class="tn-name" style="color:var(--green);font-size:8px">Approve</div>
+          </div>
+        </div>
+      </div>
+      <div class="tier-connector"></div>
+      <div class="tier-row-d">
+        <div class="tier-label-col">Tier 3<br>Assets</div>
+        <div class="tier-subnodes">
+          <div class="sub-node">
+            <div class="sn-ring" style="color:var(--teal)">TRC</div>
+            <div class="sn-name" style="color:var(--teal)">TRACE</div>
+            <div class="sub-parent">← SCOUT</div>
+          </div>
+          <div style="flex:0.2"></div>
+          <div class="sub-node">
+            <div class="sn-ring" style="color:var(--gold)">TNE</div>
+            <div class="sn-name" style="color:var(--gold)">TONE</div>
+            <div class="sub-parent">← FORGE</div>
+          </div>
+          <div style="flex:0.2"></div>
+          <div class="sub-node">
+            <div class="sn-ring" style="color:var(--red)">FCT</div>
+            <div class="sn-name" style="color:var(--red)">FACT</div>
+            <div class="sub-parent">← SHADE</div>
+          </div>
+          <div style="flex:0.2"></div>
+          <div class="sub-node">
+            <div class="sn-ring" style="color:var(--green)">PLS</div>
+            <div class="sn-name" style="color:var(--green)">PULSE</div>
+            <div class="sub-parent">← PROXY</div>
+          </div>
+          <div style="flex:1.2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 06 — MEET THE TEAM ═══ -->
+  <div class="slide" data-notes="Introduce each agent in about 15 seconds. Use their signature quote from the agent files. Then say: 'Let me show you what happens when I give them a brief.' Switch to screen-share the CIPHER website/Claude Code. This slide stays up as the transition.">
+    <div class="label">The CIPHER team — introduce each one</div>
+    <div class="headline"><span class="p">CIPHER</span><br>TEAM</div>
+    <div class="cipher-grid">
+      <div class="cipher-card orch">
+        <div class="cc-tier" style="color:var(--purple)">Tier 1 · Orch</div>
+        <div class="cc-name" style="color:var(--purple)">VECTOR</div>
+        <div class="cc-role">Mission Coordinator. Reads everything. Plans the sequence. Nothing starts without Vector's plan.</div>
+        <div class="cc-quote">"Brief received. Sequence locked. Beginning."</div>
+      </div>
+      <div class="cipher-card sc">
+        <div class="cc-tier" style="color:#6B9DC8">Tier 2 · 01</div>
+        <div class="cc-name" style="color:#6B9DC8">SCOUT</div>
+        <div class="cc-role">Intelligence analyst. Reads before FORGE writes. Calls TRACE when contradictions found.</div>
+        <div class="cc-quote">"Intel sweep complete. Dossier ready."</div>
+      </div>
+      <div class="cipher-card fg">
+        <div class="cc-tier" style="color:var(--gold)">Tier 2 · 02</div>
+        <div class="cc-name" style="color:var(--gold)">FORGE</div>
+        <div class="cc-role">Strategist & writer. Builds the full draft. Calls TONE for voice-critical sections.</div>
+        <div class="cc-quote">"Draft complete. TONE ran on the opening."</div>
+      </div>
+      <div class="cipher-card sh">
+        <div class="cc-tier" style="color:var(--red)">Tier 2 · 03</div>
+        <div class="cc-name" style="color:var(--red)">SHADE</div>
+        <div class="cc-role">QA operative. Nothing gets through that shouldn't. Calls FACT on every specific claim.</div>
+        <div class="cc-quote">"QA done. 1 issue. Returning to FORGE."</div>
+      </div>
+      <div class="cipher-card px">
+        <div class="cc-tier" style="color:var(--green)">Tier 2 · 04</div>
+        <div class="cc-name" style="color:var(--green)">PROXY</div>
+        <div class="cc-role">Client delivery. Reads the room. Calls PULSE for relationship calibration. The email is part of the work.</div>
+        <div class="cc-quote">"Package ready. Your move."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 07 — DEMO FLOW ═══ -->
+  <div class="slide" data-notes="This slide is your reference while running the CIPHER live demo. Switch to screen-share before you hit execute — come back here when you want to narrate a specific step. Call out tier transitions explicitly: 'Tier one — VECTOR.' 'Tier three — TRACE, Scout's sub-agent.' The verbal labelling teaches the architecture.">
+    <div class="label">Live demo — /mission command · call out every tier transition</div>
+    <div class="headline">ONE BRIEF.<br>ONE<br><span class="y">COMMAND.</span></div>
+    <div class="demo-flow">
+      <div class="df-step">
+        <div class="df-tier-pill dt-you">YOU</div>
+        <div><div class="df-who">Drop brief + type /mission</div><div class="df-what">Save to 02-inputs/ · one command · that's your only job</div></div>
+      </div>
+      <div class="df-step">
+        <div class="df-tier-pill dt-orch">VECTOR T1</div>
+        <div><div class="df-who">Read · Plan · Sequence</div><div class="df-what">Reads everything · states the plan · routes to SCOUT</div></div>
+      </div>
+      <div class="df-step">
+        <div class="df-tier-pill dt-agent">SCOUT T2</div>
+        <div><div class="df-who">Intel sweep → calls TRACE if contradictions</div><div class="df-what">Confirmed facts / gaps / assumptions → dossier to FORGE</div></div>
+      </div>
+      <div class="df-step">
+        <div class="df-tier-pill dt-sub">TRACE T3</div>
+        <div><div class="df-who">Cross-reference brief vs. context files</div><div class="df-what">Verdict: contradiction flagged · returns to SCOUT · activates only when needed</div></div>
+      </div>
+      <div class="df-step">
+        <div class="df-tier-pill dt-agent">FORGE T2</div>
+        <div><div class="df-who">Full draft → calls TONE on key sections</div><div class="df-what">Template followed · assumptions flagged inline · passes to SHADE</div></div>
+      </div>
+      <div class="df-step">
+        <div class="df-tier-pill dt-agent">SHADE T2</div>
+        <div><div class="df-who">QA review → calls FACT on every claim</div><div class="df-what">Pass or revise · specific line-level notes · loop max 2× · passes to PROXY</div></div>
+      </div>
+      <div class="df-step">
+        <div class="df-tier-pill dt-agent">PROXY T2</div>
+        <div><div class="df-who">Cover email → calls PULSE first</div><div class="df-what">Client profile read · email written · package to 05-outputs/</div></div>
+      </div>
+      <div class="df-step">
+        <div class="df-tier-pill dt-you">YOU</div>
+        <div><div class="df-who">Open 05-outputs/ · Review · Approve · Send</div><div class="df-what">Two decisions made by you. Everything else: the system.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 08 — CIPHER SOFT DEMO (INTERACTIVE) ═══ -->
+  <div class="slide demo-slide"
+       data-notes="This is the soft demo for CIPHER. It simulates the /mission command in a terminal environment. Click to advance each step. 1: VECTOR plans. 2: SCOUT researches. 3: FORGE builds. 4: SHADE reviews. 5: PROXY delivers. This reinforces the 'Tier' architecture they just saw.">
+
+    <!-- DEMO TOP BAR -->
+    <div class="demo-top">
+      <div class="label" style="margin-bottom:0">Soft Demo · CIPHER Workflow</div>
+      <div class="demo-step-dots" id="dDots">
+        <div class="dsd" id="dd0"></div><div class="dsd" id="dd1"></div>
+        <div class="dsd" id="dd2"></div><div class="dsd" id="dd3"></div>
+        <div class="dsd" id="dd4"></div><div class="dsd" id="dd5"></div>
+        <div class="demo-step-label" id="dLabel">Click to begin demo</div>
+      </div>
+      <div class="demo-step-counter" id="dCounter" style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--dimmer);letter-spacing:.15em">0 / 5</div>
+    </div>
+
+    <!-- CONTEXT BANNER -->
+    <div class="demo-ctx" id="dCtx"></div>
+
+    <!-- DEMO HERO (step 0) -->
+    <div class="demo-hero" id="dHero">
+      <div class="label" style="margin-bottom:6px">One command. Entire team engaged.</div>
+      <h1>MISSION<br><span class="p">CONTROL</span><br><span class="d">DEMO</span></h1>
+      <p>Watch how <strong>CIPHER</strong> handles a complex request using the <code>/mission</code> command.<br>From planning to final QA — automated.</p>
+      <div class="click-hint">CLICK ANYWHERE TO BEGIN</div>
+    </div>
+
+    <!-- DEMO STAGE -->
+    <div class="demo-stage" id="dStage">
+      <div class="terminal">
+        <div class="term-header">
+          <div class="term-dots"><div class="term-dot" style="background:#FF5F57"></div><div class="term-dot" style="background:#FEBC2E"></div><div class="term-dot" style="background:#28C840"></div></div>
+          <div class="term-title">claude-code — cipher-workspace</div>
+        </div>
+        <div class="term-body" id="termBody">
+          <div class="term-line"><span class="term-prompt">❯</span> <span class="term-cmd">/mission "Draft a Q3 marketing strategy for Project Aurora"</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEMO BOTTOM BAR -->
+    <div class="demo-bottom">
+      <div class="demo-nav-hint">
+        <div class="demo-nav-key">CLICK</div> or <div class="demo-nav-key">SPACE</div> — next step &nbsp;
+        <div class="demo-nav-key">R</div> — restart &nbsp;
+        <div class="demo-nav-key">→</div> — next slide
+      </div>
+      <div class="demo-prog-wrap"><div class="demo-prog-bar" id="dProg" style="width:0%"></div></div>
+      <div class="demo-step-counter" id="dStep">Step 0 / 5</div>
+    </div>
+
+  </div>
+
+  <!-- ═══ SLIDE 09 — MISSION DELIVERABLES SHOWCASE ═══ -->
+  <div class="slide" data-notes="This is the result of the mission you just watched. Three high-quality, professional assets ready to use. This isn't just 'AI chat text' — these are formatted deliverables synchronized to your workspace.">
+    <div class="label">Mission accomplished · 05-outputs/ & 06-review/</div>
+    <div class="headline">FINAL<br><span class="g">PRODUCTS</span></div>
+    
+    <div class="deliverables-container">
+      <!-- EMAIL DRAFT -->
+      <div class="doc-preview">
+        <div class="doc-tag-p dt-md">MD</div>
+        <div class="doc-header">Draft: EMAIL_TO_CLIENT.md</div>
+        <div class="doc-title">Subject: Project Aurora Q3 Update</div>
+        <div class="doc-line mid"></div>
+        <div class="doc-line"></div>
+        <div class="doc-line short"></div>
+        <div class="doc-line mid"></div>
+        <div class="doc-line"></div>
+        <div class="doc-line short"></div>
+      </div>
+
+      <!-- STRATEGY PDF -->
+      <div class="doc-preview">
+        <div class="doc-tag-p dt-pdf">PDF</div>
+        <div class="doc-header">Report: STRATEGY_FINAL.pdf</div>
+        <div class="doc-title">Q3 Marketing Strategy</div>
+        <div class="doc-line mid"></div>
+        <div class="doc-line mid"></div>
+        <div class="doc-line short"></div>
+        <div class="doc-line mid"></div>
+        <div class="doc-line mid"></div>
+        <div class="doc-line short"></div>
+      </div>
+
+      <!-- BUDGET DOC -->
+      <div class="doc-preview">
+        <div class="doc-tag-p dt-doc">DOCX</div>
+        <div class="doc-header">Sheet: BUDGET_FORECAST.docx</div>
+        <div class="doc-title">Project Aurora Budget v2</div>
+        <div class="doc-line mid"></div>
+        <div class="doc-line"></div>
+        <div class="doc-line mid"></div>
+        <div class="doc-line short"></div>
+        <div class="doc-line mid"></div>
+        <div class="doc-line"></div>
+      </div>
+    </div>
+
+    <div class="subhead" style="margin-top:24px">
+      Refined by your feedback. Checked by the system.<br>
+      <strong>Ready to send in under 15 seconds.</strong>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 10 — THE BIG PICTURE: SCALING ═══ -->
+  <div class="slide" data-notes="This is the pivot to scale. One mission creates assets. Those assets fuel the next set of agents. Clicking a product shows who adopts it. This turns a workspace into an enterprise engine.">
+    <div class="label">The Next Horizon · Ecosystem Scaling</div>
+    <div class="headline">FROM PRODUCT<br>TO<br><span class="t">ECOSYSTEM.</span></div>
+    <div class="subhead">Standardized output is fuel for specialized agents. <strong>Click a result below.</strong></div>
+
+    <div class="scaling-grid">
+      <!-- STRATEGY -> EXECUTION -->
+      <div class="product-col">
+        <div class="product-node" onclick="toggleAgents(this, 'strategyAgents')">
+          <span class="icon">📄</span>
+          <span class="name">STRATEGY.pdf</span>
+        </div>
+        <div class="agents-pool" id="strategyAgents">
+          <div class="connector-v"></div>
+          <div class="agent-pill"><div class="a-icon">AG</div><span>ASSET GENERATOR<br><span class="a-desc">Adopts strategy to design social assets</span></span></div>
+          <div class="agent-pill"><div class="a-icon">WP</div><span>WEB PUBLISHER<br><span class="a-desc">Updates project site with new goals</span></span></div>
+        </div>
+      </div>
+
+      <!-- EMAIL -> OUTREACH -->
+      <div class="product-col">
+        <div class="product-node" onclick="toggleAgents(this, 'emailAgents')">
+          <span class="icon">✉️</span>
+          <span class="name">EMAIL_DRAFT.md</span>
+        </div>
+        <div class="agents-pool" id="emailAgents">
+          <div class="connector-v"></div>
+          <div class="agent-pill"><div class="a-icon">PB</div><span>PERSONALIZATION BOT<br><span class="a-desc">Customizes draft for 50 unique clients</span></span></div>
+          <div class="agent-pill"><div class="a-icon">FA</div><span>FOLLOW-UP ARCHITECT<br><span class="a-desc">Builds a 3-step sequence from draft</span></span></div>
+        </div>
+      </div>
+
+      <!-- BUDGET -> OPERATIONS -->
+      <div class="product-col">
+        <div class="product-node" onclick="toggleAgents(this, 'budgetAgents')">
+          <span class="icon">📝</span>
+          <span class="name">BUDGET.docx</span>
+        </div>
+        <div class="agents-pool" id="budgetAgents">
+          <div class="connector-v"></div>
+          <div class="agent-pill"><div class="a-icon">PO</div><span>PO GENERATOR<br><span class="a-desc">Creates purchase orders for approved spend</span></span></div>
+          <div class="agent-pill"><div class="a-icon">DA</div><span>DASHBOARD AGENT<br><span class="a-desc">Updates real-time ROI tracking board</span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 11 — DEMO DEBRIEF ═══ -->
+  <div class="slide" data-notes="Return here after the live demo. Let the silence sit for 3 seconds. Then: 'One brief. One command. Three tiers. Nine entities. Two decisions from you.' Take 2–3 chat reactions. Then bridge directly to the folder structure: 'And every part of what you just saw lives in a folder structure you're about to understand completely.'">
+    <div class="label">After the demo — let this land</div>
+    <div class="big-quote" style="font-size:clamp(38px,5.5vw,76px)">
+      "One brief.<br>
+      One command.<br>
+      <span style="color:var(--yellow)">Two decisions from you.</span><br>
+      <span style="color:var(--dim)">Everything else: the system."</span>
+    </div>
+    <div class="subhead" style="margin-top:32px">
+      That is a <strong>one-person agency</strong> running at full power.<br>
+      Now let's look at the structure that makes it possible.
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 09 — FOLDER STRUCTURE ═══ -->
+  <div class="slide" data-notes="Walk through each folder at about 45 seconds each. Map every folder back to the recipe model and the CIPHER demo: '01-context is what SCOUT reads. 03-templates is what FORGE follows. 06-review is where Shade's checklist lives.' The structure should feel inevitable — not arbitrary — by the time you finish.">
+    <div class="label">Segment 4 · 1:10–1:20 — the foundation</div>
+    <div class="headline">THE<br><span class="t">WORKSPACE</span><br>STRUCTURE</div>
+    <div class="folder-tree">
+      <div class="ft-root">cipher-workspace/</div>
+      <div>├── <span class="ft-folder">00-start-here/</span><span class="ft-comment">— mission briefing & README</span></div>
+      <div>├── <span class="ft-folder">01-context/</span><span class="ft-comment">— client intel · SCOUT reads this</span></div>
+      <div>├── <span class="ft-folder">02-inputs/</span><span class="ft-comment">— mission briefs & raw material</span></div>
+      <div>├── <span class="ft-folder">03-templates/</span><span class="ft-comment">— output standards · FORGE follows this</span></div>
+      <div>├── <span class="ft-folder">04-ai-roles/</span></div>
+      <div>│&nbsp;&nbsp;&nbsp;├── <span class="ft-purple">VECTOR.md</span><span class="ft-comment">— Tier 1</span></div>
+      <div>│&nbsp;&nbsp;&nbsp;├── <span class="ft-dim">SCOUT / FORGE / SHADE / PROXY</span><span class="ft-comment">— Tier 2</span></div>
+      <div>│&nbsp;&nbsp;&nbsp;└── <span class="ft-dim">assets/ TRACE / TONE / FACT / PULSE</span><span class="ft-comment">— Tier 3</span></div>
+      <div>├── <span class="ft-folder">05-outputs/</span><span class="ft-comment">— completed deliverables · PROXY saves here</span></div>
+      <div>├── <span class="ft-folder">06-review/</span><span class="ft-comment">— QA checklist · SHADE lives here</span></div>
+      <div>└── <span class="ft-teal">CLAUDE.md</span><span class="ft-comment">— operating rules · every tier reads this</span></div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 10 — FOLDER MEANING ═══ -->
+  <div class="slide" data-notes="This is the 'so what' for each folder. Keep it fast — one sentence per folder. Participants will understand the folders better when they open their own repos in a few minutes. The goal here is recognition, not deep explanation.">
+    <div class="label">What each folder does — the recipe mapped</div>
+    <div class="headline">EVERY<br>FOLDER<br><span class="t">HAS A JOB</span></div>
+    <div class="folder-explain">
+      <div class="fe-row"><div><div class="fe-name">00-start-here/</div><div class="fe-analogy">The welcome desk</div></div><div class="fe-desc">Orientation & README. Anyone who opens this workspace knows what it's for and where to begin.</div></div>
+      <div class="fe-row"><div><div class="fe-name">01-context/</div><div class="fe-analogy">The intel drawer</div></div><div class="fe-desc">Client profiles, project background. Write once. SCOUT reads every time. Ends the amnesia problem.</div></div>
+      <div class="fe-row"><div><div class="fe-name">02-inputs/</div><div class="fe-analogy">The inbox</div></div><div class="fe-desc">Drop the messy brief here. The workflow takes it from there. These are your ingredients.</div></div>
+      <div class="fe-row"><div><div class="fe-name">03-templates/</div><div class="fe-analogy">The stationery cupboard</div></div><div class="fe-desc">FORGE follows these. Every output matches your format — every time.</div></div>
+      <div class="fe-row"><div><div class="fe-name">05-outputs/</div><div class="fe-analogy">The outbox</div></div><div class="fe-desc">Every completed delivery lands here. This is what you open at the end. Review. Approve. Send.</div></div>
+      <div class="fe-row"><div><div class="fe-name">CLAUDE.md</div><div class="fe-analogy">The operating rules</div></div><div class="fe-desc">Above everything. Every tier reads this before doing anything. The brain of your workspace.</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 11 — CLAUDE.MD ANATOMY ═══ -->
+  <div class="slide" data-notes="Walk through the five sections. Say: 'Think of CLAUDE.md as the onboarding document for a brilliant new team member — except this team member reads it perfectly, completely, every single time.' Then say: 'Yours is already written. Let me show you.'">
+    <div class="label">Segment 5 · 1:20–1:30 — the brain of your workspace</div>
+    <div class="headline"><span class="t">CLAUDE</span><br>.MD</div>
+    <div class="claudemd">
+      <div class="cm-h"># CLAUDE.md — Your AI Workflow Workspace</div>
+      <div>&nbsp;</div>
+      <div class="cm-c">## 1. Who I am &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; → name, role, organisation</div>
+      <div class="cm-c">## 2. What this is for &nbsp;&nbsp;&nbsp; → purpose & standard for "done"</div>
+      <div class="cm-c">## 3. Tone & voice rules</div>
+      <div class="cm-hi">Always: direct, warm, concise — no jargon</div>
+      <div class="cm-w">Never: filler phrases, vague language, invented data</div>
+      <div class="cm-c">## 4. Quality standards</div>
+      <div class="cm-hi">- Always use template from 03-templates/</div>
+      <div class="cm-hi">- Always read context from 01-context/ first</div>
+      <div class="cm-hi">- QA check before any output reaches the client</div>
+      <div class="cm-c">## 5. Workflows available</div>
+      <div class="cm-y">/mission &nbsp; /debrief &nbsp; /intel &nbsp; /campaign</div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 12 — REPO REVEAL ═══ -->
+  <div class="slide" data-notes="CRITICAL MOMENT. Say: 'Check the chat — there's a GitHub link with your name on it. Open it.' Give 20–30 seconds. Then: 'Open CLAUDE.md.' Pause 5–8 seconds of silence. Let them read. Then: 'That was written from what you told us in the audit form. Your name. Your role. Your tasks. Your tone.' Do NOT rush this. The silence is doing the work.">
+    <div class="label">Segment 6 · 1:22–1:27 — the reveal moment</div>
+    <div class="headline">YOUR<br>WORKSPACE<br><span class="p">IS READY.</span></div>
+    <div class="subhead">
+      Check the chat.<br>
+      <strong>There's a GitHub link with your name on it.</strong>
+    </div>
+    <div class="reveal-banner">
+      <p>Open it. Find CLAUDE.md. Read it.<br>
+      That was written from what you told us 20 minutes ago.</p>
+    </div>
+    <div class="mono" style="margin-top:28px">
+      Your name. Your role. Your tasks.<br>
+      Your tone. The things AI should <span class="r">never</span> do in your work.<br><br>
+      <span class="hi">This workspace already knows who you are.</span>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 13 — CLONE STEP ═══ -->
+  <div class="slide" data-notes="Walk through each step slowly. Screen-share your own Claude Code while doing this. After step 5, give 60 seconds — watch chat for confirmations. Celebrate every 'it worked!' After step 6, give 2 minutes of quiet. The first edit is important — it's the moment the generated file becomes theirs.">
+    <div class="label">Segment 7 · 1:27–1:38 — get it into Claude Code</div>
+    <div class="headline">6 STEPS.<br>GO<br><span class="t">SLOW.</span></div>
+    <div class="clone-steps">
+      <div class="clone-step">
+        <div class="cs-num">1</div>
+        <div><div class="cs-title">Copy your repo URL</div><div class="cs-desc">GitHub → green Code button → HTTPS → copy</div></div>
+      </div>
+      <div class="clone-step">
+        <div class="cs-num">2</div>
+        <div><div class="cs-title">Open Claude Code terminal</div><div class="cs-desc">Bottom panel · Ctrl+` (backtick) if you can't see it</div></div>
+      </div>
+      <div class="clone-step">
+        <div class="cs-num">3</div>
+        <div><div class="cs-title">Clone the repo</div><div class="cs-desc">Type and paste · hit enter · 10 seconds</div><div class="cs-code">git clone [your-repo-url]</div></div>
+      </div>
+      <div class="clone-step">
+        <div class="cs-num">4</div>
+        <div><div class="cs-title">Open the folder</div><div class="cs-desc">File → Open Folder → select cloned folder → 7 folders appear</div></div>
+      </div>
+      <div class="clone-step">
+        <div class="cs-num">5</div>
+        <div><div class="cs-title">The moment of truth</div><div class="cs-desc">Type this in Claude Code chat:</div><div class="cs-code">"What do you know about me and this workspace?"</div></div>
+      </div>
+      <div class="clone-step">
+        <div class="cs-num">6</div>
+        <div><div class="cs-title">Make your first edit</div><div class="cs-desc">Open CLAUDE.md · add one thing the form couldn't know · save it · now it's truly yours</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 14 — BREAK TRANSITION ═══ -->
+  <div class="slide" data-notes="Keep this transition tight — you're heading into the break. The three lines build momentum: system exists, workspace knows you, workflow is next. The break instruction (keep Claude Code open, finish CLAUDE.md edit, read README) gives participants productive things to do. End on 'Back in 10.' and go quiet.">
+    <div class="label">Segment 8 · 1:38–1:40 — break transition</div>
+    <div class="headline">THAT IS<br>A<br><span class="t">SYSTEM.</span></div>
+    <div class="subhead" style="margin-top:28px">
+      Not a chat. Not a prompt. <strong>A system.</strong><br><br>
+      Keep Claude Code open.<br>
+      Finish your CLAUDE.md edit.<br>
+      Read the README in 00-start-here/.<br><br>
+      <strong>Back in 10 minutes. Module 3 — we run the workflow.</strong>
+    </div>
+    <div class="agenda-list" style="margin-top:32px">
+      <div class="agenda-item done">
+        <span class="agenda-time">done</span>
+        <span class="agenda-title">Module 01 — Why Chat AI Is Not Enough</span>
+      </div>
+      <div class="agenda-item done">
+        <span class="agenda-time">done</span>
+        <span class="agenda-title">Module 02 — Your AI Workflow Workspace</span>
+      </div>
+      <a href="module03-slides.html" style="text-decoration:none">
+        <div class="agenda-item current">
+          <span class="agenda-time">break →</span>
+          <span class="agenda-title">Module 03 — Building Your First Workflow</span>
+          <span class="agenda-badge">AFTER BREAK</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- NAV UI -->
+<div class="slide-meta">
+  <div class="slide-counter" id="counter">01 / 16</div>
+  <div class="nav-dots" id="dots"></div>
+</div>
+<button class="notes-btn" onclick="toggleNotes()">NOTES [N]</button>
+<div class="notes-panel" id="notesPanel"></div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const dotsWrap = document.getElementById('dots');
+  const progress = document.getElementById('progress');
+  const notesPanel = document.getElementById('notesPanel');
+  let current = 0;
+  let notesVisible = false;
+
+  // Demo state
+  const DEMO_SLIDE_INDEX = 8;
+  const DEMO_STEPS = 9;
+  let demoStep = 0;
+  const dHero = document.getElementById('dHero');
+  const dStage = document.getElementById('dStage');
+  const dCtx = document.getElementById('dCtx');
+  const termBody = document.getElementById('termBody');
+  const dProg = document.getElementById('dProg');
+  const dStep = document.getElementById('dStep');
+  const dLabel = document.getElementById('dLabel');
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsWrap.appendChild(d);
+  });
+
+  function setDemoDots(n) {
+    for (let i = 0; i < DEMO_STEPS; i++) {
+      const dot = document.getElementById('dd' + i);
+      if (dot) {
+        dot.className = 'dsd' + (i === n ? ' active' : (i < n ? ' done' : ''));
+      }
+    }
+    const pct = (n / (DEMO_STEPS - 1)) * 100;
+    dProg.style.width = pct + '%';
+    dStep.textContent = `Step ${n} / ${DEMO_STEPS - 1}`;
+    
+    const labels = [
+      "Click to begin demo",
+      "Tier 1: Planning",
+      "Tier 2: Research",
+      "Tier 3: Construction",
+      "Tier 2: Review",
+      "Tier 1: Delivery",
+      "Human Decision",
+      "Refining Loop",
+      "Final Mission Success"
+    ];
+    dLabel.innerHTML = labels[n] || "";
+  }
+
+  function setCtx(html) {
+    if (!html) { dCtx.classList.remove('show'); return; }
+    dCtx.innerHTML = html;
+    dCtx.classList.add('show');
+  }
+
+  function toggleAgents(el, id) {
+    const pool = document.getElementById(id);
+    const wasShowing = pool.classList.contains('show');
+    
+    // Hide all first
+    document.querySelectorAll('.agents-pool').forEach(p => p.classList.remove('show'));
+    document.querySelectorAll('.product-node').forEach(n => n.classList.remove('active'));
+    
+    if (!wasShowing) {
+      pool.classList.add('show');
+      el.classList.add('active');
+    }
+  }
+
+  function addTermLine(cmd, output, delay = 0) {
+    setTimeout(() => {
+      const line = document.createElement('div');
+      line.className = 'term-line';
+      line.innerHTML = `<span class="term-prompt">❯</span> <span class="term-cmd">${cmd}</span>`;
+      termBody.appendChild(line);
+      
+      if (output) {
+        const out = document.createElement('div');
+        out.className = 'term-out';
+        out.innerHTML = output;
+        termBody.appendChild(out);
+      }
+      termBody.scrollTop = termBody.scrollHeight;
+    }, delay);
+  }
+
+  function resetDemo() {
+    demoStep = 0;
+    setDemoDots(0);
+    setCtx(null);
+    dHero.style.display = 'flex';
+    dStage.classList.remove('visible');
+    termBody.innerHTML = '<div class="term-line"><span class="term-prompt">❯</span> <span class="term-cmd">/mission "Draft a Q3 marketing strategy for Project Aurora"</span></div>';
+  }
+
+  function advanceDemo() {
+    if (demoStep >= DEMO_STEPS - 1) return false;
+    demoStep++;
+    setDemoDots(demoStep);
+
+    if (demoStep === 1) {
+      dHero.style.display = 'none';
+      dStage.classList.add('visible');
+      setCtx(`<span class="hi">Step 1:</span> <span class="p">VECTOR</span> (Tier 1) receives the mission. It reads the context and creates a 5-step execution plan.`);
+      addTermLine("vector --plan", "Creating execution plan...<br><span class='p'>[PLAN]</span> 1. Research Project Aurora history (Scout)<br><span class='p'>[PLAN]</span> 2. Draft strategy doc (Forge)<br><span class='p'>[PLAN]</span> 3. QA Tone & Facts (Shade)<br><span class='p'>[PLAN]</span> 4. Final Review (Proxy)", 500);
+      return true;
+    }
+    if (demoStep === 2) {
+      setCtx(`<span class="hi">Step 2:</span> <span class="t">SCOUT</span> (Tier 2) triggers <span class="t">TRACE</span> (Tier 3) to find every mention of 'Aurora' in the knowledge base.`);
+      addTermLine("scout --search 'Project Aurora'", "<span class='t'>[SCOUT]</span> Found 12 related files in 04-knowledge/<br><span class='t'>[TRACE]</span> Summarizing key constraints... Done.", 500);
+      return true;
+    }
+    if (demoStep === 3) {
+      setCtx(`<span class="hi">Step 3:</span> <span class="p">FORGE</span> (Tier 2) builds the draft using the <span class="p">TONE</span> (Tier 3) guidelines and Scout's research.`);
+      addTermLine("forge --build 'Strategy Draft'", "<span class='p'>[FORGE]</span> Applying 'Professional-Bold' tone...<br><span class='p'>[FORGE]</span> Strategy draft written to 05-outputs/ aurora-q3.md", 500);
+      return true;
+    }
+    if (demoStep === 4) {
+      setCtx(`<span class="hi">Step 4:</span> <span class="p">SHADE</span> (Tier 2) runs a <span class="p">FACT</span> (Tier 3) check. It finds an error in the budget date and corrects it.`);
+      addTermLine("shade --qa", "<span class='y'>[SHADE]</span> Fact-check: Budget date mismatch found.<br><span class='y'>[SHADE]</span> Corrected Q3 start to July 1st. QA PASS.", 500);
+      return true;
+    }
+    if (demoStep === 5) {
+      setCtx(`<span class="hi">Step 5:</span> <span class="p">PROXY</span> (Tier 2) presents the final work to <span class="g">YOU</span> for approval.`);
+      addTermLine("proxy --deliver", `<span class='g'>[PROXY]</span> Mission complete. Output ready for review in 06-review/
+        <div class='asset-grid'>
+          <div class='asset-card ready'><span class='icon'>✉️</span> EMAIL_DRAFT.md</div>
+          <div class='asset-card ready'><span class='icon'>📄</span> STRATEGY.pdf</div>
+          <div class='asset-card ready'><span class='icon'>📝</span> BUDGET.docx</div>
+        </div>
+        <br><span class='g'>[SYSTEM]</span> Waiting for human approval... [Y/n]`, 500);
+      return true;
+    }
+    if (demoStep === 6) {
+      setCtx(`<span class="hi">Step 6:</span> <span class="y">Human Review.</span> You notice the tone is a bit too formal for the specific client. You provide feedback.`);
+      addTermLine("human --feedback 'Make the email draft more casual'", `<div class='human-feedback'>"The strategy is perfect, but make the email draft more casual. Use first names."</div>
+        <br><span class='p'>[VECTOR]</span> Feedback received. Re-routing to FORGE (Tier 2) for refinement...`, 500);
+      return true;
+    }
+    if (demoStep === 7) {
+      setCtx(`<span class="hi">Step 7:</span> <span class="p">FORGE</span> and <span class="p">SHADE</span> rerun their specific tasks based on your new feedback.`);
+      addTermLine("forge --refine 'Casual Tone'", "<span class='p'>[FORGE]</span> Updating EMAIL_DRAFT.md... Done.<br><span class='y'>[SHADE]</span> Re-running QA... TONE MATCH: Casual. PASS.", 500);
+      return true;
+    }
+    if (demoStep === 8) {
+      setCtx(`<span class="hi">Step 8:</span> <span class="g">FINAL SUCCESS.</span> You approve the refined assets. The system completes the mission.`);
+      addTermLine("proxy --approve", `<span class='g'>[PROXY]</span> Approval received.<br><span class='g'>[SYSTEM]</span> Assets synchronized to company drive.<br><span class='g'>[SUCCESS]</span> Mission accomplished in 14.2s.`, 500);
+      return true;
+    }
+    return true;
+  }
+
+  function handleNext() {
+    if (current === DEMO_SLIDE_INDEX) {
+      if (demoStep < DEMO_STEPS - 1) { advanceDemo(); return; }
+    }
+    goTo(current + 1);
+  }
+
+  function goTo(n) {
+    if (n < 0 || n >= slides.length) return;
+    slides[current].classList.remove('active');
+    dotsWrap.children[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    dotsWrap.children[current].classList.add('active');
+    counter.textContent = String(current + 1).padStart(2,'0') + ' / ' + String(slides.length).padStart(2,'0');
+    progress.style.width = ((current + 1) / slides.length * 100) + '%';
+    
+    if (current === DEMO_SLIDE_INDEX) resetDemo();
+    if (notesVisible) showNotes();
+  }
+
+  function showNotes() {
+    const note = slides[current].dataset.notes || '';
+    notesPanel.innerHTML = note || '<em style="opacity:.4">No notes for this slide.</em>';
+  }
+
+  function toggleNotes() {
+    notesVisible = !notesVisible;
+    notesPanel.classList.toggle('visible', notesVisible);
+    if (notesVisible) showNotes();
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { 
+      e.preventDefault(); 
+      handleNext(); 
+    }
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp') { 
+      e.preventDefault(); 
+      goTo(current - 1); 
+    }
+    if (e.key === 'n' || e.key === 'N') toggleNotes();
+    if (e.key === 'r' || e.key === 'R') {
+      if (current === DEMO_SLIDE_INDEX) resetDemo();
+    }
+    if (e.key === 'Home') goTo(0);
+    if (e.key === 'End')  goTo(slides.length - 1);
+    const n = parseInt(e.key);
+    if (!isNaN(n) && n >= 1 && n <= slides.length) goTo(n - 1);
+  });
+
+  document.addEventListener('click', e => {
+    if (e.target.closest('.notes-btn') || e.target.closest('.nav-dots') || e.target.closest('.dot') || e.target.closest('.product-node')) return;
+    handleNext();
+  });
+
+  let tx = 0;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
+  document.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 50) {
+      if (dx < 0) handleNext();
+      else goTo(current - 1);
+    }
+  });
+
+  progress.style.width = (1 / slides.length * 100) + '%';
+</script>
+</body>
+</html>
