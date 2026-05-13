@@ -1182,10 +1182,12 @@
   </div>
 
   <!-- ═══ SLIDE 07 — DEMO FLOW ═══ -->
-  <div class="slide" data-notes="This slide is your reference while running the CIPHER live demo. Switch to screen-share before you hit execute — come back here when you want to narrate a specific step. Call out tier transitions explicitly: 'Tier one — VECTOR.' 'Tier three — TRACE, Scout's sub-agent.' The verbal labelling teaches the architecture.">
-    <div class="label">Live demo — /mission command · call out every tier transition</div>
-    <div class="headline">ONE BRIEF.<br>ONE<br><span class="y">COMMAND.</span></div>
-    <div class="demo-flow">
+  <div class="slide layout-split" data-notes="This slide is your reference while running the CIPHER live demo. Switch to screen-share before you hit execute — come back here when you want to narrate a specific step. Call out tier transitions explicitly: 'Tier one — VECTOR.' 'Tier three — TRACE, Scout's sub-agent.' The verbal labelling teaches the architecture.">
+    <div>
+      <div class="label">Live demo — /mission command · call out every tier transition</div>
+      <div class="headline">ONE BRIEF.<br>ONE<br><span class="y">COMMAND.</span></div>
+    </div>
+    <div class="demo-flow" style="margin-top: 0;">
       <div class="df-step">
         <div class="df-tier-pill dt-you">YOU</div>
         <div><div class="df-who">Drop brief + type /mission</div><div class="df-what">Save to 02-inputs/ · one command · that's your only job</div></div>
@@ -1463,6 +1465,69 @@
     </div>
   </div>
 
+  <!-- ═══ SLIDE 12B — INSTALLATION CHOICE ═══ -->
+  <div class="slide" data-notes="Drop both links in chat: claude.ai/download and nodejs.org. Say: 'If you're not sure — use the app, it's the same tool.' Give 2 full minutes. Screen-share your own Claude Code while they install. Watch chat for anyone stuck on Node.js — that's the most common blocker on the terminal path. Don't move on until 80% confirm they're in.">
+    <div class="label">Pick your path — 2 minutes</div>
+    <div class="headline">GET CLAUDE CODE.<br>YOUR<br><span class="t">WAY.</span></div>
+    
+    <div class="two-col" style="align-items: flex-start; margin-top: 32px; gap: 48px;">
+      <!-- Left: App -->
+      <div>
+        <div class="label" style="color: var(--teal); border-bottom: 1px solid var(--border2); padding-bottom: 8px; margin-bottom: 12px;">DOWNLOAD THE APP</div>
+        <div class="mono" style="margin-bottom: 16px;"><span class="hi">Recommended for beginners</span></div>
+        <div class="clone-steps">
+          <div class="clone-step">
+            <div class="cs-num">01</div>
+            <div><div class="cs-title">Go to claude.ai/download</div></div>
+          </div>
+          <div class="clone-step">
+            <div class="cs-num">02</div>
+            <div><div class="cs-title">Download for Mac or Windows</div></div>
+          </div>
+          <div class="clone-step">
+            <div class="cs-num">03</div>
+            <div><div class="cs-title">Open installer → click through → sign in</div></div>
+          </div>
+          <div class="clone-step">
+            <div class="cs-num">04</div>
+            <div><div class="cs-title">Chat window appears. You're ready.</div></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right: Terminal -->
+      <div>
+        <div class="label" style="color: var(--orange); border-bottom: 1px solid var(--border2); padding-bottom: 8px; margin-bottom: 12px;">INSTALL VIA TERMINAL</div>
+        <div class="mono" style="margin-bottom: 16px;"><span class="o">Mac or Windows</span></div>
+        
+        <div class="clone-steps">
+          <div class="clone-step">
+            <div class="cs-num" style="background:rgba(255,107,53,0.1); border-color:rgba(255,107,53,0.3); color:var(--orange)">Mac</div>
+            <div><div class="cs-desc">Open <strong>Terminal</strong> → type:</div><div class="cs-code" style="color:var(--orange); font-size: 11px;">npm install -g @anthropic-ai/claude-code</div><div class="cs-desc">→ press Enter</div></div>
+          </div>
+          
+          <div class="clone-step">
+            <div class="cs-num" style="background:rgba(255,107,53,0.1); border-color:rgba(255,107,53,0.3); color:var(--orange)">Win</div>
+            <div><div class="cs-desc">Open <strong>Command Prompt as Admin</strong> → same command</div></div>
+          </div>
+
+          <div class="clone-step">
+            <div class="cs-num" style="background:rgba(255,107,53,0.1); border-color:rgba(255,107,53,0.3); color:var(--orange)">Run</div>
+            <div><div class="cs-desc">Then type <span class="cs-code" style="color:var(--orange)">claude</span> to launch</div></div>
+          </div>
+        </div>
+
+        <div class="highlight" style="margin-top: 20px; padding: 12px 16px; border-left-color: var(--orange); background: rgba(255,107,53,0.05);">
+          <p style="font-size: 13px; font-weight: 400; color: var(--dim);">Need Node.js first? → <strong>nodejs.org</strong> → download → install → then run the command above</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight" style="margin-top: 32px;">
+      <p>Not sure which path? Use the app. Same result.</p>
+    </div>
+  </div>
+
   <!-- ═══ SLIDE 13 — CLONE STEP ═══ -->
   <div class="slide" data-notes="Walk through each step slowly. Screen-share your own Claude Code while doing this. After step 5, give 60 seconds — watch chat for confirmations. Celebrate every 'it worked!' After step 6, give 2 minutes of quiet. The first edit is important — it's the moment the generated file becomes theirs.">
     <div class="label">Segment 7 · 1:27–1:38 — get it into Claude Code</div>
@@ -1529,7 +1594,7 @@
 
 <!-- NAV UI -->
 <div class="slide-meta">
-  <div class="slide-counter" id="counter">01 / 17</div>
+  <div class="slide-counter" id="counter">01 / 18</div>
   <div class="nav-dots" id="dots"></div>
 </div>
 <button class="notes-btn" onclick="toggleNotes()">NOTES [N]</button>

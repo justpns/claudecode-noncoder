@@ -72,10 +72,11 @@ Standardized the visual narrative across all modules by implementing high-fideli
 *   **Context**: Based on the evolution model described by Thariq Shihipar (Anthropic). This slide serves as the bridge between identifying "gaps" in chat AI and introducing the "system" solution.
 *   **Visuals**: Implemented a vertical evolution SVG model showing the progression of autonomous agency.
 *   **Sub-Agent Context Management (Module 02)**: Added a slide ("CONTEXT FILLS UP. SUB-AGENTS DON'T.") explaining how sub-agents protect the main agent's context window. Included Thariq Shihipar's quote on context management.
+*   **Installation Choice (Module 02)**: Inserted a two-column installation slide ("GET CLAUDE CODE. YOUR WAY.") offering both App and Terminal paths. Includes specific instructions for Mac/Windows and Node.js dependencies.
 *   **Agent Verification (Module 04)**: Inserted a new slide ("3 QUESTIONS. BEFORE YOU BUILD.") outlining the three core pillars of agent readiness: Context, Action, and Verification.
 
 ### 2. System Integrity
-*   **Slide Count Synchronization**: Updated Module 01 slide counter to 13 (Total), Module 02 slide counter to 17 (Total), and Module 04 slide counter to 14 (Total).
+*   **Slide Count Synchronization**: Updated Module 01 slide counter to 13 (Total), Module 02 slide counter to 18 (Total), and Module 04 slide counter to 14 (Total).
 *   **Navigation**: Verified the new slides integrate seamlessly into the global advancement logic.
 
 ---
