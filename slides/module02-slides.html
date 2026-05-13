@@ -1115,6 +1115,34 @@
     </div>
   </div>
 
+  <!-- ═══ SLIDE 05B — SUB-AGENT CONTEXT ═══ -->
+  <div class="slide" data-notes="Ask: 'Has anyone had Claude lose track halfway through a long task?' This is why — context window hit the limit. Sub-agents fix it. They take the heavy work offscreen and hand back only what the main agent needs. Then move straight into Meet the Team.">
+    <div class="label">Why three tiers exist · Thariq Shihipar, Anthropic</div>
+    <div class="headline">CONTEXT FILLS UP.<br><span class="teal">SUB-AGENTS</span> DON'T.</div>
+    <div class="gap-list" style="margin-top:24px">
+      <div class="gap-item teal">
+        <div class="gap-num">01</div>
+        <div><div class="gap-desc" style="font-size: clamp(16px, 1.8vw, 22px); color: var(--white);">Main agent drops the task. Sub-agent handles it end-to-end.</div></div>
+      </div>
+      <div class="gap-item teal">
+        <div class="gap-num">02</div>
+        <div><div class="gap-desc" style="font-size: clamp(16px, 1.8vw, 22px); color: var(--white);">Sub-agent searches, reads, thinks — on its own.</div></div>
+      </div>
+      <div class="gap-item teal">
+        <div class="gap-num">03</div>
+        <div><div class="gap-desc" style="font-size: clamp(16px, 1.8vw, 22px); color: var(--white);">Only the summary comes back. Not the trace.</div></div>
+      </div>
+      <div class="gap-item teal">
+        <div class="gap-num">04</div>
+        <div><div class="gap-desc" style="font-size: clamp(16px, 1.8vw, 22px); color: var(--white);">Main agent stays clean. Context stays open.</div></div>
+      </div>
+    </div>
+    <div class="big-quote" style="margin-top:32px; font-size:clamp(22px, 3.2vw, 42px); color: var(--white);">
+      "Sub-agents are how we manage context. We use them more and more in Claude Code."<br>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--dim); letter-spacing: 0.1em; display:block; margin-top:12px;">— THARIQ SHIHIPAR</span>
+    </div>
+  </div>
+
   <!-- ═══ SLIDE 06 — MEET THE TEAM ═══ -->
   <div class="slide" data-notes="Introduce each agent in about 15 seconds. Use their signature quote from the agent files. Then say: 'Let me show you what happens when I give them a brief.' Switch to screen-share the CIPHER website/Claude Code. This slide stays up as the transition.">
     <div class="label">The CIPHER team — introduce each one</div>
@@ -1421,11 +1449,11 @@
     <div class="label">Segment 6 · 1:22–1:27 — the reveal moment</div>
     <div class="headline">YOUR<br>WORKSPACE<br><span class="p">IS READY.</span></div>
     <div class="subhead">
-      Check the chat.<br>
-      <strong>There's a GitHub link with your name on it.</strong>
+      Check the Armory result.<br>
+      <strong>Your custom Google Drive folder is now live.</strong>
     </div>
     <div class="reveal-banner">
-      <p>Open it. Find CLAUDE.md. Read it.<br>
+      <p>Open your folder. Find CLAUDE.md. Read it.<br>
       That was written from what you told us 20 minutes ago.</p>
     </div>
     <div class="mono" style="margin-top:28px">
@@ -1442,19 +1470,19 @@
     <div class="clone-steps">
       <div class="clone-step">
         <div class="cs-num">1</div>
-        <div><div class="cs-title">Copy your repo URL</div><div class="cs-desc">GitHub → green Code button → HTTPS → copy</div></div>
+        <div><div class="cs-title">Open your Google Drive folder</div><div class="cs-desc">Use the link from the Armory → Open the folder</div></div>
       </div>
       <div class="clone-step">
         <div class="cs-num">2</div>
-        <div><div class="cs-title">Open Claude Code terminal</div><div class="cs-desc">Bottom panel · Ctrl+` (backtick) if you can't see it</div></div>
+        <div><div class="cs-title">Download the workspace</div><div class="cs-desc">Right click folder → Download (or sync to desktop)</div></div>
       </div>
       <div class="clone-step">
         <div class="cs-num">3</div>
-        <div><div class="cs-title">Clone the repo</div><div class="cs-desc">Type and paste · hit enter · 10 seconds</div><div class="cs-code">git clone [your-repo-url]</div></div>
+        <div><div class="cs-title">Open Claude Code terminal</div><div class="cs-desc">Bottom panel · Ctrl+` (backtick) if you can't see it</div></div>
       </div>
       <div class="clone-step">
         <div class="cs-num">4</div>
-        <div><div class="cs-title">Open the folder</div><div class="cs-desc">File → Open Folder → select cloned folder → 7 folders appear</div></div>
+        <div><div class="cs-title">Open the folder</div><div class="cs-desc">File → Open Folder → select the downloaded folder → 7 folders appear</div></div>
       </div>
       <div class="clone-step">
         <div class="cs-num">5</div>
@@ -1501,7 +1529,7 @@
 
 <!-- NAV UI -->
 <div class="slide-meta">
-  <div class="slide-counter" id="counter">01 / 16</div>
+  <div class="slide-counter" id="counter">01 / 17</div>
   <div class="nav-dots" id="dots"></div>
 </div>
 <button class="notes-btn" onclick="toggleNotes()">NOTES [N]</button>
@@ -1517,7 +1545,7 @@
   let notesVisible = false;
 
   // Demo state
-  const DEMO_SLIDE_INDEX = 8;
+  const DEMO_SLIDE_INDEX = 9;
   const DEMO_STEPS = 9;
   let demoStep = 0;
   const dHero = document.getElementById('dHero');

@@ -64,4 +64,19 @@ Standardized the visual narrative across all modules by implementing high-fideli
 *   **Standardization Maintenance**: Verified that all new slides adhere to the unified `handleNext()` navigation engine and CSS variable standards.
 
 ---
-**Engineering Standard**: Phase 2 followed the "Visual Narrative" principle—ensuring that complex technical concepts (like persistent context and terminal use) are anchored by high-impact, metaphorical SVG illustrations.
+
+## [2026-05-13] Curriculum Expansion & Evolution Model
+
+### 1. Pedagogical Evolution
+*   **Evolution Path (Module 01)**: Inserted a new slide mapping the industry shift from **Single Prompting** (Stage 1) to **Workflows** (Stage 2) and finally to **Agents** (Stage 3).
+*   **Context**: Based on the evolution model described by Thariq Shihipar (Anthropic). This slide serves as the bridge between identifying "gaps" in chat AI and introducing the "system" solution.
+*   **Visuals**: Implemented a vertical evolution SVG model showing the progression of autonomous agency.
+*   **Sub-Agent Context Management (Module 02)**: Added a slide ("CONTEXT FILLS UP. SUB-AGENTS DON'T.") explaining how sub-agents protect the main agent's context window. Included Thariq Shihipar's quote on context management.
+*   **Agent Verification (Module 04)**: Inserted a new slide ("3 QUESTIONS. BEFORE YOU BUILD.") outlining the three core pillars of agent readiness: Context, Action, and Verification.
+
+### 2. System Integrity
+*   **Slide Count Synchronization**: Updated Module 01 slide counter to 13 (Total), Module 02 slide counter to 17 (Total), and Module 04 slide counter to 14 (Total).
+*   **Navigation**: Verified the new slides integrate seamlessly into the global advancement logic.
+
+---
+**Engineering Standard**: Every curriculum update must include both a conceptual bridge (why it matters) and a visual anchor (how it's remembered).

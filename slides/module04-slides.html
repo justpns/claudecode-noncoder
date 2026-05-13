@@ -631,47 +631,113 @@
 <div class="notes-panel" id="notesPanel"></div>
 
 <script>
-  const slides = document.querySelectorAll('.slide');
+  const slides = Array.from(document.querySelectorAll('.deck > .slide'));
   const counter = document.getElementById('counter');
   const dotsWrap = document.getElementById('dots');
   const progress = document.getElementById('progress');
   const notesPanel = document.getElementById('notesPanel');
-  let current = 0, notesVisible = false;
 
-  slides.forEach((_,i) => {
-    const d = document.createElement('div');
-    d.className = 'dot'+(i===0?' active':'');
-    d.onclick = () => goTo(i);
-    dotsWrap.appendChild(d);
-  });
+  let current = 0;
+  let notesVisible = false;
+
+  function pad(num) {
+    return String(num).padStart(2, '0');
+  }
+
+  function updateUI() {
+    slides.forEach((slide, index) => {
+      slide.classList.toggle('active', index === current);
+      if (dotsWrap.children[index]) {
+        dotsWrap.children[index].classList.toggle('active', index === current);
+      }
+    });
+
+    counter.textContent = `${pad(current + 1)} / ${pad(slides.length)}`;
+    progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+
+    if (notesVisible) {
+      showNotes();
+    }
+  }
 
   function goTo(n) {
     if (n < 0 || n >= slides.length) return;
-    slides[current].classList.remove('active');
-    dotsWrap.children[current].classList.remove('active');
     current = n;
-    slides[current].classList.add('active');
-    dotsWrap.children[current].classList.add('active');
-    counter.textContent = String(current+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
-    progress.style.width = ((current+1)/slides.length*100)+'%';
-    if (notesVisible) showNotes();
+    updateUI();
   }
 
-  function handleNext() { goTo(current + 1); }
+  function handleNext() {
+    goTo(current + 1);
+  }
 
-  document.addEventListener('keydown', e => {
-    if (e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault(); handleNext();}
-    if (e.key==='ArrowLeft' ||e.key==='ArrowUp')               {e.preventDefault(); goTo(current-1);}
-    if (e.key==='n'||e.key==='N') toggleNotes();
-    const n=parseInt(e.key); if(!isNaN(n)&&n>=1&&n<=slides.length) goTo(n-1);
+  function handlePrev() {
+    goTo(current - 1);
+  }
+
+  function showNotes() {
+    const notes = slides[current]?.dataset?.notes || 'No speaker notes for this slide.';
+    notesPanel.textContent = notes;
+    notesPanel.classList.add('visible');
+  }
+
+  function hideNotes() {
+    notesPanel.classList.remove('visible');
+  }
+
+  function toggleNotes() {
+    notesVisible = !notesVisible;
+    notesVisible ? showNotes() : hideNotes();
+  }
+
+  slides.forEach((_, index) => {
+    const dot = document.createElement('div');
+    dot.className = `dot${index === current ? ' active' : ''}`;
+    dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+    dot.onclick = (event) => {
+      event.stopPropagation();
+      goTo(index);
+    };
+    dotsWrap.appendChild(dot);
   });
 
-  document.addEventListener('click', e => {
-    if (e.target.closest('.notes-btn')||e.target.closest('.nav-dots')||e.target.closest('.dot')) return;
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown' || event.key === ' ') {
+      event.preventDefault();
+      handleNext();
+    }
+
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      handlePrev();
+    }
+
+    if (event.key === 'n' || event.key === 'N') {
+      event.preventDefault();
+      toggleNotes();
+    }
+
+    const slideNumber = Number.parseInt(event.key, 10);
+    if (!Number.isNaN(slideNumber) && slideNumber >= 1 && slideNumber <= slides.length) {
+      goTo(slideNumber - 1);
+    }
+  });
+
+  document.addEventListener('click', (event) => {
+    if (
+      event.target.closest('a') ||
+      event.target.closest('button') ||
+      event.target.closest('.notes-btn') ||
+      event.target.closest('.nav-dots') ||
+      event.target.closest('.dot') ||
+      event.target.closest('.notes-panel')
+    ) {
+      return;
+    }
+
     handleNext();
   });
 
-  progress.style.width=(1/slides.length*100)+'%';
+  updateUI();
 </script>
 </body>
 </html>
