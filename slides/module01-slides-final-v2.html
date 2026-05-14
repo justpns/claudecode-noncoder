@@ -338,7 +338,7 @@ body { background: var(--bg); color: var(--white); font-family: 'Barlow Condense
 .nav-dots { display: flex; gap: 4px; }
 .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--dimmer); cursor: pointer; transition: background 0.2s, transform 0.2s; }
 .dot.active { background: var(--orange); transform: scale(1.4); }
-.notes-btn { position: fixed; bottom: 24px; left: 44px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--dimmer); letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; border: 1px solid var(--border); padding: 5px 11px; background: none; transition: all 0.2s; }
+  .notes-btn { display: none; position: fixed; bottom: 24px; left: 44px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--dimmer); letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; border: 1px solid var(--border); padding: 5px 11px; background: none; transition: all 0.2s; }
 .notes-btn:hover { color: var(--white); border-color: var(--dimmer); }
 .notes-panel { position: fixed; bottom: 60px; left: 44px; right: 44px; background: rgba(10,10,10,0.97); border: 1px solid var(--border); padding: 16px 20px; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; color: var(--dim); line-height: 1.6; display: none; z-index: 100; max-height: 150px; overflow-y: auto; }
 .notes-panel.visible { display: block; }
