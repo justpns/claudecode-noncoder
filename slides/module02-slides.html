@@ -1159,85 +1159,78 @@
     </div>
   </div>
 
-  <!-- ═══ SLIDE 05 — THE THREE TIERS ═══ -->
-  <div class="slide" data-notes="Explain the three tiers before you introduce the agents. Use the John Wick parallel: 'Three levels of the operation.' Tier 1: You drop the brief — VECTOR plans. Tier 2: Agents execute in sequence. Tier 3: Sub-agents are called when specialists are needed. 'Main agent stays in control — the asset handles the detail.'">
+  <!-- ═══ SLIDE 05 — THE THREE TIERS (REDESIGNED) ═══ -->
+  <div class="slide layout-full"
+       data-notes="Three tiers. One direction. You drop the brief at the top — VECTOR plans the operation and routes tasks down. Tier 2 agents execute in sequence — each one owns exactly one job. When an agent needs a specialist, it reaches down to Tier 3. The result comes back up, gets reviewed, gets approved by you — and ships. Now here's the question I want you to sit with...">
     <div class="label">The architecture — three tiers</div>
-    <div class="headline">ONE BRIEF.<br><span class="p">THREE</span><br>TIERS.</div>
-    <div class="tier-diagram">
-      <div class="tier-row-d">
-        <div class="tier-label-col">Tier 1<br>Orch</div>
-        <div class="tier-nodes-d">
-          <div class="tier-node">
-            <div class="tn-ring" style="color:var(--green);font-size:8px">YOU</div>
-            <div class="tn-name" style="color:var(--green)">Operator</div>
-          </div>
-          <div style="flex:0.2;height:1px;background:var(--border2);align-self:center;margin-top:-16px"></div>
-          <div class="tier-node">
-            <div class="tn-ring" style="color:var(--purple)">VEC</div>
-            <div class="tn-name" style="color:var(--purple)">VECTOR</div>
-          </div>
-        </div>
+    <div class="headline" style="margin-bottom:4px">ONE BRIEF. <span class="p">THREE TIERS.</span></div>
+    <div class="subhead" style="margin-bottom:20px">One input. Three layers of intelligence. One direction of flow.</div>
+
+    <!-- TIER 1 -->
+    <div style="display:grid; grid-template-columns:120px 1fr; background:var(--bg3); border:1px solid var(--border2); border-left:3px solid var(--purple); border-radius:2px; padding:14px 20px; align-items:center; gap:20px">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--purple); letter-spacing:0.15em; margin-bottom:4px">TIER 1</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--purple); letter-spacing:0.05em; line-height:1">ORCHESTRATOR</div>
       </div>
-      <div class="tier-connector"></div>
-      <div class="tier-row-d">
-        <div class="tier-label-col">Tier 2<br>Agents</div>
-        <div class="tier-nodes-d">
-          <div class="tier-node">
-            <div class="tn-ring" style="color:#6B9DC8">SCT</div>
-            <div class="tn-name" style="color:#6B9DC8">SCOUT</div>
-          </div>
-          <div style="flex:0.2;height:1px;background:var(--border);align-self:center;margin-top:-16px"></div>
-          <div class="tier-node">
-            <div class="tn-ring" style="color:var(--gold)">FRG</div>
-            <div class="tn-name" style="color:var(--gold)">FORGE</div>
-          </div>
-          <div style="flex:0.2;height:1px;background:var(--border);align-self:center;margin-top:-16px"></div>
-          <div class="tier-node">
-            <div class="tn-ring" style="color:var(--red)">SHD</div>
-            <div class="tn-name" style="color:var(--red)">SHADE</div>
-          </div>
-          <div style="flex:0.2;height:1px;background:var(--border);align-self:center;margin-top:-16px"></div>
-          <div class="tier-node">
-            <div class="tn-ring" style="color:var(--green)">PRX</div>
-            <div class="tn-name" style="color:var(--green)">PROXY</div>
-          </div>
-          <div style="flex:0.2;height:1px;background:var(--border2);align-self:center;margin-top:-16px"></div>
-          <div class="tier-node">
-            <div class="tn-ring" style="color:var(--green);font-size:8px">YOU</div>
-            <div class="tn-name" style="color:var(--green);font-size:8px">Approve</div>
-          </div>
-        </div>
+      <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap">
+        <span style="font-family:'Barlow Condensed',sans-serif; font-size:15px; color:var(--green); background:rgba(92,184,126,0.08); border:1px solid rgba(92,184,126,0.22); padding:5px 14px; border-radius:2px">YOU · Drop the brief</span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--dimmer)">→</span>
+        <span style="font-family:'Barlow Condensed',sans-serif; font-size:15px; color:var(--purple); background:rgba(155,143,232,0.08); border:1px solid rgba(155,143,232,0.22); padding:5px 14px; border-radius:2px">VECTOR · Plans &amp; routes the operation</span>
       </div>
-      <div class="tier-connector"></div>
-      <div class="tier-row-d">
-        <div class="tier-label-col">Tier 3<br>Assets</div>
-        <div class="tier-subnodes">
-          <div class="sub-node">
-            <div class="sn-ring" style="color:var(--teal)">TRC</div>
-            <div class="sn-name" style="color:var(--teal)">TRACE</div>
-            <div class="sub-parent">← SCOUT</div>
-          </div>
-          <div style="flex:0.2"></div>
-          <div class="sub-node">
-            <div class="sn-ring" style="color:var(--gold)">TNE</div>
-            <div class="sn-name" style="color:var(--gold)">TONE</div>
-            <div class="sub-parent">← FORGE</div>
-          </div>
-          <div style="flex:0.2"></div>
-          <div class="sub-node">
-            <div class="sn-ring" style="color:var(--red)">FCT</div>
-            <div class="sn-name" style="color:var(--red)">FACT</div>
-            <div class="sub-parent">← SHADE</div>
-          </div>
-          <div style="flex:0.2"></div>
-          <div class="sub-node">
-            <div class="sn-ring" style="color:var(--green)">PLS</div>
-            <div class="sn-name" style="color:var(--green)">PULSE</div>
-            <div class="sub-parent">← PROXY</div>
-          </div>
-          <div style="flex:1.2"></div>
-        </div>
+    </div>
+
+    <!-- CONNECTOR 1→2 -->
+    <div style="display:flex; align-items:center; gap:12px; padding:6px 0 6px 140px">
+      <div style="width:1px; height:20px; background:var(--border2)"></div>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--dimmer); letter-spacing:0.1em">↓ &nbsp; delegates tasks to agents</div>
+    </div>
+
+    <!-- TIER 2 -->
+    <div style="display:grid; grid-template-columns:120px 1fr; background:var(--bg3); border:1px solid var(--border2); border-left:3px solid var(--teal); border-radius:2px; padding:14px 20px; align-items:center; gap:20px">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--teal); letter-spacing:0.15em; margin-bottom:4px">TIER 2</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--teal); letter-spacing:0.05em; line-height:1">AGENTS</div>
       </div>
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--teal); background:rgba(75,191,179,0.08); border:1px solid rgba(75,191,179,0.2); padding:4px 12px; border-radius:2px; letter-spacing:0.06em">SCOUT</span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--dimmer)">→</span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--teal); background:rgba(75,191,179,0.08); border:1px solid rgba(75,191,179,0.2); padding:4px 12px; border-radius:2px; letter-spacing:0.06em">FORGE</span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--dimmer)">→</span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--teal); background:rgba(75,191,179,0.08); border:1px solid rgba(75,191,179,0.2); padding:4px 12px; border-radius:2px; letter-spacing:0.06em">SHADE</span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--dimmer)">→</span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--teal); background:rgba(75,191,179,0.08); border:1px solid rgba(75,191,179,0.2); padding:4px 12px; border-radius:2px; letter-spacing:0.06em">PROXY</span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--dimmer)">→</span>
+        <span style="font-family:'Barlow Condensed',sans-serif; font-size:15px; color:var(--green); background:rgba(92,184,126,0.08); border:1px solid rgba(92,184,126,0.22); padding:4px 12px; border-radius:2px">YOU · Approve</span>
+      </div>
+    </div>
+
+    <!-- CONNECTOR 2→3 -->
+    <div style="display:flex; align-items:center; gap:12px; padding:6px 0 6px 140px">
+      <div style="width:1px; height:20px; background:var(--border2)"></div>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--dimmer); letter-spacing:0.1em">↓ &nbsp; agents call specialists when needed</div>
+    </div>
+
+    <!-- TIER 3 -->
+    <div style="display:grid; grid-template-columns:120px 1fr; background:var(--bg3); border:1px solid var(--border2); border-left:3px solid rgba(245,240,232,0.15); border-radius:2px; padding:14px 20px; align-items:center; gap:20px">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--dimmer); letter-spacing:0.15em; margin-bottom:4px">TIER 3</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--dimmer); letter-spacing:0.05em; line-height:1">SUB-AGENTS</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap">
+        <span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--dimmer); background:rgba(245,240,232,0.04); border:1px solid var(--border); padding:4px 12px; border-radius:2px; letter-spacing:0.06em">TRACE</span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--dimmer); background:rgba(245,240,232,0.04); border:1px solid var(--border); padding:4px 12px; border-radius:2px; letter-spacing:0.06em">TONE</span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--dimmer); background:rgba(245,240,232,0.04); border:1px solid var(--border); padding:4px 12px; border-radius:2px; letter-spacing:0.06em">FACT</span>
+        <span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--dimmer); background:rgba(245,240,232,0.04); border:1px solid var(--border); padding:4px 12px; border-radius:2px; letter-spacing:0.06em">PULSE</span>
+        <span style="font-family:'Barlow Condensed',sans-serif; font-size:13px; color:var(--dimmer); padding:4px 8px; font-style:italic">specialists on demand</span>
+      </div>
+    </div>
+
+    <!-- CURIOSITY HOOK -->
+    <div class="highlight" style="margin-top:18px">
+      <p style="font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:600; color:var(--white); margin:0">
+        "Why not just use <em>one</em> AI for everything?"
+        <span style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--dimmer); font-weight:400; margin-left:16px; letter-spacing:0.1em">→ next slide</span>
+      </p>
     </div>
   </div>
 
@@ -1517,6 +1510,77 @@
     </div>
   </div>
 
+  <!-- ═══ SLIDE CE — CONTEXT ENGINEERING & AI WORKSPACE ═══ -->
+  <div class="slide layout-full"
+       data-notes="Everything you just saw in that demo is possible because of what's in these seven components. Context Engineering is the practice of deliberately building the world around your prompt — not just writing a better prompt. When you have folders, templates, memory, rules, workflow, QA, and a human in the loop — AI output stops being random and starts being reliable. That formula at the bottom is your new operating model.">
+
+    <div class="label">The architecture — what makes it work</div>
+    <div class="headline" style="margin-bottom:6px">CONTEXT <span class="t">ENGINEERING</span></div>
+    <div class="subhead" style="margin-bottom:24px">Your workspace is the system that makes AI output predictable, consistent, and enterprise-ready.</div>
+
+    <!-- 7-COMPONENT ARCHITECTURE GRID -->
+    <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-bottom:28px">
+
+      <div style="background:var(--bg3); border:1px solid var(--border2); border-top:2px solid var(--teal); border-radius:2px; padding:14px 12px">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--teal); letter-spacing:0.12em; margin-bottom:8px">01</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--white); letter-spacing:0.03em; margin-bottom:5px">Folders</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:12px; color:var(--dim); line-height:1.4">Organized structure for every asset</div>
+      </div>
+
+      <div style="background:var(--bg3); border:1px solid var(--border2); border-top:2px solid var(--teal); border-radius:2px; padding:14px 12px">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--teal); letter-spacing:0.12em; margin-bottom:8px">02</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--white); letter-spacing:0.03em; margin-bottom:5px">Templates</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:12px; color:var(--dim); line-height:1.4">Output standards your AI follows</div>
+      </div>
+
+      <div style="background:var(--bg3); border:1px solid var(--border2); border-top:2px solid var(--teal); border-radius:2px; padding:14px 12px">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--teal); letter-spacing:0.12em; margin-bottom:8px">03</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--white); letter-spacing:0.03em; margin-bottom:5px">Memory</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:12px; color:var(--dim); line-height:1.4">Client context that persists forever</div>
+      </div>
+
+      <div style="background:var(--bg3); border:1px solid var(--border2); border-top:2px solid var(--teal); border-radius:2px; padding:14px 12px">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--teal); letter-spacing:0.12em; margin-bottom:8px">04</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--white); letter-spacing:0.03em; margin-bottom:5px">Rules</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:12px; color:var(--dim); line-height:1.4">CLAUDE.md — the AI's operating law</div>
+      </div>
+
+      <div style="background:var(--bg3); border:1px solid var(--border2); border-top:2px solid var(--teal); border-radius:2px; padding:14px 12px">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--teal); letter-spacing:0.12em; margin-bottom:8px">05</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--white); letter-spacing:0.03em; margin-bottom:5px">Workflow</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:12px; color:var(--dim); line-height:1.4">Step-by-step process definitions</div>
+      </div>
+
+      <div style="background:var(--bg3); border:1px solid var(--border2); border-top:2px solid var(--teal); border-radius:2px; padding:14px 12px">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--teal); letter-spacing:0.12em; margin-bottom:8px">06</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--white); letter-spacing:0.03em; margin-bottom:5px">QA</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:12px; color:var(--dim); line-height:1.4">Quality checklist before delivery</div>
+      </div>
+
+      <div style="background:var(--bg3); border:1px solid var(--border2); border-top:2px solid var(--yellow); border-radius:2px; padding:14px 12px">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--yellow); letter-spacing:0.12em; margin-bottom:8px">07</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--white); letter-spacing:0.03em; margin-bottom:5px">Human Approval</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:12px; color:var(--dim); line-height:1.4">You decide. AI executes.</div>
+      </div>
+
+    </div>
+
+    <!-- FORMULA -->
+    <div style="background:var(--bg3); border:1px solid var(--border2); border-radius:2px; padding:22px 32px; text-align:center">
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:clamp(22px,3.2vw,46px); letter-spacing:0.04em; line-height:1; white-space:nowrap">
+        <span style="color:var(--white)">AI QUALITY</span>
+        <span style="color:var(--dimmer); margin:0 12px">=</span>
+        <span style="color:var(--teal)">CONTEXT</span>
+        <span style="color:var(--dimmer); margin:0 10px">×</span>
+        <span style="color:var(--yellow)">WORKFLOW</span>
+        <span style="color:var(--dimmer); margin:0 10px">×</span>
+        <span style="color:var(--green)">VERIFICATION</span>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--dimmer); letter-spacing:0.15em; margin-top:10px">Engineering-grade output. Every time.</div>
+    </div>
+
+  </div>
+
   <!-- ═══ SLIDE 09 — FOLDER STRUCTURE ═══ -->
   <div class="slide" data-notes="Walk through each folder at about 45 seconds each. Map every folder back to the recipe model and the CIPHER demo: '01-context is what SCOUT reads. 03-templates is what FORGE follows. 06-review is where Shade's checklist lives.' The structure should feel inevitable — not arbitrary — by the time you finish.">
     <div class="label">Segment 4 · 1:10–1:20 — the foundation</div>
@@ -1548,6 +1612,68 @@
       <div class="fe-row"><div><div class="fe-name">03-templates/</div><div class="fe-analogy">The stationery cupboard</div></div><div class="fe-desc">FORGE follows these. Every output matches your format — every time.</div></div>
       <div class="fe-row"><div><div class="fe-name">05-outputs/</div><div class="fe-analogy">The outbox</div></div><div class="fe-desc">Every completed delivery lands here. This is what you open at the end. Review. Approve. Send.</div></div>
       <div class="fe-row"><div><div class="fe-name">CLAUDE.md</div><div class="fe-analogy">The operating rules</div></div><div class="fe-desc">Above everything. Every tier reads this before doing anything. The brain of your workspace.</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE CE2 — WHAT IS CLAUDE.MD ═══ -->
+  <div class="slide layout-split"
+       data-notes="Before we go deep into the anatomy of CLAUDE.md, give them the simple mental model. It's not a config file. It's not a prompt. It's an instruction manual that the AI reads every single time it opens your workspace. One sentence summary: CLAUDE.md is the document that turns a generic AI into your AI.">
+    <div>
+      <div class="label">Before we open it — one mental model</div>
+      <div class="headline">WHAT IS <span class="t">CLAUDE.MD</span><span style="color:var(--dim)">?</span></div>
+      <div class="subhead" style="margin-bottom:12px">One file. Read every session. Turns a generic AI into <em>your</em> AI.</div>
+
+      <div class="gap-list" style="margin-top:0; gap:8px">
+
+        <div class="gap-item" style="background:rgba(75,191,179,0.06); border-left:3px solid var(--teal); padding:10px 16px">
+          <div style="flex:1">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--teal); letter-spacing:0.1em; margin-bottom:4px">WHAT IT IS</div>
+            <div style="font-family:'Barlow Condensed',sans-serif; font-size:18px; color:var(--white); font-weight:600; margin-bottom:2px">An instruction manual for your AI</div>
+            <div style="font-family:'Barlow Condensed',sans-serif; font-size:14px; color:var(--dim); line-height:1.35">It tells the AI who you are, what you do, and what good output looks like — before you type a word.</div>
+          </div>
+        </div>
+
+        <div class="gap-item" style="background:rgba(255,217,61,0.05); border-left:3px solid var(--yellow); padding:10px 16px">
+          <div style="flex:1">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--yellow); letter-spacing:0.1em; margin-bottom:4px">WHEN IT RUNS</div>
+            <div style="font-family:'Barlow Condensed',sans-serif; font-size:18px; color:var(--white); font-weight:600; margin-bottom:2px">Every session — automatically</div>
+            <div style="font-family:'Barlow Condensed',sans-serif; font-size:14px; color:var(--dim); line-height:1.35">No copy-pasting. No re-explaining. Claude reads it the moment your workspace opens.</div>
+          </div>
+        </div>
+
+        <div class="gap-item" style="background:rgba(92,184,126,0.05); border-left:3px solid var(--green); padding:10px 16px">
+          <div style="flex:1">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--green); letter-spacing:0.1em; margin-bottom:4px">WHAT IT REPLACES</div>
+            <div style="font-family:'Barlow Condensed',sans-serif; font-size:18px; color:var(--white); font-weight:600; margin-bottom:2px">The 10-minute context dump</div>
+            <div style="font-family:'Barlow Condensed',sans-serif; font-size:14px; color:var(--dim); line-height:1.35">"We're a boutique agency, our tone is warm…" — you'll never type that again.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="illus" style="display:flex; flex-direction:column; justify-content:center; gap:10px">
+      <!-- SIMPLE VISUAL: file card + label -->
+      <div style="background:var(--bg3); border:1px solid var(--border2); border-top:3px solid var(--teal); border-radius:2px; padding:24px 28px">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--teal); letter-spacing:0.15em; margin-bottom:16px">CLAUDE.MD</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; line-height:2; color:var(--dim)">
+          <span style="color:var(--white)"># Who I Am</span><br>
+          <span style="color:var(--dimmer)">→ name · role · company</span><br>
+          <span style="color:var(--white)"># My Clients</span><br>
+          <span style="color:var(--dimmer)">→ names · industry · tone</span><br>
+          <span style="color:var(--white)"># Output Rules</span><br>
+          <span style="color:var(--dimmer)">→ format · length · voice</span><br>
+          <span style="color:var(--white)"># Workflow</span><br>
+          <span style="color:var(--dimmer)">→ steps · approvals · QA</span><br>
+          <span style="color:var(--white)"># What Good Looks Like</span><br>
+          <span style="color:var(--dimmer)">→ examples · standards</span>
+        </div>
+      </div>
+      <div class="highlight" style="margin-top:0">
+        <p style="font-family:'Barlow Condensed',sans-serif; font-size:17px; font-weight:600; color:var(--white); margin:0">
+          "Think of it as the onboarding document<br>for a brilliant team member who reads it<br><span style="color:var(--teal)">perfectly, completely, every time.</span>"
+        </p>
+      </div>
     </div>
   </div>
 

@@ -516,6 +516,99 @@ body { background: var(--bg); color: var(--white); font-family: 'Barlow Condense
       </div>
       </div>
 
+<!-- ═══════════════════════════════════════════
+     S03b — CONTEXT = THE WORLD AROUND THE PROMPT
+═══════════════════════════════════════════ -->
+<div class="slide layout-full"
+     data-notes="Most people assume that a better prompt leads to better output. That's only half true. What the AI really needs is the world around the prompt — the business context, the past decisions, the personal preferences, and the system rules. When you build a workspace that provides all five context layers automatically, the same prompt produces dramatically different, and dramatically better, results. This is the shift from chat to system.">
+  <div class="label">The missing piece — before we fix it</div>
+  <div class="headline" style="margin-bottom:4px">CONTEXT = THE WORLD <span class="o">AROUND</span> THE PROMPT</div>
+  <div class="subhead" style="margin-bottom:28px">Prompt quality alone doesn't determine AI output quality — <span style="color:var(--orange)">context does.</span></div>
+
+  <!-- COMPARISON ROW -->
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px">
+
+    <!-- LEFT: No context -->
+    <div style="background:var(--bg3); border:1px solid var(--border2); border-top:3px solid var(--red); border-radius:2px; padding:20px 22px">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--red); letter-spacing:0.12em; margin-bottom:14px">WITHOUT CONTEXT</div>
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px">
+        <div style="background:rgba(230,57,70,0.08); border:1px solid rgba(230,57,70,0.2); border-radius:2px; padding:8px 14px; font-family:'Barlow Condensed',sans-serif; font-size:16px; color:var(--white); flex:1">
+          Prompt only
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px">
+        <div style="width:1px; height:28px; background:rgba(230,57,70,0.25); margin-left:20px"></div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:rgba(230,57,70,0.5)">↓ generates</div>
+      </div>
+      <div style="background:rgba(230,57,70,0.05); border:1px solid rgba(230,57,70,0.15); border-radius:2px; padding:10px 14px">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--red); letter-spacing:0.08em; margin-bottom:4px">OUTPUT</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:18px; color:rgba(245,240,232,0.35); text-decoration:line-through">Generic output</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(230,57,70,0.5); margin-top:4px">wrong tone · no brand · no history · needs editing</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: With context -->
+    <div style="background:var(--bg3); border:1px solid var(--border2); border-top:3px solid var(--green); border-radius:2px; padding:20px 22px">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--green); letter-spacing:0.12em; margin-bottom:14px">WITH CONTEXT</div>
+      <div style="display:flex; flex-direction:column; gap:5px; margin-bottom:12px">
+        <div style="background:rgba(255,107,53,0.08); border:1px solid rgba(255,107,53,0.22); border-radius:2px; padding:6px 12px; font-family:'Barlow Condensed',sans-serif; font-size:14px; color:var(--white)">Prompt</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px">
+          <div style="background:rgba(92,184,126,0.07); border:1px solid rgba(92,184,126,0.18); border-radius:2px; padding:5px 10px; font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(92,184,126,0.8)">+ Task Context</div>
+          <div style="background:rgba(92,184,126,0.07); border:1px solid rgba(92,184,126,0.18); border-radius:2px; padding:5px 10px; font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(92,184,126,0.8)">+ Business Context</div>
+          <div style="background:rgba(92,184,126,0.07); border:1px solid rgba(92,184,126,0.18); border-radius:2px; padding:5px 10px; font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(92,184,126,0.8)">+ Historical Context</div>
+          <div style="background:rgba(92,184,126,0.07); border:1px solid rgba(92,184,126,0.18); border-radius:2px; padding:5px 10px; font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(92,184,126,0.8)">+ Personal Context</div>
+        </div>
+        <div style="background:rgba(92,184,126,0.07); border:1px solid rgba(92,184,126,0.18); border-radius:2px; padding:5px 10px; font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(92,184,126,0.8)">+ System Context</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px">
+        <div style="width:1px; height:28px; background:rgba(92,184,126,0.25); margin-left:20px"></div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:rgba(92,184,126,0.5)">↓ generates</div>
+      </div>
+      <div style="background:rgba(92,184,126,0.06); border:1px solid rgba(92,184,126,0.2); border-radius:2px; padding:10px 14px">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--green); letter-spacing:0.08em; margin-bottom:4px">OUTPUT</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:600; color:var(--green)">High-quality output ✓</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(92,184,126,0.6); margin-top:4px">on-brand · accurate · consistent · ready to use</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CONTEXT LAYER PILLS -->
+  <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:10px">
+
+    <div style="background:var(--bg3); border:1px solid var(--border2); border-radius:2px; padding:12px 14px">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--orange); letter-spacing:0.1em; margin-bottom:5px">01 · TASK</div>
+      <div style="font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:600; color:var(--white); margin-bottom:3px">Task Context</div>
+      <div style="font-family:'Barlow Condensed',sans-serif; font-size:12px; color:var(--dim); line-height:1.4">What needs to be done right now</div>
+    </div>
+
+    <div style="background:var(--bg3); border:1px solid var(--border2); border-radius:2px; padding:12px 14px">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--orange); letter-spacing:0.1em; margin-bottom:5px">02 · BUSINESS</div>
+      <div style="font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:600; color:var(--white); margin-bottom:3px">Business Context</div>
+      <div style="font-family:'Barlow Condensed',sans-serif; font-size:12px; color:var(--dim); line-height:1.4">Your brand, clients, tone, goals</div>
+    </div>
+
+    <div style="background:var(--bg3); border:1px solid var(--border2); border-radius:2px; padding:12px 14px">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--orange); letter-spacing:0.1em; margin-bottom:5px">03 · HISTORICAL</div>
+      <div style="font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:600; color:var(--white); margin-bottom:3px">Historical Context</div>
+      <div style="font-family:'Barlow Condensed',sans-serif; font-size:12px; color:var(--dim); line-height:1.4">Past decisions, outputs, patterns</div>
+    </div>
+
+    <div style="background:var(--bg3); border:1px solid var(--border2); border-radius:2px; padding:12px 14px">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--orange); letter-spacing:0.1em; margin-bottom:5px">04 · PERSONAL</div>
+      <div style="font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:600; color:var(--white); margin-bottom:3px">Personal Context</div>
+      <div style="font-family:'Barlow Condensed',sans-serif; font-size:12px; color:var(--dim); line-height:1.4">Your role, preferences, expertise</div>
+    </div>
+
+    <div style="background:var(--bg3); border:1px solid var(--border2); border-radius:2px; padding:12px 14px">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--orange); letter-spacing:0.1em; margin-bottom:5px">05 · SYSTEM</div>
+      <div style="font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:600; color:var(--white); margin-bottom:3px">System Context</div>
+      <div style="font-family:'Barlow Condensed',sans-serif; font-size:12px; color:var(--dim); line-height:1.4">Rules, workflows, AI instructions</div>
+    </div>
+
+  </div>
+</div>
+
       <!-- ═══════════════════════════════════════════
       S04 — THE CONTEXT HIERARCHY
       ═══════════════════════════════════════════ -->
@@ -1141,7 +1234,7 @@ const counter   = document.getElementById('counter');
 const dotsWrap  = document.getElementById('dots');
 const progress  = document.getElementById('progress');
 const notesPanel = document.getElementById('notesPanel');
-const DEMO_SLIDE_INDEX = 4; // 0-based index of the demo slide (slide 5)
+const DEMO_SLIDE_INDEX = 5; // 0-based index of the demo slide (slide 6)
 let currentSlide = 0;
 let notesVisible = false;
 
