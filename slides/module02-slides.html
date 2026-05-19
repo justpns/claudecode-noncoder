@@ -898,7 +898,7 @@
 <div class="deck" id="deck">
 
   <!-- ═══ SLIDE 01 — TITLE ═══ -->
-  <div class="slide active layout-split" data-notes="Module 2 is the biggest module — 50 minutes. Three things happen here: mindset shifts, the CIPHER demo, then participants open their own personalised repos. Start with energy — this is where the workshop shifts from problem to possibility.">
+  <div class="slide active layout-split">
     <div>
       <div class="label" style="display:flex; justify-content:space-between; width:100%">
         <span>Module 02 · 50 minutes</span>
@@ -999,7 +999,7 @@
   </div>
 
   <!-- ═══ SLIDE 02 — THREE MINDSET SHIFTS ═══ -->
-  <div class="slide" data-notes="Deliver the three shifts quickly — about 30 seconds each. Then use the recipe analogy to tie them together. This is the conceptual foundation before we show CIPHER. Don't linger — the aspiration demo is what they're waiting for.">
+  <div class="slide">
     <div class="label">Segment 2 · 0:53–0:58 — mindset first</div>
     <div class="headline">3 SHIFTS<br>BEFORE WE<br><span class="y">BUILD</span></div>
     <div class="shift-list">
@@ -1022,7 +1022,7 @@
   </div>
 
   <!-- ═══ SLIDE — THE CONTROL ROOM (EMPATHY) ═══ -->
-  <div class="slide" style="padding: 32px 64px" data-notes="Name the anxiety before anyone feels it. Say: 'I know what some of you are thinking — this looks like coding. It is not. Not one character of code today.' Then use the two panels. Left: what it feels like now — 8 tabs, no coherence, you are the glue. Right: what Claude Code gives you — one window, full visibility, Claude reads everything at once. The key reframe: we use the terminal not to code, but to give Claude a view of the whole workspace simultaneously. That's it. The cockpit metaphor lands well — you don't need to know how to build a plane to use the cockpit. You just need to know which button does what.'">
+  <div class="slide" style="padding: 32px 64px">
     <div class="label" style="color:var(--teal); margin-bottom: 8px">Before we open Claude Code — one reframe</div>
     <div class="headline" style="font-size:clamp(30px, 4.2vw, 54px); margin-bottom: 8px">THIS IS NOT <span class="r">CODING.</span><br>THIS IS YOUR <span class="t">CONTROL ROOM.</span></div>
     <div class="subhead" style="font-size:16px; margin-top:0">"We're not writing code. We're giving Claude a window into all your folders at once."</div>
@@ -1110,7 +1110,7 @@
   </div>
 
   <!-- ═══ SLIDE 03 — THE RECIPE MODEL ═══ -->
-  <div class="slide" data-notes="The recipe analogy does two jobs: it makes the mindset concrete, and it pre-loads the folder structure. When participants see the 7 folders in a few minutes, they'll already know what each one maps to. Say: 'You are the chef who designed the recipe. The AI is the kitchen.'">
+  <div class="slide">
     <div class="label">The mental model — hold this through everything that follows</div>
     <div class="headline">THINK OF IT<br>AS A<br><span class="t">RECIPE</span></div>
     <div class="recipe-grid">
@@ -1143,7 +1143,7 @@
   </div>
 
   <!-- ═══ SLIDE 04 — CIPHER INTRO ═══ -->
-  <div class="slide" data-notes="This is the aspiration reveal. Say 'I want to show you what this looks like at full maturity.' Then share your screen with CIPHER workspace open. This slide stays up while you switch to screen-share — it frames what participants are about to see.">
+  <div class="slide">
     <div class="label">Segment 3 · 0:58–1:14 — aspiration before foundation</div>
     <div class="display">
       <span class="d">MEET</span><br>
@@ -1161,7 +1161,7 @@
 
   <!-- ═══ SLIDE 05 — THE THREE TIERS (REDESIGNED) ═══ -->
   <div class="slide layout-full"
-       data-notes="Three tiers. One direction. You drop the brief at the top — VECTOR plans the operation and routes tasks down. Tier 2 agents execute in sequence — each one owns exactly one job. When an agent needs a specialist, it reaches down to Tier 3. The result comes back up, gets reviewed, gets approved by you — and ships. Now here's the question I want you to sit with...">
+      >
     <div class="label">The architecture — three tiers</div>
     <div class="headline" style="margin-bottom:4px">ONE BRIEF. <span class="p">THREE TIERS.</span></div>
     <div class="subhead" style="margin-bottom:20px">One input. Three layers of intelligence. One direction of flow.</div>
@@ -1235,7 +1235,7 @@
   </div>
 
   <!-- ═══ SLIDE 05B — SUB-AGENT CONTEXT ═══ -->
-  <div class="slide" data-notes="Ask: 'Has anyone had Claude lose track halfway through a long task?' This is why — context window hit the limit. Sub-agents fix it. They take the heavy work offscreen and hand back only what the main agent needs. Then move straight into Meet the Team.">
+  <div class="slide">
     <div class="label">Why three tiers exist · Thariq Shihipar, Anthropic</div>
     <div class="headline">CONTEXT FILLS UP.<br><span class="teal">SUB-AGENTS</span> DON'T.</div>
     <div class="gap-list" style="margin-top:24px">
@@ -1262,46 +1262,268 @@
     </div>
   </div>
 
-  <!-- ═══ SLIDE 06 — MEET THE TEAM ═══ -->
-  <div class="slide" data-notes="Introduce each agent in about 15 seconds. Use their signature quote from the agent files. Then say: 'Let me show you what happens when I give them a brief.' Switch to screen-share the CIPHER website/Claude Code. This slide stays up as the transition.">
+  <!-- ═══ SLIDE 06a — THE REVEAL ═══ -->
+  <div class="slide layout-full"
+      >
+    <div class="label">Segment 3 · The CIPHER system</div>
+    <div class="display" style="font-size:clamp(56px,8vw,110px); margin-bottom:8px">MEET <span class="p">CIPHER</span></div>
+    <div style="font-family:'Barlow Condensed',sans-serif; font-size:clamp(20px,2.4vw,30px); font-weight:300; color:var(--dim); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:48px">The Orchestrated Intelligence Engine</div>
+
+    <!-- CONTRAST LINE -->
+    <div style="display:flex; align-items:center; gap:24px; margin-bottom:48px">
+      <div style="background:rgba(230,57,70,0.07); border:1px solid rgba(230,57,70,0.2); border-left:3px solid var(--red); border-radius:2px; padding:16px 28px; flex:1">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--red); letter-spacing:0.15em; margin-bottom:6px">BEFORE</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:clamp(22px,2.8vw,36px); color:rgba(245,240,232,0.4); letter-spacing:0.04em; text-decoration:line-through">Single-Prompt Bot</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:14px; color:var(--dimmer); margin-top:4px">One AI. No memory. Different output every time.</div>
+      </div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:40px; color:var(--purple); flex-shrink:0">→</div>
+      <div style="background:rgba(155,143,232,0.07); border:1px solid rgba(155,143,232,0.22); border-left:3px solid var(--purple); border-radius:2px; padding:16px 28px; flex:1">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--purple); letter-spacing:0.15em; margin-bottom:6px">CIPHER</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:clamp(22px,2.8vw,36px); color:var(--purple); letter-spacing:0.04em">System of Specialists</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-size:14px; color:var(--dim); margin-top:4px">9 entities. 3 tiers. One brief in — one deliverable out.</div>
+      </div>
+    </div>
+
+    <!-- STATS ROW -->
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px">
+      <div style="background:var(--bg3); border:1px solid var(--border2); border-radius:2px; padding:14px 18px; text-align:center">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:42px; color:var(--purple); line-height:1">9</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--dimmer); letter-spacing:0.12em; margin-top:4px">ENTITIES</div>
+      </div>
+      <div style="background:var(--bg3); border:1px solid var(--border2); border-radius:2px; padding:14px 18px; text-align:center">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:42px; color:var(--teal); line-height:1">3</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--dimmer); letter-spacing:0.12em; margin-top:4px">TIERS</div>
+      </div>
+      <div style="background:var(--bg3); border:1px solid var(--border2); border-radius:2px; padding:14px 18px; text-align:center">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:42px; color:var(--yellow); line-height:1">1</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--dimmer); letter-spacing:0.12em; margin-top:4px">COMMAND</div>
+      </div>
+      <div style="background:var(--bg3); border:1px solid var(--border2); border-radius:2px; padding:14px 18px; text-align:center">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:42px; color:var(--green); line-height:1">2</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--dimmer); letter-spacing:0.12em; margin-top:4px">DECISIONS FROM YOU</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 06b — TIERED ARCHITECTURE ═══ -->
+  <div class="slide layout-full"
+      >
+    <div class="label">The architecture — how CIPHER thinks</div>
+    <div class="headline" style="margin-bottom:6px">THREE TIERS. <span class="p">ONE OBJECTIVE.</span></div>
+    <div class="subhead" style="margin-bottom:24px">Each tier has a job. Each agent owns exactly one role. Nothing bleeds over.</div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; flex:1">
+
+      <!-- T1 -->
+      <div style="background:var(--bg3); border:1px solid var(--border2); border-top:3px solid var(--purple); border-radius:2px; padding:24px 22px; display:flex; flex-direction:column; gap:16px">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--purple); letter-spacing:0.15em; margin-bottom:6px">T1 · ORCHESTRATION</div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:clamp(32px,4vw,56px); color:var(--purple); line-height:0.9; margin-bottom:8px">THE<br>BRAIN</div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-size:15px; color:var(--dim); line-height:1.45">Global context. Planning. Sequence locking. Nothing starts without its plan.</div>
+        </div>
+        <div style="border-top:1px solid var(--border); padding-top:14px">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--dimmer); letter-spacing:0.1em; margin-bottom:8px">OPERATIVE</div>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--purple); background:rgba(155,143,232,0.1); border:1px solid rgba(155,143,232,0.25); padding:5px 14px; border-radius:2px; letter-spacing:0.06em">VECTOR</span>
+        </div>
+        <div style="border-top:1px solid var(--border); padding-top:14px">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--dimmer); letter-spacing:0.1em; margin-bottom:6px">CAPABILITIES</div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-size:13px; color:var(--dim); line-height:1.7">
+            · Reads all context files before acting<br>
+            · Writes the mission plan in plain language<br>
+            · Routes tasks to each T2 agent in sequence<br>
+            · Flags blockers before work begins
+          </div>
+        </div>
+      </div>
+
+      <!-- T2 -->
+      <div style="background:var(--bg3); border:1px solid var(--border2); border-top:3px solid var(--teal); border-radius:2px; padding:24px 22px; display:flex; flex-direction:column; gap:16px">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--teal); letter-spacing:0.15em; margin-bottom:6px">T2 · EXECUTION</div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:clamp(32px,4vw,56px); color:var(--teal); line-height:0.9; margin-bottom:8px">THE<br>MUSCLE</div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-size:15px; color:var(--dim); line-height:1.45">Specialized roles in sequence. Research → Draft → QA → Deliver.</div>
+        </div>
+        <div style="border-top:1px solid var(--border); padding-top:14px">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--dimmer); letter-spacing:0.1em; margin-bottom:8px">OPERATIVES</div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap">
+            <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--teal); background:rgba(75,191,179,0.08); border:1px solid rgba(75,191,179,0.2); padding:4px 10px; border-radius:2px">SCOUT</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--teal); background:rgba(75,191,179,0.08); border:1px solid rgba(75,191,179,0.2); padding:4px 10px; border-radius:2px">FORGE</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--teal); background:rgba(75,191,179,0.08); border:1px solid rgba(75,191,179,0.2); padding:4px 10px; border-radius:2px">SHADE</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--teal); background:rgba(75,191,179,0.08); border:1px solid rgba(75,191,179,0.2); padding:4px 10px; border-radius:2px">PROXY</span>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border); padding-top:14px">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--dimmer); letter-spacing:0.1em; margin-bottom:6px">CAPABILITIES</div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-size:13px; color:var(--dim); line-height:1.7">
+            · Each agent owns exactly one job<br>
+            · Passes output to the next in sequence<br>
+            · Calls T3 specialists when precision needed<br>
+            · Human approval gate at end of chain
+          </div>
+        </div>
+      </div>
+
+      <!-- T3 -->
+      <div style="background:var(--bg3); border:1px solid var(--border2); border-top:3px solid #00f2ff; border-radius:2px; padding:24px 22px; display:flex; flex-direction:column; gap:16px">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:#00f2ff; letter-spacing:0.15em; margin-bottom:6px">T3 · PRECISION</div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:clamp(32px,4vw,56px); color:#00f2ff; line-height:0.9; margin-bottom:8px">THE<br>SCALPEL</div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-size:15px; color:var(--dim); line-height:1.45">Micro-tasks. Domain validation. Called on demand — never idle.</div>
+        </div>
+        <div style="border-top:1px solid var(--border); padding-top:14px">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--dim); letter-spacing:0.1em; margin-bottom:8px">OPERATIVES</div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap">
+            <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#00f2ff; background:rgba(0, 242, 255, 0.08); border:1px solid rgba(0, 242, 255, 0.2); padding:4px 10px; border-radius:2px">TRACE</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#00f2ff; background:rgba(0, 242, 255, 0.08); border:1px solid rgba(0, 242, 255, 0.2); padding:4px 10px; border-radius:2px">TONE</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#00f2ff; background:rgba(0, 242, 255, 0.08); border:1px solid rgba(0, 242, 255, 0.2); padding:4px 10px; border-radius:2px">FACT</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#00f2ff; background:rgba(0, 242, 255, 0.08); border:1px solid rgba(0, 242, 255, 0.2); padding:4px 10px; border-radius:2px">PULSE</span>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border); padding-top:14px">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--dim); letter-spacing:0.1em; margin-bottom:6px">CAPABILITIES</div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-size:13px; color:var(--dim); line-height:1.7">
+            · Activated only when T2 agent calls them<br>
+            · Each specialist owns one precision task<br>
+            · Returns verdict + evidence to parent agent<br>
+            · Invisible to you — the system handles it
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 06c — THE OPERATIVES ═══ -->
+  <div class="slide layout-full"
+      >
     <div class="label">The CIPHER team — introduce each one</div>
-    <div class="headline"><span class="p">CIPHER</span><br>TEAM</div>
+    <div class="headline" style="margin-bottom:20px">THE <span class="p">OPERATIVES</span></div>
+
     <div class="cipher-grid">
+
+      <!-- VECTOR -->
       <div class="cipher-card orch">
         <div class="cc-tier" style="color:var(--purple)">Tier 1 · Orch</div>
-        <div class="cc-name" style="color:var(--purple)">VECTOR</div>
-        <div class="cc-role">Mission Coordinator. Reads everything. Plans the sequence. Nothing starts without Vector's plan.</div>
+        <div class="cc-name" style="color:var(--purple); font-size:36px">VECTOR</div>
+        <div style="border-top:1px solid rgba(155,143,232,0.15); padding-top:10px">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--purple); letter-spacing:0.12em; margin-bottom:4px">SUPERPOWER</div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-size:15px; color:var(--white); font-weight:600; line-height:1.2">Global Context Synthesis</div>
+        </div>
+        <div class="cc-role">Mission Coordinator. Reads everything. Plans the sequence.</div>
         <div class="cc-quote">"Brief received. Sequence locked. Beginning."</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--dimmer); margin-top:4px">ROUTES → T2 agents</div>
       </div>
+
+      <!-- SCOUT -->
       <div class="cipher-card sc">
         <div class="cc-tier" style="color:#6B9DC8">Tier 2 · 01</div>
-        <div class="cc-name" style="color:#6B9DC8">SCOUT</div>
-        <div class="cc-role">Intelligence analyst. Reads before FORGE writes. Calls TRACE when contradictions found.</div>
+        <div class="cc-name" style="color:#6B9DC8; font-size:36px">SCOUT</div>
+        <div style="border-top:1px solid rgba(107,157,200,0.15); padding-top:10px">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:8px; color:#6B9DC8; letter-spacing:0.12em; margin-bottom:4px">SUPERPOWER</div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-size:15px; color:var(--white); font-weight:600; line-height:1.2">Aggressive Intel Extraction</div>
+        </div>
+        <div class="cc-role">Intelligence analyst. Reads before FORGE writes.</div>
         <div class="cc-quote">"Intel sweep complete. Dossier ready."</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--dimmer); margin-top:4px">CALLS → TRACE</div>
       </div>
+
+      <!-- FORGE -->
       <div class="cipher-card fg">
         <div class="cc-tier" style="color:var(--gold)">Tier 2 · 02</div>
-        <div class="cc-name" style="color:var(--gold)">FORGE</div>
-        <div class="cc-role">Strategist & writer. Builds the full draft. Calls TONE for voice-critical sections.</div>
+        <div class="cc-name" style="color:var(--gold); font-size:36px">FORGE</div>
+        <div style="border-top:1px solid rgba(200,169,110,0.15); padding-top:10px">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--gold); letter-spacing:0.12em; margin-bottom:4px">SUPERPOWER</div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-size:15px; color:var(--white); font-weight:600; line-height:1.2">Structural Synthesis</div>
+        </div>
+        <div class="cc-role">Strategist & writer. Builds the full draft.</div>
         <div class="cc-quote">"Draft complete. TONE ran on the opening."</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--dimmer); margin-top:4px">CALLS → TONE</div>
       </div>
+
+      <!-- SHADE -->
       <div class="cipher-card sh">
         <div class="cc-tier" style="color:var(--red)">Tier 2 · 03</div>
-        <div class="cc-name" style="color:var(--red)">SHADE</div>
-        <div class="cc-role">QA operative. Nothing gets through that shouldn't. Calls FACT on every specific claim.</div>
+        <div class="cc-name" style="color:var(--red); font-size:36px">SHADE</div>
+        <div style="border-top:1px solid rgba(230,57,70,0.15); padding-top:10px">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--red); letter-spacing:0.12em; margin-bottom:4px">SUPERPOWER</div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-size:15px; color:var(--white); font-weight:600; line-height:1.2">Zero-Tolerance Validation</div>
+        </div>
+        <div class="cc-role">QA operative. Nothing gets through that shouldn't.</div>
         <div class="cc-quote">"QA done. 1 issue. Returning to FORGE."</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--dimmer); margin-top:4px">CALLS → FACT</div>
       </div>
+
+      <!-- PROXY -->
       <div class="cipher-card px">
         <div class="cc-tier" style="color:var(--green)">Tier 2 · 04</div>
-        <div class="cc-name" style="color:var(--green)">PROXY</div>
-        <div class="cc-role">Client delivery. Reads the room. Calls PULSE for relationship calibration. The email is part of the work.</div>
+        <div class="cc-name" style="color:var(--green); font-size:36px">PROXY</div>
+        <div style="border-top:1px solid rgba(92,184,126,0.15); padding-top:10px">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--green); letter-spacing:0.12em; margin-bottom:4px">SUPERPOWER</div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-size:15px; color:var(--white); font-weight:600; line-height:1.2">Relational Calibration</div>
+        </div>
+        <div class="cc-role">Client delivery. Reads the room. The email is part of the work.</div>
         <div class="cc-quote">"Package ready. Your move."</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:8px; color:var(--dimmer); margin-top:4px">CALLS → PULSE</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ SLIDE 06d — T3 ASSETS ═══ -->
+  <div class="slide layout-full"
+      >
+    <div class="label">Precision Layer · The Sub-Agents</div>
+    <div class="headline">T3 <span class="p">ASSETS</span> — TIER 3 SUB-AGENTS</div>
+
+    <div class="cipher-grid" style="margin-top: 2rem;">
+      <!-- TRACE -->
+      <div class="cipher-card" style="border-top: 3px solid #00f2ff">
+        <div class="cc-tier" style="color:#00f2ff">Tier 3 · Precision</div>
+        <div class="cc-name" style="color:#00f2ff; font-size:36px">TRACE</div>
+        <div style="border-top:1px solid rgba(0, 242, 255, 0.15); padding-top:10px; margin-bottom: 10px">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:8px; color:#00f2ff; letter-spacing:0.12em; margin-bottom:4px">TRIGGER</div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-size:14px; color:var(--white); font-weight:600;">↳ Called by SCOUT</div>
+        </div>
+        <div class="cc-role">Cross-references brief claims against context files. Flags contradictions before FORGE sees a single word.</div>
+      </div>
+
+      <!-- TONE -->
+      <div class="cipher-card" style="border-top: 3px solid #00f2ff">
+        <div class="cc-tier" style="color:#00f2ff">Tier 3 · Precision</div>
+        <div class="cc-name" style="color:#00f2ff; font-size:36px">TONE</div>
+        <div style="border-top:1px solid rgba(0, 242, 255, 0.15); padding-top:10px; margin-bottom: 10px">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:8px; color:#00f2ff; letter-spacing:0.12em; margin-bottom:4px">TRIGGER</div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-size:14px; color:var(--white); font-weight:600;">↳ Called by FORGE</div>
+        </div>
+        <div class="cc-role">Voice calibration specialist. Rewrites key sections against brand-voice rules. One job, executed precisely.</div>
+      </div>
+
+      <!-- FACT -->
+      <div class="cipher-card" style="border-top: 3px solid #00f2ff">
+        <div class="cc-tier" style="color:#00f2ff">Tier 3 · Precision</div>
+        <div class="cc-name" style="color:#00f2ff; font-size:36px">FACT</div>
+        <div style="border-top:1px solid rgba(0, 242, 255, 0.15); padding-top:10px; margin-bottom: 10px">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:8px; color:#00f2ff; letter-spacing:0.12em; margin-bottom:4px">TRIGGER</div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-size:14px; color:var(--white); font-weight:600;">↳ Called by SHADE</div>
+        </div>
+        <div class="cc-role">Fact verification operative. Every specific claim checked against brief, context files, knowledge base. Verdict: verified / remove.</div>
+      </div>
+
+      <!-- PULSE -->
+      <div class="cipher-card" style="border-top: 3px solid #00f2ff">
+        <div class="cc-tier" style="color:#00f2ff">Tier 3 · Precision</div>
+        <div class="cc-name" style="color:#00f2ff; font-size:36px">PULSE</div>
+        <div style="border-top:1px solid rgba(0, 242, 255, 0.15); padding-top:10px; margin-bottom: 10px">
+          <div style="font-family:'JetBrains Mono',monospace; font-size:8px; color:#00f2ff; letter-spacing:0.12em; margin-bottom:4px">TRIGGER</div>
+          <div style="font-family:'Barlow Condensed',sans-serif; font-size:14px; color:var(--white); font-weight:600;">↳ Called by PROXY</div>
+        </div>
+        <div class="cc-role">Relationship intelligence. Reads client history, calibrates tone and warmth level. The relationship always matters.</div>
       </div>
     </div>
   </div>
 
   <!-- ═══ SLIDE 07 — DEMO FLOW ═══ -->
-  <div class="slide layout-split" data-notes="This slide is your reference while running the CIPHER live demo. Switch to screen-share before you hit execute — come back here when you want to narrate a specific step. Call out tier transitions explicitly: 'Tier one — VECTOR.' 'Tier three — TRACE, Scout's sub-agent.' The verbal labelling teaches the architecture.">
+  <div class="slide layout-split">
     <div>
       <div class="label">Live demo — /mission command · call out every tier transition</div>
       <div class="headline">ONE BRIEF.<br>ONE<br><span class="y">COMMAND.</span></div>
@@ -1343,8 +1565,9 @@
   </div>
 
   <!-- ═══ SLIDE 08 — CIPHER SOFT DEMO (INTERACTIVE) ═══ -->
-  <div class="slide demo-slide"
-       data-notes="This is the soft demo for CIPHER. It simulates the /mission command in a terminal environment. Click to advance each step. 1: VECTOR plans. 2: SCOUT researches. 3: FORGE builds. 4: SHADE reviews. 5: PROXY delivers. This reinforces the 'Tier' architecture they just saw.">
+  <div class="slide demo-slide" data-demo-slide="true"
+      >
+
 
     <!-- DEMO TOP BAR -->
     <div class="demo-top">
@@ -1396,7 +1619,7 @@
   </div>
 
   <!-- ═══ SLIDE 09 — MISSION DELIVERABLES SHOWCASE ═══ -->
-  <div class="slide" data-notes="This is the result of the mission you just watched. Three high-quality, professional assets ready to use. This isn't just 'AI chat text' — these are formatted deliverables synchronized to your workspace.">
+  <div class="slide">
     <div class="label">Mission accomplished · 05-outputs/ & 06-review/</div>
     <div class="headline">FINAL<br><span class="g">PRODUCTS</span></div>
     
@@ -1448,7 +1671,7 @@
   </div>
 
   <!-- ═══ SLIDE 10 — THE BIG PICTURE: SCALING ═══ -->
-  <div class="slide" data-notes="This is the pivot to scale. One mission creates assets. Those assets fuel the next set of agents. Clicking a product shows who adopts it. This turns a workspace into an enterprise engine.">
+  <div class="slide">
     <div class="label">The Next Horizon · Ecosystem Scaling</div>
     <div class="headline">FROM PRODUCT<br>TO<br><span class="t">ECOSYSTEM.</span></div>
     <div class="subhead">Standardized output is fuel for specialized agents. <strong>Click a result below.</strong></div>
@@ -1496,7 +1719,7 @@
   </div>
 
   <!-- ═══ SLIDE 11 — DEMO DEBRIEF ═══ -->
-  <div class="slide" data-notes="Return here after the live demo. Let the silence sit for 3 seconds. Then: 'One brief. One command. Three tiers. Nine entities. Two decisions from you.' Take 2–3 chat reactions. Then bridge directly to the folder structure: 'And every part of what you just saw lives in a folder structure you're about to understand completely.'">
+  <div class="slide">
     <div class="label">After the demo — let this land</div>
     <div class="big-quote" style="font-size:clamp(38px,5.5vw,76px)">
       "One brief.<br>
@@ -1512,7 +1735,7 @@
 
   <!-- ═══ SLIDE CE — CONTEXT ENGINEERING & AI WORKSPACE ═══ -->
   <div class="slide layout-full"
-       data-notes="Everything you just saw in that demo is possible because of what's in these seven components. Context Engineering is the practice of deliberately building the world around your prompt — not just writing a better prompt. When you have folders, templates, memory, rules, workflow, QA, and a human in the loop — AI output stops being random and starts being reliable. That formula at the bottom is your new operating model.">
+      >
 
     <div class="label">The architecture — what makes it work</div>
     <div class="headline" style="margin-bottom:6px">CONTEXT <span class="t">ENGINEERING</span></div>
@@ -1582,7 +1805,7 @@
   </div>
 
   <!-- ═══ SLIDE 09 — FOLDER STRUCTURE ═══ -->
-  <div class="slide" data-notes="Walk through each folder at about 45 seconds each. Map every folder back to the recipe model and the CIPHER demo: '01-context is what SCOUT reads. 03-templates is what FORGE follows. 06-review is where Shade's checklist lives.' The structure should feel inevitable — not arbitrary — by the time you finish.">
+  <div class="slide">
     <div class="label">Segment 4 · 1:10–1:20 — the foundation</div>
     <div class="headline">THE<br><span class="t">WORKSPACE</span><br>STRUCTURE</div>
     <div class="folder-tree">
@@ -1602,7 +1825,7 @@
   </div>
 
   <!-- ═══ SLIDE 10 — FOLDER MEANING ═══ -->
-  <div class="slide" data-notes="This is the 'so what' for each folder. Keep it fast — one sentence per folder. Participants will understand the folders better when they open their own repos in a few minutes. The goal here is recognition, not deep explanation.">
+  <div class="slide">
     <div class="label">What each folder does — the recipe mapped</div>
     <div class="headline">EVERY<br>FOLDER<br><span class="t">HAS A JOB</span></div>
     <div class="folder-explain">
@@ -1617,7 +1840,7 @@
 
   <!-- ═══ SLIDE CE2 — WHAT IS CLAUDE.MD ═══ -->
   <div class="slide layout-split"
-       data-notes="Before we go deep into the anatomy of CLAUDE.md, give them the simple mental model. It's not a config file. It's not a prompt. It's an instruction manual that the AI reads every single time it opens your workspace. One sentence summary: CLAUDE.md is the document that turns a generic AI into your AI.">
+      >
     <div>
       <div class="label">Before we open it — one mental model</div>
       <div class="headline">WHAT IS <span class="t">CLAUDE.MD</span><span style="color:var(--dim)">?</span></div>
@@ -1678,7 +1901,7 @@
   </div>
 
   <!-- ═══ SLIDE 11 — CLAUDE.MD ANATOMY ═══ -->
-  <div class="slide" data-notes="Walk through the five sections. Say: 'Think of CLAUDE.md as the onboarding document for a brilliant new team member — except this team member reads it perfectly, completely, every single time.' Then say: 'Yours is already written. Let me show you.'">
+  <div class="slide">
     <div class="label">Segment 5 · 1:20–1:30 — the brain of your workspace</div>
     <div class="headline"><span class="t">CLAUDE</span><br>.MD</div>
     <div class="claudemd">
@@ -1699,7 +1922,7 @@
   </div>
 
   <!-- ═══ SLIDE 12 — REPO REVEAL ═══ -->
-  <div class="slide" data-notes="CRITICAL MOMENT. Say: 'Check the chat — there's a GitHub link with your name on it. Open it.' Give 20–30 seconds. Then: 'Open CLAUDE.md.' Pause 5–8 seconds of silence. Let them read. Then: 'That was written from what you told us in the audit form. Your name. Your role. Your tasks. Your tone.' Do NOT rush this. The silence is doing the work.">
+  <div class="slide">
     <div class="label">Segment 6 · 1:22–1:27 — the reveal moment</div>
     <div class="headline">YOUR<br>WORKSPACE<br><span class="p">IS READY.</span></div>
     <div class="subhead">
@@ -1718,7 +1941,7 @@
   </div>
 
   <!-- ═══ SLIDE 12B — INSTALLATION CHOICE ═══ -->
-  <div class="slide" data-notes="Drop both links in chat: claude.ai/download and nodejs.org. Say: 'If you're not sure — use the app, it's the same tool.' Give 2 full minutes. Screen-share your own Claude Code while they install. Watch chat for anyone stuck on Node.js — that's the most common blocker on the terminal path. Don't move on until 80% confirm they're in.">
+  <div class="slide">
     <div class="label">Pick your path — 2 minutes</div>
     <div class="headline">GET CLAUDE CODE.<br>YOUR<br><span class="t">WAY.</span></div>
     
@@ -1781,7 +2004,7 @@
   </div>
 
   <!-- ═══ SLIDE 13 — CLONE STEP ═══ -->
-  <div class="slide" data-notes="Walk through each step slowly. Screen-share your own Claude Code while doing this. After step 5, give 60 seconds — watch chat for confirmations. Celebrate every 'it worked!' After step 6, give 2 minutes of quiet. The first edit is important — it's the moment the generated file becomes theirs.">
+  <div class="slide">
     <div class="label">Segment 7 · 1:27–1:38 — get it into Claude Code</div>
     <div class="headline">6 STEPS.<br>GO<br><span class="t">SLOW.</span></div>
     <div class="clone-steps">
@@ -1813,7 +2036,7 @@
   </div>
 
   <!-- ═══ SLIDE 14 — LAB GUIDE ═══ -->
-  <div class="slide" data-notes="The 'Aha!' moment. Shift from the instructor speaking to the students doing. Keep this slide up during the transition to the break. Encourage them to check off the missions as they go. If they get stuck on install, refer them to the 'Sudo' hint.">
+  <div class="slide">
     <div class="lab-container">
       <div class="lab-header">
         <span class="lab-badge">🛠️ LIVE LAB</span>
@@ -1880,7 +2103,7 @@
 
   <!-- ═══ SLIDE 14 — BREAK TRANSITION ═══ -->
 
-  <div class="slide" data-notes="Keep this transition tight — you're heading into the break. The three lines build momentum: system exists, workspace knows you, workflow is next. The break instruction (keep Claude Code open, finish CLAUDE.md edit, read README) gives participants productive things to do. End on 'Back in 10.' and go quiet.">
+  <div class="slide">
     <div class="label">Segment 8 · 1:38–1:40 — break transition</div>
     <div class="headline">THAT IS<br>A<br><span class="t">SYSTEM.</span></div>
     <div class="subhead" style="margin-top:28px">
@@ -1943,9 +2166,11 @@
   let notesVisible = false;
 
   // Demo state
-  const DEMO_SLIDE_INDEX = 9;
+  const demoSlideEl = document.querySelector('[data-demo-slide="true"]');
+  const DEMO_SLIDE_INDEX = demoSlideEl ? Array.from(slides).indexOf(demoSlideEl) : -1;
   const DEMO_STEPS = 9;
   let demoStep = 0;
+
   const dHero = document.getElementById('dHero');
   const dStage = document.getElementById('dStage');
   const dCtx = document.getElementById('dCtx');

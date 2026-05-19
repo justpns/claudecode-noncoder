@@ -205,8 +205,55 @@
 
 <div class="deck" id="deck">
 
+  <!-- PROLOGUE — THE SHIFT -->
+  <div class="slide active layout-split">
+    <div>
+      <div class="label">PROLOGUE · BEFORE WE BEGIN</div>
+      <div class="headline">THIS IS NOT<br>ABOUT<br><span style="color:var(--orange)">REPLACING</span><br>CHAT AI</div>
+      <div class="subhead">
+        Conversation-style AI is already powerful.<br>
+        But eventually teams need:
+        <div style="margin-top: 16px; display: flex; flex-direction: column; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--white);">
+          <div style="display: flex; align-items: center; gap: 10px;"><span style="color:var(--orange)">→</span> persistent context</div>
+          <div style="display: flex; align-items: center; gap: 10px;"><span style="color:var(--orange)">→</span> reusable workflows</div>
+          <div style="display: flex; align-items: center; gap: 10px;"><span style="color:var(--orange)">→</span> structured collaboration</div>
+          <div style="display: flex; align-items: center; gap: 10px;"><span style="color:var(--orange)">→</span> consistent outputs</div>
+        </div>
+      </div>
+      <div class="highlight" style="margin-top: 32px; border-left-color: var(--orange); background: rgba(255,107,53,0.05);">
+        <p style="font-size: 18px; font-style: italic;">“The shift is not from one chatbot to another. The shift is from chatting with AI — to designing environments where AI can work consistently.”</p>
+      </div>
+    </div>
+    <div class="illus">
+      <svg viewBox="0 0 400 320" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="300" cy="160" r="80" fill="rgba(255,107,53,0.05)"/>
+        <g opacity="0.4">
+          <rect x="40" y="60" width="60" height="30" rx="15" fill="none" stroke="var(--dim)" stroke-width="1"/>
+          <rect x="80" y="100" width="70" height="30" rx="15" fill="none" stroke="var(--dim)" stroke-width="1"/>
+          <rect x="30" y="140" width="50" height="30" rx="15" fill="none" stroke="var(--dim)" stroke-width="1"/>
+          <path d="M100 80 L120 70" stroke="var(--dim)" stroke-width="1" stroke-dasharray="2 2"/>
+          <path d="M140 110 L160 130" stroke="var(--dim)" stroke-width="1" stroke-dasharray="2 2"/>
+        </g>
+        <line x1="200" y1="40" x2="200" y2="280" stroke="var(--border2)" stroke-width="1"/>
+        <g>
+          <rect x="260" y="140" width="80" height="40" rx="2" fill="rgba(255,107,53,0.1)" stroke="var(--orange)" stroke-width="1.5"/>
+          <text x="300" y="165" font-family="'JetBrains Mono',monospace" font-size="8" fill="var(--orange)" text-anchor="middle">CLAUDE.md</text>
+          <rect x="220" y="80" width="40" height="30" rx="2" fill="none" stroke="var(--amber)" stroke-width="1"/>
+          <rect x="340" y="80" width="40" height="30" rx="2" fill="none" stroke="var(--amber)" stroke-width="1"/>
+          <rect x="220" y="200" width="40" height="30" rx="2" fill="none" stroke="var(--amber)" stroke-width="1"/>
+          <rect x="340" y="200" width="40" height="30" rx="2" fill="none" stroke="var(--amber)" stroke-width="1"/>
+          <path d="M260 160 L240 110" stroke="var(--orange)" stroke-width="1" opacity="0.6"/>
+          <path d="M340 160 L360 110" stroke="var(--orange)" stroke-width="1" opacity="0.6"/>
+          <path d="M260 160 L240 210" stroke="var(--orange)" stroke-width="1" opacity="0.6"/>
+          <path d="M340 160 L360 210" stroke="var(--orange)" stroke-width="1" opacity="0.6"/>
+          <path d="M300 140 L300 110" stroke="var(--orange)" stroke-width="1" stroke-dasharray="4 2" opacity="0.4"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
   <!-- S01 — TITLE -->
-  <div class="slide active layout-split" data-notes="Scaling it up.">
+  <div class="slide layout-split">
     <div>
       <div class="label" style="display:flex; justify-content:space-between; width:100%">
         <span>Module 04 · 35 minutes · 2:40–3:15</span>
@@ -328,15 +375,69 @@
   </div>
 
   <!-- S02 — THE LEAP -->
-  <div class="slide" data-notes="From one to many.">
+  <div class="slide">
     <div class="label">Scaling the system</div>
     <div class="headline">FROM<br>ONE<br><span class="a">TO MANY</span></div>
     <div class="subhead">How do you handle five different workflows without starting from scratch?</div>
     <div class="highlight"><p>Four concepts build the bridge. By the end — you write your first role file.</p></div>
   </div>
 
+  <!-- S02a — COMMAND PLAYGROUND INTRO -->
+  <div class="slide">
+    <div class="label">Interactive Lab · The Cockpit</div>
+    <div class="headline">PLAY WITH <span class="a">CLAUDE CODE</span><br>BUILT-IN COMMANDS</div>
+    <div class="subhead">These are the native controls. Master these first, then we'll build our own.</div>
+  </div>
+
+  <!-- S02b — THE TOOLKIT -->
+  <div class="slide">
+    <div class="label">The Toolbelt · Native Commands</div>
+    <div class="headline">THE <span class="a">ESSENTIALS</span></div>
+    <div class="slash-list">
+      <div class="slash-row"><div class="slash-cmd">/</div><div class="slash-desc">The 'Where am I?' button. Shows all available commands.</div></div>
+      <div class="slash-row"><div class="slash-cmd">/init</div><div class="slash-desc">The 'Magic' button. Creates or fixes your CLAUDE.md workspace brain.</div></div>
+      <div class="slash-row"><div class="slash-cmd">/memory</div><div class="slash-desc">The 'What do you know?' button. Manage the context Claude is using.</div></div>
+      <div class="slash-row"><div class="slash-cmd">/compact</div><div class="slash-desc">The 'Clean Up' button. Shrinks long chats so Claude stays sharp.</div></div>
+    </div>
+  </div>
+
+  <!-- S02c — PLANNING MODE -->
+  <div class="slide">
+    <div class="label">Power User Move · The Game Changer</div>
+    <div class="headline">PLANNING <span class="a">MODE</span></div>
+    <div class="highlight" style="text-align: center;">
+      <p>Claude plans the work <strong>before</strong> editing a single line.</p>
+    </div>
+    <div style="margin-top: 32px; text-align: center;">
+      <div class="label">The Shortcut</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 42px; color: var(--white); border: 2px solid var(--amber); display: inline-block; padding: 10px 20px; border-radius: 4px;">
+        Shift + Tab
+      </div>
+      <div class="subhead" style="margin-top: 20px; text-align: center;">
+        <strong style="color: var(--amber)">NOT a slash commandL</strong><br>
+        A dedicated keyboard shortcut for architect-level precision.
+      </div>
+    </div>
+  </div>
+
+  <!-- S02d — THE SIMPLE MAP -->
+  <div class="slide">
+    <div class="label">Conceptual Primer · The Glossary</div>
+    <div class="headline">THE <span class="a">SIMPLE</span><br>MAP</div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 32px;">
+      <div class="kb-card"><div class="kb-title">Role</div><div class="kb-desc">Who does the work</div></div>
+      <div class="kb-card"><div class="kb-title">Skill</div><div class="kb-desc">What AI knows how to do</div></div>
+      <div class="kb-card"><div class="kb-title">Command</div><div class="kb-desc">Button to start the work</div></div>
+      <div class="kb-card"><div class="kb-title">Recipe</div><div class="kb-desc">Steps behind the command</div></div>
+      <div class="kb-card"><div class="kb-title">Template</div><div class="kb-desc">Shape of the output</div></div>
+      <div class="kb-card"><div class="kb-title">Knowledge Base</div><div class="kb-desc">Reusable memory</div></div>
+      <div class="kb-card"><div class="kb-title">Review</div><div class="kb-desc">Quality control</div></div>
+    </div>
+  </div>
+
   <!-- S03 — ROLE FILE -->
-  <div class="slide" data-notes="The role file concept.">
+  <div class="slide">
     <div class="label">Concept 1 — the role file</div>
     <div class="headline">WHAT IS<br>AN AI<br><span class="a">ROLE FILE?</span></div>
     <div class="concept-compare">
@@ -346,36 +447,66 @@
   </div>
 
   <!-- S04 — ANATOMY -->
-  <div class="slide" data-notes="Identity, Job, Always, Never.">
+  <div class="slide">
     <div class="label">Role file anatomy</div>
     <div class="headline">THE<br><span class="a">ANATOMY</span></div>
+    <div class="subhead" style="margin-bottom: 24px;">“A role file is a job description for Claude — not code.”</div>
     <div class="role-file">
-      <div class="rf-badge">04-ai-roles / meeting-analyst.md</div>
-      <div class="rf-h"># Meeting Analyst</div>
-      <div class="rf-c">## Identity</div><div class="rf-v">You are precise and action-oriented.</div>
-      <div class="rf-c">## Your job</div><div class="rf-v">Produce structured action plans.</div>
+      <div class="rf-badge">04-ai-roles / [role-name].md</div>
+      <div class="rf-h"># [Role Name]</div>
+      <div class="rf-c">## Identity</div><div class="rf-v">Write one sentence describing who this AI should be.</div>
+      <div class="rf-c">## Your Job</div><div class="rf-v">Write what this role is responsible for producing.</div>
+      <div class="rf-c">## Always</div><div class="rf-v">Write the rules this role must follow every time.</div>
+      <div class="rf-c">## Never</div><div class="rf-v">Write the mistakes or behaviors this role must avoid.</div>
     </div>
   </div>
 
   <!-- S05 — PERSONALITY -->
-  <div class="slide" data-notes="Personality sentence.">
+  <div class="slide">
     <div class="label">The personality sentence</div>
     <div class="headline">THE<br><span class="y">PERSONALITY</span><br>SENTENCE</div>
     <div class="highlight"><p>Vivid identity → work that sounds like someone. Not generic.</p></div>
   </div>
 
   <!-- S06 — SLASH COMMANDS -->
-  <div class="slide" data-notes="One word, full workflow.">
-    <div class="label">Concept 2 — slash commands</div>
-    <div class="headline">ONE WORD.<br><span class="a">FULL</span><br>WORKFLOW.</div>
-    <div class="slash-list">
-      <div class="slash-row"><div class="slash-cmd">/mission</div><div class="slash-desc">Client brief to proposal</div></div>
-      <div class="slash-row"><div class="slash-cmd">/debrief</div><div class="slash-desc">Meeting notes to action plan</div></div>
+  <div class="slide">
+    <div class="label">Concept 2 — The Command Language</div>
+    <div class="headline">SLA<span class="a">SH</span><br>COMMANDS</div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 24px;">
+      <!-- TYPE 1 -->
+      <div>
+        <div class="label" style="color: var(--dim); margin-bottom: 12px;">TYPE 1 — BUILT-IN</div>
+        <div class="slash-list">
+          <div class="slash-row"><div class="slash-cmd">/</div><div class="slash-desc">Command menu</div></div>
+          <div class="slash-row"><div class="slash-cmd">/init</div><div class="slash-desc">Set up workspace</div></div>
+          <div class="slash-row"><div class="slash-cmd">/memory</div><div class="slash-desc">Manage context</div></div>
+          <div class="slash-row"><div class="slash-cmd">/compact</div><div class="slash-desc">Clear context window</div></div>
+        </div>
+        <div class="subhead" style="margin-top: 16px; font-size: 14px;">These commands control Claude Code itself.</div>
+      </div>
+
+      <!-- TYPE 2 -->
+      <div>
+        <div class="label" style="color: var(--amber); margin-bottom: 12px;">TYPE 2 — CUSTOM</div>
+        <div class="slash-list">
+          <div class="slash-row"><div class="slash-cmd">/mission</div><div class="slash-desc">Brief to proposal</div></div>
+          <div class="slash-row"><div class="slash-cmd">/debrief</div><div class="slash-desc">Notes to action plan</div></div>
+          <div class="slash-row"><div class="slash-cmd">/review</div><div class="slash-desc">QA and feedback</div></div>
+          <div class="slash-row"><div class="slash-cmd">/save</div><div class="slash-desc">Add to knowledge base</div></div>
+          <div class="slash-row"><div class="slash-cmd">/intel</div><div class="slash-desc">Deep research sweep</div></div>
+        </div>
+        <div class="subhead" style="margin-top: 16px; font-size: 14px;">These are commands we design. They only work if we define them.</div>
+      </div>
+    </div>
+
+    <div class="highlight" style="margin-top: 32px; border-left-color: var(--purple); background: rgba(155,143,232,0.05);">
+      <p style="font-size: 20px; text-align: center;">“Built-in commands control Claude Code. Custom commands run your workflow.”</p>
     </div>
   </div>
 
   <!-- S07 — RECIPE -->
-  <div class="slide" data-notes="The recipe document.">
+  <div class="slide">
     <div class="label">Concept 3 — the recipe</div>
     <div class="headline">THE<br><span class="a">RECIPE</span><br>DOCUMENT</div>
     <div class="recipe-card">
@@ -386,7 +517,7 @@
   </div>
 
   <!-- S08 — KNOWLEDGE BASE -->
-  <div class="slide" data-notes="The compound effect.">
+  <div class="slide">
     <div class="label">Concept 4 — AI second brain</div>
     <div class="headline">THE<br><span class="a">KNOWLEDGE</span><br>BASE</div>
     <div class="kb-grid">
@@ -396,7 +527,7 @@
   </div>
 
   <!-- S09 — USE CASES -->
-  <div class="slide" data-notes="5 workflows.">
+  <div class="slide">
     <div class="label">5 workflows</div>
     <div class="headline">5<br><span class="a">WORKFLOWS</span></div>
     <div class="uc-grid">
@@ -406,14 +537,40 @@
   </div>
 
   <!-- S10 — WRITE ROLE -->
-  <div class="slide" data-notes="3 minutes. Go.">
+  <div class="slide">
     <div class="label">Activity · 3 minutes</div>
     <div class="headline">WRITE<br>YOUR<br><span class="a">FIRST ROLE.</span></div>
-    <div class="activity-box"><div class="activity-title">Identity · Job · Always · Never</div></div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; align-items: start;">
+      <!-- TEMPLATE -->
+      <div class="role-file" style="margin-top: 0;">
+        <div class="rf-badge" style="background: var(--dim); color: var(--white);">TEMPLATE</div>
+        <div class="rf-h"># Role Name</div>
+        <div class="rf-c">## Identity</div><div class="rf-v">You are...</div>
+        <div class="rf-c">## Your Job</div><div class="rf-v">Your job is...</div>
+        <div class="rf-c">## Always</div><div class="rf-v">- </div>
+        <div class="rf-c">## Never</div><div class="rf-v">- </div>
+      </div>
+
+      <!-- EXAMPLE -->
+      <div class="role-file" style="margin-top: 0; border-color: var(--amber);">
+        <div class="rf-badge">EXAMPLE</div>
+        <div class="rf-h"># Client Brief Analyst</div>
+        <div class="rf-c">## Identity</div><div class="rf-v">You are a sharp business analyst who turns messy client messages into clear project direction.</div>
+        <div class="rf-c">## Your Job</div><div class="rf-v">Analyze client briefs and convert them into objectives, scope, risks, missing information, and next steps.</div>
+        <div class="rf-c">## Always</div><div class="rf-v">• Separate facts from assumptions<br>• Identify missing information<br>• Suggest next actions<br>• Keep output practical</div>
+        <div class="rf-c">## Never</div><div class="rf-v">• Invent client details<br>• Overpromise timeline<br>• Remove uncertainty</div>
+      </div>
+    </div>
+
+    <div class="activity-box" style="margin-top: 24px;">
+      <div class="activity-title">THE CHALLENGE</div>
+      <div class="activity-item">Create a role for one of your real-world tasks in <span class="hi">04-ai-roles/</span>.</div>
+    </div>
   </div>
 
   <!-- ═══ S11 — SYSTEM EVOLUTION ═══ -->
-  <div class="slide" style="padding: 32px 80px" data-notes="Deliver this immediately after the role file activity — while participants are still looking at what they wrote. The timing is everything. Say: 'Look at what you just built. That role file. That is Stage 1.' Point to Stage 1 card. 'The same file. The same structure. The same four sections — Identity, Job, Always, Never. That is the exact same building block inside CIPHER.' Point to Stage 3. 'CIPHER is not a different system. It is 9 of what you just did, working together.' Pause. Let that land. Then: 'You didn't complete an exercise. You started a system.' This slide redeems everyone who felt like their role file was too simple. It wasn't. It was Level 1.">
+  <div class="slide" style="padding: 32px 80px">
     <div class="label" style="color:var(--amber); margin-bottom: 12px">What you just built is Level 1 of a very large system</div>
     <div class="headline" style="font-size:clamp(32px, 5vw, 64px); margin-bottom: 8px">EVERY EXPERT<br><span class="a">STARTED</span><br>HERE.</div>
     <div class="subhead" style="font-size:18px; margin-top:0">"The role file you just wrote in 3 minutes is not a beginner exercise.<br><strong>It is the exact same building block that powers a 9-agent enterprise system.</strong>"</div>
@@ -604,13 +761,13 @@
   </div>
 
   <!-- S11 — COMPOUND -->
-  <div class="slide" data-notes="The emotional close.">
+  <div class="slide">
     <div class="label">The compound effect</div>
     <div class="big-quote">"Once you can define a role, you can build a team. <span style="color:var(--amber)">A system that compounds.</span>"</div>
   </div>
 
   <!-- S12 — DONE -->
-  <div class="slide" data-notes="Four modules done.">
+  <div class="slide">
     <div class="label">Module 04 done</div>
     <div class="headline">FOUR<br>MODULES.<br><span class="a">DONE.</span></div>
     <div class="agenda-list">
