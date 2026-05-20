@@ -14,3 +14,5 @@ You are operating within the "Claude Code for Non-Coders" course repository. Thi
 2.  **Workflow Execution**: Use the standardized procedures in `/workflows/` to handle routine requests like generating study guides or quizzes.
 3.  **Structural Integrity**: Maintain this directory structure. Any new documentation should go to `/knowledge/`, new processes to `/workflows/`, and new personas to `/roles/`.
 4.  **Readability**: Always write clear, markdown-formatted outputs when creating new files for non-coders.
+5.  **Slide Change Logging**: After any modification to a file in `/slides/`, append a compact one-line entry to `/MEMORY.md` using this format:
+    `[YYYY-MM-DD] <filename> — <brief description of what changed>`
