@@ -505,6 +505,63 @@
     </div>
   </div>
 
+  <!-- S06b — HOOKS -->
+  <div class="slide">
+    <div class="label">Concept 2b — Automation triggers</div>
+    <div class="headline">HOOKS —<br><span class="a">AUTOMATIC</span><br>TRIGGERS</div>
+    <div class="subhead" style="font-size:16px; margin-top:0">"Hooks fire automatically — you design the rule once, the system runs it every time."</div>
+    <div style="display:flex; flex-direction:column; gap:12px; margin-top:24px;">
+      <div style="display:grid; grid-template-columns:180px 1fr; background:var(--bg3); border:1px solid var(--border2); border-left:3px solid var(--red); padding:16px 20px; align-items:start; gap:20px; border-radius:2px">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--red); letter-spacing:0.12em; margin-bottom:4px">QA HOOK</div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--white)">Review Gate</div>
+        </div>
+        <div style="font-size:15px; font-weight:300; color:var(--dim); line-height:1.6">Runs SHADE automatically before any output reaches the client. Every draft is reviewed — no exceptions.</div>
+      </div>
+      <div style="display:grid; grid-template-columns:180px 1fr; background:var(--bg3); border:1px solid var(--border2); border-left:3px solid var(--teal); padding:16px 20px; align-items:start; gap:20px; border-radius:2px">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--teal); letter-spacing:0.12em; margin-bottom:4px">AUTO-SAVE HOOK</div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--white)">Output Capture</div>
+        </div>
+        <div style="font-size:15px; font-weight:300; color:var(--dim); line-height:1.6">Saves every approved output to 05-outputs/ automatically. No manual file management. Nothing gets lost.</div>
+      </div>
+      <div style="display:grid; grid-template-columns:180px 1fr; background:var(--bg3); border:1px solid var(--border2); border-left:3px solid var(--amber); padding:16px 20px; align-items:start; gap:20px; border-radius:2px">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--amber); letter-spacing:0.12em; margin-bottom:4px">VALIDATION HOOK</div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--white)">Format Check</div>
+        </div>
+        <div style="font-size:15px; font-weight:300; color:var(--dim); line-height:1.6">Checks that output matches the right template before delivery. Wrong format? The hook catches it — not you.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S06c — SKILLS -->
+  <div class="slide">
+    <div class="label">Concept 2c — Reusable capabilities</div>
+    <div class="headline">SKILLS —<br><span class="a">REUSABLE</span><br>KNOW-HOW</div>
+    <div class="subhead" style="font-size:16px; margin-top:0">"A skill is something Claude learns once and applies everywhere."</div>
+    <div class="kb-grid" style="margin-top:24px; grid-template-columns:repeat(3,1fr);">
+      <div class="kb-card" style="border-top:2px solid var(--gold)">
+        <div class="kb-num" style="color:var(--gold)">01</div>
+        <div class="kb-title">Writing Skills</div>
+        <div class="kb-desc">Your tone, voice, and format rules. Loaded once — applied to every draft automatically.</div>
+      </div>
+      <div class="kb-card" style="border-top:2px solid var(--red)">
+        <div class="kb-num" style="color:var(--red)">02</div>
+        <div class="kb-title">Review Skills</div>
+        <div class="kb-desc">What "good" looks like in your work. SHADE uses this as its QA checklist on every output.</div>
+      </div>
+      <div class="kb-card" style="border-top:2px solid #6B9DC8">
+        <div class="kb-num" style="color:#6B9DC8">03</div>
+        <div class="kb-title">Research Skills</div>
+        <div class="kb-desc">How to find, filter, and summarise information. SCOUT runs this on every brief it reads.</div>
+      </div>
+    </div>
+    <div class="highlight" style="margin-top:24px; border-left-color:var(--purple); background:rgba(155,143,232,0.05);">
+      <p style="font-size:18px; text-align:center">"Skills live in your workspace. Every agent that needs one just uses it."</p>
+    </div>
+  </div>
+
   <!-- S07 — RECIPE -->
   <div class="slide">
     <div class="label">Concept 3 — the recipe</div>
@@ -512,7 +569,12 @@
     <div class="recipe-card">
       <div class="recipe-title">Recipe — /mission</div>
       <div class="rr"><span class="rr-label">Trigger</span><span class="rr-value">/mission</span></div>
-      <div class="rr"><span class="rr-label">Average time</span><span class="rr-value">15 minutes (Human+AI)</span></div>
+      <div class="rr"><span class="rr-label">Average time</span><span class="rr-value">15 minutes (Human + AI)</span></div>
+      <div class="rr"><span class="rr-label">Step 1</span><span class="rr-value">SCOUT reads the brief — extracts objectives, scope, risks, and unknowns</span></div>
+      <div class="rr"><span class="rr-label">Step 2</span><span class="rr-value">FORGE writes the first draft — proposal, plan, or campaign structure</span></div>
+      <div class="rr"><span class="rr-label">Step 3</span><span class="rr-value">SHADE reviews the draft — checks logic, gaps, formatting, and hallucinations</span></div>
+      <div class="rr"><span class="rr-label">Step 4</span><span class="rr-value">PROXY packages the output — formats, saves to 05-outputs/, prepares for delivery</span></div>
+      <div class="rr"><span class="rr-label">Output</span><span class="rr-value">Formatted proposal ready for client review — you approve, not rewrite</span></div>
     </div>
   </div>
 
@@ -533,6 +595,9 @@
     <div class="uc-grid">
       <div class="uc-card"><div class="uc-cmd">/mission</div><div class="uc-title">Proposal</div></div>
       <div class="uc-card"><div class="uc-cmd">/save</div><div class="uc-title">Knowledge</div></div>
+      <div class="uc-card"><div class="uc-cmd">/qa</div><div class="uc-title">Review</div></div>
+      <div class="uc-card"><div class="uc-cmd">/debrief</div><div class="uc-title">Summary</div></div>
+      <div class="uc-card"><div class="uc-cmd">/intel</div><div class="uc-title">Research</div></div>
     </div>
   </div>
 

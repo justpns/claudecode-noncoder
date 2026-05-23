@@ -31,3 +31,10 @@ For major milestone documentation, see `PROJECT_LOG.md`.
 [2026-05-13] module02-slides.html — Slide counter updated to 18 total
 [2026-05-13] module04-slides.html — Slide counter updated to 14 total
 [2026-05-13] module01-slides-final-v2.html, module02-slides.html — Hidden Notes [N] function (CSS display: none)
+[2026-05-22] module03-slides.html — Completed Share-out grid (S13): added 2 missing cards (Name the win, Note the gap)
+[2026-05-22] module04-slides.html — Completed 5 Workflows grid (S09): added 3 missing cards (/qa Review, /debrief Summary, /intel Research)
+[2026-05-22] module04-slides.html — Filled in Recipe Document (S07): added 4 steps + expected output for /mission recipe
+[2026-05-22] module02-slides.html — Added Recipe → Folder Structure bridge slide (S03b): maps 5 recipe components to workspace folders
+[2026-05-22] module04-slides.html — Added Hooks slide (S06b): QA hook, Auto-save hook, Validation hook
+[2026-05-22] module04-slides.html — Added Skills slide (S06c): Writing, Review, and Research reusable skills
+[2026-05-22] module01-slides-final-v2.html — Added Transformation Arc slide (S06c): AI Chat User → AI Workflow Designer → AI System Orchestrator
